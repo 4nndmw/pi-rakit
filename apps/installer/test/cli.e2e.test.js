@@ -30,6 +30,28 @@ const expectedSources = [
 	"npm:pi-mcp-adapter",
 ];
 
+test("CLI lists package ids without requiring a target directory", () => {
+	const missingDirectory = path.join(tmpdir(), `pi-rakit-missing-${Date.now()}`);
+	const result = spawnSync(
+		process.execPath,
+		[cliPath, "--cwd", missingDirectory, "--list-packages"],
+		{ cwd: installerRoot, encoding: "utf8" },
+	);
+
+	assert.equal(
+		result.status,
+		0,
+		`CLI failed:\n${result.stdout}${result.stderr}`,
+	);
+	assert.match(result.stdout, /^hello-pi\tHello Pi\tnpm:pi-rakit-hello$/m);
+	assert.match(
+		result.stdout,
+		/^ponytail\tPonytail\tnpm:@dietrichgebert\/ponytail@4\.9\.0$/m,
+	);
+	assert.match(result.stdout, /^caveman\tCaveman\tnpm:caveman-pi@1\.0\.0$/m);
+	assert.equal(existsSync(missingDirectory), false);
+});
+
 test("CLI selects specific packages without an interactive prompt", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
