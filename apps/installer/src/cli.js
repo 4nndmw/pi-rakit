@@ -8,6 +8,7 @@ import { buildInstallPlan } from "./install-plan.js";
 import { getDefaultPackageIds, loadManifest } from "./manifest.js";
 import { promptForConfirmation, promptForPackageIds } from "./prompts.js";
 import {
+	getSettingsPath,
 	mergePackageSources,
 	readSettings,
 	writeSettings,
@@ -27,6 +28,7 @@ Options:
   --dev              Use local workspace paths
   --install          Run pi install after updating settings
   --write-only       Do not invoke pi install
+  --dry-run          Preview settings changes without writing
   --package <id>     Select a package by manifest id (repeatable)
   --list-packages    List visible package ids and exit
   --json             Output --list-packages as JSON
@@ -45,6 +47,7 @@ export function parseArgs(argv) {
 		dev: false,
 		install: false,
 		writeOnly: false,
+		dryRun: false,
 		packageIds: [],
 		listPackages: false,
 		json: false,
@@ -74,6 +77,7 @@ export function parseArgs(argv) {
 		else if (token === "--dev") options.dev = true;
 		else if (token === "--install") options.install = true;
 		else if (token === "--write-only") options.writeOnly = true;
+		else if (token === "--dry-run") options.dryRun = true;
 		else if (token === "--package") {
 			options.packageIds.push(nextValue(index, token));
 			index += 1;
@@ -191,12 +195,27 @@ export async function main(argv = process.argv.slice(2)) {
 		devMode: options.dev,
 	});
 
+	const settings = readSettings(options);
+	if (options.dryRun) {
+		const existingSources = new Set(
+			Array.isArray(settings.packages) ? settings.packages : [],
+		);
+		const addedSources = plan.packageSources.filter(
+			(source) => !existingSources.has(source),
+		);
+		console.log(
+			`Would update ${options.global ? "global" : "local"} settings: ${getSettingsPath(options)}`,
+		);
+		if (addedSources.length === 0) console.log("  No package changes.");
+		else for (const source of addedSources) console.log(`  + ${source}`);
+		return;
+	}
+
 	if (!options.yes && !(await promptForConfirmation(plan, options.cwd))) {
 		console.log("Cancelled.");
 		return;
 	}
 
-	const settings = readSettings(options);
 	const settingsPath = writeSettings(
 		mergePackageSources(settings, plan.packageSources),
 		options,
