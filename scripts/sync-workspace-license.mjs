@@ -14,6 +14,12 @@ const workspacePaths = [
 	"packages/worktree",
 	"packages/git",
 	"packages/biome",
+	"packages/token-speed",
+	"packages/session-usage",
+	"packages/session-stats",
+	"packages/session-delete",
+	"packages/compact-tools",
+	"packages/auto-title",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);
