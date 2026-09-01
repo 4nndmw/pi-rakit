@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import test from "node:test";
 import { formatPackageList, parseArgs } from "../src/cli.js";
 
@@ -52,10 +53,20 @@ test("parses package listing options and rejects incompatible options", () => {
 	);
 	assert.equal(parseArgs(["--dry-run", "--json"]).json, true);
 	assert.equal(parseArgs(["--check", "--json"]).json, true);
+	assert.equal(
+		parseArgs(["--list-packages", "--json", "--output", "result.json"])
+			.output,
+		path.resolve("result.json"),
+	);
 	assert.throws(
 		() => parseArgs(["--json"]),
 		/--json requires --list-packages, --dry-run, or --check/,
 	);
+	assert.throws(
+		() => parseArgs(["--list-packages", "--output", "result.json"]),
+		/--output requires --json/,
+	);
+	assert.throws(() => parseArgs(["--output"]), /--output requires a value/);
 });
 
 test("formats visible package ids, labels, and npm sources", () => {

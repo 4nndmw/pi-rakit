@@ -99,6 +99,31 @@ test("CLI lists packages as machine-readable JSON", () => {
 	assert.equal(packages.some((item) => item.hidden), false);
 });
 
+test("CLI writes JSON package listing to an output file", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const outputPath = path.join(temporaryRoot, "reports", "packages.json");
+
+	try {
+		const result = spawnSync(
+			process.execPath,
+			[cliPath, "--list-packages", "--json", "--output", outputPath],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		assert.equal(result.stdout, "");
+		assert.equal(result.stderr, "");
+		const packages = JSON.parse(readFileSync(outputPath, "utf8"));
+		assert.equal(packages.find((item) => item.id === "caveman").source, "npm:caveman-pi@1.0.0");
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
 test("CLI dry-run previews only new sources without writing settings", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
@@ -223,6 +248,45 @@ test("CLI check reports missing sources without writing settings", () => {
 			addedSources: ["npm:caveman-pi@1.0.0"],
 		});
 		assert.equal(result.stderr, "");
+		assert.equal(existsSync(settingsPath), false);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
+test("CLI check preserves its exit status when writing JSON output", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+	const outputPath = path.join(temporaryRoot, "reports", "check.json");
+
+	try {
+		mkdirSync(projectDirectory);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"caveman",
+				"--check",
+				"--json",
+				"--output",
+				outputPath,
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(result.status, 1);
+		assert.equal(result.stdout, "");
+		assert.deepEqual(JSON.parse(readFileSync(outputPath, "utf8")), {
+			scope: "local",
+			settingsPath,
+			packageSources: ["npm:caveman-pi@1.0.0"],
+			addedSources: ["npm:caveman-pi@1.0.0"],
+		});
 		assert.equal(existsSync(settingsPath), false);
 	} finally {
 		rmSync(temporaryRoot, { recursive: true, force: true });

@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, realpathSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	realpathSync,
+	writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -33,6 +39,7 @@ Options:
   --package <id>     Select a package by manifest id (repeatable)
   --list-packages    List visible package ids and exit
   --json             Output listing, dry-run, or check as JSON
+  --output <path>    Write JSON output to a file
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --version, -v      Show the installed version
@@ -53,6 +60,7 @@ export function parseArgs(argv) {
 		packageIds: [],
 		listPackages: false,
 		json: false,
+		output: null,
 		selectAll: false,
 		yes: false,
 		version: false,
@@ -86,7 +94,10 @@ export function parseArgs(argv) {
 			index += 1;
 		} else if (token === "--list-packages") options.listPackages = true;
 		else if (token === "--json") options.json = true;
-		else if (token === "--select-all") options.selectAll = true;
+		else if (token === "--output") {
+			options.output = path.resolve(nextValue(index, token));
+			index += 1;
+		} else if (token === "--select-all") options.selectAll = true;
 		else if (token === "--yes" || token === "-y") options.yes = true;
 		else if (token === "--version" || token === "-v") options.version = true;
 		else if (token === "--help" || token === "-h") options.help = true;
@@ -115,6 +126,9 @@ export function parseArgs(argv) {
 	) {
 		throw new Error("--json requires --list-packages, --dry-run, or --check.");
 	}
+	if (options.output && !options.json) {
+		throw new Error("--output requires --json.");
+	}
 
 	return options;
 }
@@ -138,6 +152,15 @@ export function formatPackageList(manifest, options = {}) {
 	return packages
 		.map((item) => `${item.id}\t${item.label}\t${item.source}`)
 		.join("\n");
+}
+
+function emitOutput(content, outputPath) {
+	if (!outputPath) {
+		console.log(content);
+		return;
+	}
+	mkdirSync(path.dirname(outputPath), { recursive: true });
+	writeFileSync(outputPath, `${content}\n`);
 }
 
 function runPiInstall(cwd, packageSources, global) {
@@ -181,7 +204,10 @@ export async function main(argv = process.argv.slice(2)) {
 	});
 
 	if (options.listPackages) {
-		console.log(formatPackageList(manifest, { json: options.json }));
+		emitOutput(
+			formatPackageList(manifest, { json: options.json }),
+			options.output,
+		);
 		return;
 	}
 	if (!existsSync(options.cwd)) {
@@ -221,7 +247,7 @@ export async function main(argv = process.argv.slice(2)) {
 			addedSources,
 		};
 		if (options.json) {
-			console.log(JSON.stringify(preview, null, 2));
+			emitOutput(JSON.stringify(preview, null, 2), options.output);
 		} else {
 			console.log(
 				`Would update ${preview.scope} settings: ${preview.settingsPath}`,

@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit",
-	"version": "0.1.13",
+	"version": "0.1.14",
 	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
 	"type": "module",
 	"private": false,
