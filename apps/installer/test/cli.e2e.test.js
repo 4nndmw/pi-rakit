@@ -193,6 +193,81 @@ test("CLI dry-run emits machine-readable JSON without writing settings", () => {
 	}
 });
 
+test("CLI check reports missing sources without writing settings", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+
+	try {
+		mkdirSync(projectDirectory);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"caveman",
+				"--check",
+				"--json",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(result.status, 1);
+		assert.deepEqual(JSON.parse(result.stdout), {
+			scope: "local",
+			settingsPath,
+			packageSources: ["npm:caveman-pi@1.0.0"],
+			addedSources: ["npm:caveman-pi@1.0.0"],
+		});
+		assert.equal(result.stderr, "");
+		assert.equal(existsSync(settingsPath), false);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
+test("CLI check succeeds when selected sources are configured", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+
+	try {
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(
+			settingsPath,
+			`${JSON.stringify({ packages: ["npm:caveman-pi@1.0.0"] }, null, 2)}\n`,
+		);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"caveman",
+				"--check",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		assert.match(result.stdout, /No package changes/);
+		assert.deepEqual(JSON.parse(readFileSync(settingsPath, "utf8")), {
+			packages: ["npm:caveman-pi@1.0.0"],
+		});
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
 test("CLI dry-run does not create a settings file", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");

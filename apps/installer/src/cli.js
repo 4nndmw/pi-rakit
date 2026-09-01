@@ -29,9 +29,10 @@ Options:
   --install          Run pi install after updating settings
   --write-only       Do not invoke pi install
   --dry-run          Preview settings changes without writing
+  --check            Exit nonzero when selected packages are missing
   --package <id>     Select a package by manifest id (repeatable)
   --list-packages    List visible package ids and exit
-  --json             Output --list-packages or --dry-run as JSON
+  --json             Output listing, dry-run, or check as JSON
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --version, -v      Show the installed version
@@ -48,6 +49,7 @@ export function parseArgs(argv) {
 		install: false,
 		writeOnly: false,
 		dryRun: false,
+		check: false,
 		packageIds: [],
 		listPackages: false,
 		json: false,
@@ -78,6 +80,7 @@ export function parseArgs(argv) {
 		else if (token === "--install") options.install = true;
 		else if (token === "--write-only") options.writeOnly = true;
 		else if (token === "--dry-run") options.dryRun = true;
+		else if (token === "--check") options.check = true;
 		else if (token === "--package") {
 			options.packageIds.push(nextValue(index, token));
 			index += 1;
@@ -101,8 +104,16 @@ export function parseArgs(argv) {
 			"--list-packages cannot be combined with package selection options.",
 		);
 	}
-	if (options.json && !options.listPackages && !options.dryRun) {
-		throw new Error("--json requires --list-packages or --dry-run.");
+	if (options.dryRun && options.check) {
+		throw new Error("--dry-run cannot be combined with --check.");
+	}
+	if (
+		options.json &&
+		!options.listPackages &&
+		!options.dryRun &&
+		!options.check
+	) {
+		throw new Error("--json requires --list-packages, --dry-run, or --check.");
 	}
 
 	return options;
@@ -196,7 +207,7 @@ export async function main(argv = process.argv.slice(2)) {
 	});
 
 	const settings = readSettings(options);
-	if (options.dryRun) {
+	if (options.dryRun || options.check) {
 		const existingSources = new Set(
 			Array.isArray(settings.packages) ? settings.packages : [],
 		);
@@ -211,13 +222,16 @@ export async function main(argv = process.argv.slice(2)) {
 		};
 		if (options.json) {
 			console.log(JSON.stringify(preview, null, 2));
-			return;
+		} else {
+			console.log(
+				`Would update ${preview.scope} settings: ${preview.settingsPath}`,
+			);
+			if (preview.addedSources.length === 0)
+				console.log("  No package changes.");
+			else
+				for (const source of preview.addedSources) console.log(`  + ${source}`);
 		}
-		console.log(
-			`Would update ${preview.scope} settings: ${preview.settingsPath}`,
-		);
-		if (preview.addedSources.length === 0) console.log("  No package changes.");
-		else for (const source of preview.addedSources) console.log(`  + ${source}`);
+		if (options.check && preview.addedSources.length > 0) process.exitCode = 1;
 		return;
 	}
 

@@ -24,9 +24,10 @@ npx pi-rakit@latest --help
 | `--install` | Run `pi install` after updating settings. | Disabled |
 | `--write-only` | Never invoke `pi install`, even with `--install`. | Disabled |
 | `--dry-run` | Preview settings changes without writing or installing. | Disabled |
+| `--check` | Exit nonzero if selected package sources are missing from settings. | Disabled |
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
-| `--json` | Format `--list-packages` or `--dry-run` output as JSON. | Disabled |
+| `--json` | Format `--list-packages`, `--dry-run`, or `--check` output as JSON. | Disabled |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--version`, `-v` | Print the installed Pi Rakit version and exit. | Disabled |
@@ -128,6 +129,12 @@ Add `--json` for a stable automation-friendly object:
 ```
 
 `packageSources` contains every resolved source in installation order. `addedSources` contains only sources not already present in settings.
+
+For CI, replace `--dry-run` with `--check`. Check mode produces the same preview without changing files, exits with status `0` when every selected source is already configured, and exits with status `1` when `addedSources` is nonempty. `--dry-run` and `--check` cannot be combined.
+
+```bash
+npx pi-rakit@latest --local --select-all --check --json
+```
 
 ## Settings Merge Behavior
 

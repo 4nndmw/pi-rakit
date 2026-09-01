@@ -9,7 +9,8 @@ npx pi-rakit --list-packages
 npx pi-rakit --list-packages --json
 npx pi-rakit --local --package ponytail --package caveman --dry-run
 npx pi-rakit --local --package ponytail --package caveman --dry-run --json
+npx pi-rakit --local --package ponytail --package caveman --check
 npx pi-rakit --local --package ponytail --package caveman --yes
 ```
 
-Gunakan `--package <id>` berulang kali untuk memilih package tertentu tanpa prompt interaktif. Tambahkan `--dry-run` untuk melihat perubahan tanpa menulis settings atau menjalankan instalasi. Tambahkan `--json` ke `--list-packages` atau `--dry-run` untuk output yang dapat diproses program. Jalankan `npx pi-rakit --help` untuk melihat semua opsi.
+Gunakan `--package <id>` berulang kali untuk memilih package tertentu tanpa prompt interaktif. Tambahkan `--dry-run` untuk melihat perubahan tanpa menulis settings atau menjalankan instalasi. Gunakan `--check` di CI untuk keluar dengan status nonzero jika settings belum lengkap. Tambahkan `--json` ke `--list-packages`, `--dry-run`, atau `--check` untuk output yang dapat diproses program. Jalankan `npx pi-rakit --help` untuk melihat semua opsi.
