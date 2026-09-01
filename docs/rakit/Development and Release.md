@@ -36,7 +36,14 @@ Run the complete project check:
 npm run check
 ```
 
-The complete check synchronizes the installer manifest, runs tests, and performs npm package dry runs for the configured workspaces.
+The complete check verifies that the installer manifest is synchronized, runs tests, and performs npm package dry runs for the configured workspaces. It does not modify files. If the manifest check fails, synchronize it explicitly and rerun validation:
+
+```bash
+npm run manifest:sync
+npm run check
+```
+
+GitHub Actions runs the same check with Node.js 20 and 22 for every push and pull request. CI installs the npm version declared by the root `packageManager` field before running `npm ci`.
 
 To inspect the publishing sequence without releasing anything:
 
@@ -81,6 +88,8 @@ npm login
 npm whoami
 ```
 
+For accounts using npm web authentication, `npm publish` prints an authentication URL. Open that URL, approve the operation in the browser, and return to the terminal. Browser authentication is preferred for this repository; do not share or commit OTP values, npm tokens, or authentication URLs.
+
 Run final checks:
 
 ```bash
@@ -95,7 +104,7 @@ npm run publish:npm
 
 The script currently publishes extension workspaces before the installer so the manifest does not point users to an unavailable package.
 
-If the account requires browser or two-factor authentication, complete the npm prompt when it appears. Never commit npm tokens or one-time passwords.
+If publishing several workspaces, npm may request browser approval for each publish operation. Never commit npm tokens, one-time passwords, or temporary authentication URLs.
 
 ## Verify a Release
 

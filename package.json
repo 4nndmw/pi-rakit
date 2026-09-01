@@ -9,7 +9,8 @@
 		"packages/*"
 	],
 	"scripts": {
-		"check": "npm run manifest:sync && npm test && npm run pack:dry",
+		"check": "npm run manifest:check && npm test && npm run pack:dry",
+		"manifest:check": "node scripts/sync-installer-manifest.mjs --check",
 		"manifest:sync": "node scripts/sync-installer-manifest.mjs",
 		"pack:dry": "npm pack --dry-run --workspace apps/installer && npm pack --dry-run --workspace packages/hello-pi && npm pack --dry-run --workspace packages/custom-provider && npm pack --dry-run --workspace packages/doctor && npm pack --dry-run --workspace packages/worktree",
 		"publish:npm": "node scripts/publish-npm.mjs",
