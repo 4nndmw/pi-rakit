@@ -25,6 +25,7 @@ const expectedSources = [
 	"npm:pi-rakit-doctor",
 	"npm:pi-rakit-worktree",
 	"npm:pi-rakit-git",
+	"npm:pi-rakit-biome",
 	"npm:@dietrichgebert/ponytail@4.9.0",
 	"npm:caveman-pi@1.0.0",
 	"npm:pi-mcp-adapter",
@@ -54,7 +55,10 @@ test("CLI prints its package version without loading a manifest", () => {
 });
 
 test("CLI lists package ids without requiring a target directory", () => {
-	const missingDirectory = path.join(tmpdir(), `pi-rakit-missing-${Date.now()}`);
+	const missingDirectory = path.join(
+		tmpdir(),
+		`pi-rakit-missing-${Date.now()}`,
+	);
 	const result = spawnSync(
 		process.execPath,
 		[cliPath, "--cwd", missingDirectory, "--list-packages"],
@@ -96,7 +100,10 @@ test("CLI lists packages as machine-readable JSON", () => {
 			source: "npm:@dietrichgebert/ponytail@4.9.0",
 		},
 	);
-	assert.equal(packages.some((item) => item.hidden), false);
+	assert.equal(
+		packages.some((item) => item.hidden),
+		false,
+	);
 });
 
 test("CLI writes JSON package listing to an output file", () => {
@@ -118,7 +125,10 @@ test("CLI writes JSON package listing to an output file", () => {
 		assert.equal(result.stdout, "");
 		assert.equal(result.stderr, "");
 		const packages = JSON.parse(readFileSync(outputPath, "utf8"));
-		assert.equal(packages.find((item) => item.id === "caveman").source, "npm:caveman-pi@1.0.0");
+		assert.equal(
+			packages.find((item) => item.id === "caveman").source,
+			"npm:caveman-pi@1.0.0",
+		);
 	} finally {
 		rmSync(temporaryRoot, { recursive: true, force: true });
 	}

@@ -20,6 +20,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor): read-only health checks through the `/doctor` command
 - [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree): safe Git worktree management through the `/worktree` command
 - [`pi-rakit-git`](https://www.npmjs.com/package/pi-rakit-git): focused status, branch, and confirmation-gated commit commands through `/git`
+- [`pi-rakit-biome`](https://www.npmjs.com/package/pi-rakit-biome): safe checks, linting, and confirmation-gated formatting through `/biome`
 
 The installer also provides optional third-party packages:
 
@@ -99,6 +100,22 @@ pi install npm:pi-rakit-git
 ```
 
 The commit command requires confirmation and commits only changes already staged by the user. It never stages, pushes, resets, or bypasses hooks. See the [complete Git guide](docs/rakit/Git.md).
+
+### Biome Extension
+
+Install Biome directly for project checks, linting, and formatting:
+
+```bash
+pi install npm:pi-rakit-biome
+```
+
+```text
+/biome check
+/biome lint src
+/biome format src
+```
+
+Check and lint are read-only. Format writes files only after explicit confirmation and arbitrary CLI flags are rejected.
 
 ## Development
 

@@ -6,6 +6,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.15 - 2026-09-01
+
+- Added Pi Rakit Biome to the installer catalog with workspace development-mode resolution.
+
 ### 0.1.14 - 2026-09-01
 
 - Added `--output <path>` for writing JSON listing, dry-run, and check results to a file.
@@ -117,6 +121,14 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Initial read-only `/doctor` diagnostics command.
 - Added checks for Node.js, the Pi CLI, settings JSON, duplicate package sources, and referenced environment variables.
+
+## [pi-rakit-biome](https://www.npmjs.com/package/pi-rakit-biome)
+
+### 0.1.0 - 2026-09-01
+
+- Added `/biome check` and `/biome lint` for read-only project validation.
+- Added confirmation-gated `/biome format` with safe path-only targets.
+- Pinned `@biomejs/biome` to version 2.5.11 for reproducible execution.
 
 ## [pi-rakit-git](https://www.npmjs.com/package/pi-rakit-git)
 

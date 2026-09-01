@@ -11,6 +11,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/doctor",
 	"packages/worktree",
 	"packages/git",
+	"packages/biome",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");

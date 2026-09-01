@@ -13,6 +13,7 @@ const workspacePaths = [
 	"packages/doctor",
 	"packages/worktree",
 	"packages/git",
+	"packages/biome",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);
@@ -20,7 +21,9 @@ const source = readFileSync(sourcePath);
 if (checkOnly) {
 	const mismatches = workspacePaths.filter((workspace) => {
 		try {
-			return !source.equals(readFileSync(path.join(root, workspace, "LICENSE")));
+			return !source.equals(
+				readFileSync(path.join(root, workspace, "LICENSE")),
+			);
 		} catch {
 			return true;
 		}
