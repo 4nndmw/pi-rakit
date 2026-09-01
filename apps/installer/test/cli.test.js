@@ -2,9 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { formatPackageList, parseArgs } from "../src/cli.js";
 
-test("parses version flags", () => {
+test("parses version and dry-run flags", () => {
 	assert.equal(parseArgs(["--version"]).version, true);
 	assert.equal(parseArgs(["-v"]).version, true);
+	assert.equal(parseArgs(["--dry-run"]).dryRun, true);
 });
 
 test("parses repeatable package selections", () => {

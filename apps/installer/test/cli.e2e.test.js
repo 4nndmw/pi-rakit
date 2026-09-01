@@ -99,6 +99,86 @@ test("CLI lists packages as machine-readable JSON", () => {
 	assert.equal(packages.some((item) => item.hidden), false);
 });
 
+test("CLI dry-run previews only new sources without writing settings", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+	const originalSettings = `${JSON.stringify(
+		{
+			theme: "dark",
+			packages: ["npm:@dietrichgebert/ponytail@4.9.0"],
+		},
+		null,
+		2,
+	)}\n`;
+
+	try {
+		mkdirSync(path.dirname(settingsPath), { recursive: true });
+		writeFileSync(settingsPath, originalSettings);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"ponytail",
+				"--package",
+				"caveman",
+				"--dry-run",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		assert.match(result.stdout, /Would update local settings:/);
+		assert.doesNotMatch(result.stdout, /\+ npm:@dietrichgebert\/ponytail/);
+		assert.match(result.stdout, /\+ npm:caveman-pi@1\.0\.0/);
+		assert.equal(readFileSync(settingsPath, "utf8"), originalSettings);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
+test("CLI dry-run does not create a settings file", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+
+	try {
+		mkdirSync(projectDirectory);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"caveman",
+				"--dry-run",
+				"--install",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		assert.match(result.stdout, /\+ npm:caveman-pi@1\.0\.0/);
+		assert.equal(existsSync(settingsPath), false);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
 test("CLI selects specific packages without an interactive prompt", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");

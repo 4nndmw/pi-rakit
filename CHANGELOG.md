@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.11 - 2026-09-01
+
+- Added `--dry-run` to preview the target settings path and package sources without writing files, prompting, or running `pi install`.
+- Added argument, end-to-end, and documentation coverage for non-mutating previews.
+
 ### 0.1.10 - 2026-09-01
 
 - Added `--version` and `-v` to print the installed CLI version without loading a manifest or target project.

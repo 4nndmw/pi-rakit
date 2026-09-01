@@ -23,6 +23,7 @@ npx pi-rakit@latest --help
 | `--dev` | Resolve workspace packages to local filesystem paths. | Disabled |
 | `--install` | Run `pi install` after updating settings. | Disabled |
 | `--write-only` | Never invoke `pi install`, even with `--install`. | Disabled |
+| `--dry-run` | Preview settings changes without writing or installing. | Disabled |
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
 | `--json` | Format `--list-packages` output as JSON. | Disabled |
@@ -102,6 +103,18 @@ npx pi-rakit@latest \
 ```
 
 `--package` accepts manifest IDs, rejects unknown IDs, and cannot be combined with `--select-all`. Duplicate IDs are ignored. If no package is selected, the CLI exits without changing settings. Package requirements are automatically added before dependent packages.
+
+Preview the target settings path and package sources that would be added:
+
+```bash
+npx pi-rakit@latest \
+  --local \
+  --package ponytail \
+  --package caveman \
+  --dry-run
+```
+
+Dry-run mode reads and validates existing settings, but does not prompt for confirmation, write files, or run `pi install` even when `--install` is present. Sources already in settings are omitted from the preview.
 
 ## Settings Merge Behavior
 
