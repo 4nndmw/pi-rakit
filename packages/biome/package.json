@@ -1,36 +1,40 @@
 {
-	"name": "pi-rakit",
-	"version": "0.1.15",
-	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
+	"name": "pi-rakit-biome",
+	"version": "0.1.0",
+	"description": "Safe Biome check, lint, and confirmation-gated formatting commands for Pi",
 	"type": "module",
 	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"bin": {
-		"pi-rakit": "src/cli.js"
-	},
 	"files": [
-		"src",
-		"manifest.json",
+		"extensions",
 		"README.md"
 	],
 	"keywords": [
 		"pi-package",
 		"pi-coding-agent",
-		"installer"
+		"extension",
+		"biome",
+		"formatter",
+		"linter"
 	],
-	"dependencies": {
-		"@inquirer/prompts": "7.8.4"
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
 	},
 	"engines": {
 		"node": ">=20"
+	},
+	"dependencies": {
+		"@biomejs/biome": "2.5.11"
 	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/4nndmw/pi-rakit.git",
-		"directory": "apps/installer"
+		"directory": "packages/biome"
 	},
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {

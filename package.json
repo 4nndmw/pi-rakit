@@ -14,7 +14,7 @@
 		"license:sync": "node scripts/sync-workspace-license.mjs",
 		"manifest:check": "node scripts/sync-installer-manifest.mjs --check",
 		"manifest:sync": "node scripts/sync-installer-manifest.mjs",
-		"pack:dry": "npm pack --dry-run --workspace apps/installer && npm pack --dry-run --workspace packages/hello-pi && npm pack --dry-run --workspace packages/custom-provider && npm pack --dry-run --workspace packages/doctor && npm pack --dry-run --workspace packages/worktree && npm pack --dry-run --workspace packages/git",
+		"pack:dry": "npm pack --dry-run --workspace apps/installer && npm pack --dry-run --workspace packages/hello-pi && npm pack --dry-run --workspace packages/custom-provider && npm pack --dry-run --workspace packages/doctor && npm pack --dry-run --workspace packages/worktree && npm pack --dry-run --workspace packages/git && npm pack --dry-run --workspace packages/biome",
 		"publish:npm": "node scripts/publish-npm.mjs",
 		"publish:npm:dry": "node scripts/publish-npm.mjs --dry-run",
 		"test": "node --test"

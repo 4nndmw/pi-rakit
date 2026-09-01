@@ -47,6 +47,15 @@ const manifest = {
 			},
 		},
 		{
+			id: "biome",
+			label: "Biome",
+			source: {
+				mode: "workspace",
+				path: "packages/biome",
+				npm: "pi-rakit-biome",
+			},
+		},
+		{
 			id: "ponytail",
 			label: "Ponytail",
 			source: {
@@ -104,6 +113,16 @@ test("resolves the Git package for npm and development mode", () => {
 		devMode: true,
 	});
 	assert.deepEqual(development.packageSources, ["../../packages/git"]);
+});
+
+test("resolves the Biome package for npm and development mode", () => {
+	const published = buildInstallPlan(["biome"], manifest, options);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-biome"]);
+	const development = buildInstallPlan(["biome"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.deepEqual(development.packageSources, ["../../packages/biome"]);
 });
 
 test("pins scoped external packages to the configured version", () => {

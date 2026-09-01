@@ -67,6 +67,19 @@
 			}
 		},
 		{
+			"id": "biome",
+			"label": "Biome",
+			"description": "Safe Biome checks, linting, and confirmation-gated formatting from Pi.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["formatter", "linter", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/biome",
+				"npm": "pi-rakit-biome"
+			}
+		},
+		{
 			"id": "ponytail",
 			"label": "Ponytail",
 			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",

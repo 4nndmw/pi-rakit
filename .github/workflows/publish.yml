@@ -13,6 +13,7 @@ on:
           - packages/doctor
           - packages/worktree
           - packages/git
+          - packages/biome
           - apps/installer
 
 permissions:
