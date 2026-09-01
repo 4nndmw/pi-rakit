@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-hello",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Ekstensi contoh perintah hello untuk Pi Rakit",
 	"type": "module",
 	"private": false,

@@ -6,6 +6,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.6 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
+
 ### 0.1.5 - 2026-09-01
 
 - Added Pi Rakit Git to the installer catalog.
@@ -36,11 +40,19 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit-hello](https://www.npmjs.com/package/pi-rakit-hello)
 
+### 0.1.1 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
+
 ### 0.1.0 - 2026-09-01
 
 - Initial example extension with the `/hello` command.
 
 ## [pi-rakit-custom-provider](https://www.npmjs.com/package/pi-rakit-custom-provider)
+
+### 0.1.2 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
 
 ### 0.1.1 - 2026-09-01
 
@@ -53,6 +65,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit-doctor](https://www.npmjs.com/package/pi-rakit-doctor)
 
+### 0.1.2 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
+
 ### 0.1.1 - 2026-09-01
 
 - Expanded npm documentation with check interpretation and troubleshooting guidance.
@@ -64,6 +80,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit-git](https://www.npmjs.com/package/pi-rakit-git)
 
+### 0.1.1 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
+
 ### 0.1.0 - 2026-09-01
 
 - Added `/git status` and `/git branch` for read-only repository inspection.
@@ -71,6 +91,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Excluded staging, push, reset, clean, force, and branch-deletion operations.
 
 ## [pi-rakit-worktree](https://www.npmjs.com/package/pi-rakit-worktree)
+
+### 0.1.2 - 2026-09-01
+
+- Added the MIT license and standard npm repository, homepage, and issue metadata.
 
 ### 0.1.1 - 2026-09-01
 
