@@ -5,7 +5,11 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PUBLISH_WORKSPACES = ["packages/hello-pi", "apps/installer"];
+const PUBLISH_WORKSPACES = [
+	"packages/hello-pi",
+	"packages/custom-provider",
+	"apps/installer",
+];
 const dryRun = process.argv.includes("--dry-run");
 
 function run(command, args, cwd = root) {

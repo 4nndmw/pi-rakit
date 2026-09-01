@@ -15,6 +15,19 @@
 			}
 		},
 		{
+			"id": "custom-provider",
+			"label": "Custom Provider",
+			"description": "Configurable OpenAI-compatible provider for local or hosted models.",
+			"category": "Provider",
+			"enabledByDefault": false,
+			"tags": ["provider", "openai-compatible", "local-model"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/custom-provider",
+				"npm": "pi-rakit-custom-provider"
+			}
+		},
+		{
 			"id": "pi-mcp-adapter",
 			"label": "Pi MCP Adapter",
 			"description": "Optional MCP support for Pi.",
