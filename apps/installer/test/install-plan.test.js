@@ -19,6 +19,15 @@ const manifest = {
 				npm: "@scope/feature",
 			},
 		},
+		{
+			id: "ponytail",
+			label: "Ponytail",
+			source: {
+				mode: "npm",
+				name: "@dietrichgebert/ponytail",
+				version: "4.9.0",
+			},
+		},
 	],
 };
 
@@ -35,6 +44,11 @@ test("expands requirements before selected packages", () => {
 		"npm:base-package@1.2.3",
 		"npm:@scope/feature",
 	]);
+});
+
+test("pins scoped external packages to the configured version", () => {
+	const plan = buildInstallPlan(["ponytail"], manifest, options);
+	assert.deepEqual(plan.packageSources, ["npm:@dietrichgebert/ponytail@4.9.0"]);
 });
 
 test("rejects unknown package ids", () => {
