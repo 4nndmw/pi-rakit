@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.5 - 2026-09-01
+
+- Added Pi Rakit Git to the installer catalog.
+- Added workspace development-mode resolution for the Git package.
+
 ### 0.1.4 - 2026-09-01
 
 - Added Pi Rakit Worktree to the installer catalog.
@@ -59,7 +64,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## pi-rakit-git
 
-### 0.1.0 - Unreleased
+### 0.1.0 - 2026-09-01
 
 - Added `/git status` and `/git branch` for read-only repository inspection.
 - Added confirmation-gated `/git commit <message>` for already-staged changes.
