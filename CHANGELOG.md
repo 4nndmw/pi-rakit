@@ -57,6 +57,14 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial read-only `/doctor` diagnostics command.
 - Added checks for Node.js, the Pi CLI, settings JSON, duplicate package sources, and referenced environment variables.
 
+## pi-rakit-git
+
+### 0.1.0 - Unreleased
+
+- Added `/git status` and `/git branch` for read-only repository inspection.
+- Added confirmation-gated `/git commit <message>` for already-staged changes.
+- Excluded staging, push, reset, clean, force, and branch-deletion operations.
+
 ## [pi-rakit-worktree](https://www.npmjs.com/package/pi-rakit-worktree)
 
 ### 0.1.1 - 2026-09-01

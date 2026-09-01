@@ -19,6 +19,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider): a configurable OpenAI-compatible provider for local or hosted models
 - [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor): read-only health checks through the `/doctor` command
 - [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree): safe Git worktree management through the `/worktree` command
+- [`pi-rakit-git`](https://www.npmjs.com/package/pi-rakit-git): focused status, branch, and confirmation-gated commit commands through `/git`
 
 The installer also provides optional third-party packages:
 
@@ -82,6 +83,22 @@ Then start or reload Pi and run:
 ```
 
 Creating `issue-123` creates branch `worktree/issue-123` in the sibling directory `<repository>-issue-123`. Removal requires confirmation and a clean target, removes only the worktree directory, and preserves the branch. See the [complete Worktree guide](docs/rakit/Worktree.md).
+
+### Git Extension
+
+Install Git directly for focused repository inspection and staged commits:
+
+```bash
+pi install npm:pi-rakit-git
+```
+
+```text
+/git status
+/git branch
+/git commit Explain the staged change
+```
+
+The commit command requires confirmation and commits only changes already staged by the user. It never stages, pushes, resets, or bypasses hooks. See the [complete Git guide](docs/rakit/Git.md).
 
 ## Development
 

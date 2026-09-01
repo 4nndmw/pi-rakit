@@ -54,6 +54,19 @@
 			}
 		},
 		{
+			"id": "git",
+			"label": "Git",
+			"description": "Focused Git status, branch, and confirmation-gated commit commands for Pi.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["git", "commit", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/git",
+				"npm": "pi-rakit-git"
+			}
+		},
+		{
 			"id": "ponytail",
 			"label": "Ponytail",
 			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",

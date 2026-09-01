@@ -10,6 +10,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/custom-provider",
 	"packages/doctor",
 	"packages/worktree",
+	"packages/git",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");

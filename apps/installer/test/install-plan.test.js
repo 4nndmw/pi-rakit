@@ -38,6 +38,15 @@ const manifest = {
 			},
 		},
 		{
+			id: "git",
+			label: "Git",
+			source: {
+				mode: "workspace",
+				path: "packages/git",
+				npm: "pi-rakit-git",
+			},
+		},
+		{
 			id: "ponytail",
 			label: "Ponytail",
 			source: {
@@ -85,6 +94,16 @@ test("uses the Worktree workspace path in development mode", () => {
 		devMode: true,
 	});
 	assert.equal(plan.packageSources[0], "../../packages/worktree");
+});
+
+test("resolves the Git package for npm and development mode", () => {
+	const published = buildInstallPlan(["git"], manifest, options);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-git"]);
+	const development = buildInstallPlan(["git"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.deepEqual(development.packageSources, ["../../packages/git"]);
 });
 
 test("pins scoped external packages to the configured version", () => {
