@@ -41,6 +41,19 @@
 			}
 		},
 		{
+			"id": "caveman",
+			"label": "Caveman",
+			"description": "Terse response mode for Pi with a /caveman toggle and prompt compression tools.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["external", "concise", "token-saving"],
+			"source": {
+				"mode": "npm",
+				"name": "caveman-pi",
+				"version": "1.0.0"
+			}
+		},
+		{
 			"id": "pi-mcp-adapter",
 			"label": "Pi MCP Adapter",
 			"description": "Optional MCP support for Pi.",

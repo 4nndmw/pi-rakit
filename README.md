@@ -19,6 +19,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 The installer also provides optional third-party packages:
 
 - [Ponytail](https://github.com/DietrichGebert/ponytail) (`@dietrichgebert/ponytail@4.9.0`): a workflow extension that encourages minimal, focused solutions
+- [Caveman](https://github.com/0xkuze/pi-caveman) (`caveman-pi@1.0.0`): a terse response mode with a `/caveman` toggle and prompt compression tools
 
 ## Usage
 

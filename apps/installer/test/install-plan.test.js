@@ -28,6 +28,11 @@ const manifest = {
 				version: "4.9.0",
 			},
 		},
+		{
+			id: "caveman",
+			label: "Caveman",
+			source: { mode: "npm", name: "caveman-pi", version: "1.0.0" },
+		},
 	],
 };
 
@@ -49,6 +54,11 @@ test("expands requirements before selected packages", () => {
 test("pins scoped external packages to the configured version", () => {
 	const plan = buildInstallPlan(["ponytail"], manifest, options);
 	assert.deepEqual(plan.packageSources, ["npm:@dietrichgebert/ponytail@4.9.0"]);
+});
+
+test("pins external packages to the configured version", () => {
+	const plan = buildInstallPlan(["caveman"], manifest, options);
+	assert.deepEqual(plan.packageSources, ["npm:caveman-pi@1.0.0"]);
 });
 
 test("rejects unknown package ids", () => {
