@@ -41,6 +41,20 @@ npx pi-rakit@latest --local
 
 By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package.
 
+### Doctor Extension
+
+Install Doctor directly and run a read-only health check inside Pi:
+
+```bash
+pi install npm:pi-rakit-doctor
+```
+
+```text
+/doctor
+```
+
+Doctor checks the runtime, global and project settings, duplicate package sources, and referenced environment variables. See the [complete Doctor guide](docs/rakit/Doctor.md).
+
 ### Worktree Extension
 
 Install Worktree directly when you do not need the interactive installer:
