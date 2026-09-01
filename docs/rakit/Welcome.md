@@ -12,6 +12,7 @@ Pi Rakit is an interactive CLI for selecting and adding a collection of extensio
 - [[Doctor]] — diagnose the Pi runtime and settings safely
 - [[Worktree]] — create and remove isolated Git worktrees from Pi
 - [[Development and Release]] — develop, test, and publish the project
+- [Changelog](../../CHANGELOG.md) — review published package versions and release notes
 
 ## Published Packages
 

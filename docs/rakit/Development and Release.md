@@ -79,6 +79,8 @@ npm install --package-lock-only --ignore-scripts
 
 Only increment a package that changed. Use `minor` or `major` instead of `patch` when appropriate.
 
+Before the version bump, add a dated entry for the affected workspace to [`CHANGELOG.md`](../../CHANGELOG.md). Describe user-visible changes and keep release notes grouped by package because workspace versions are independent.
+
 ## Publish to npm
 
 Authenticate first:
@@ -107,6 +109,8 @@ The script currently publishes extension workspaces before the installer so the 
 If publishing several workspaces, npm may request browser approval for each publish operation. Never commit npm tokens, one-time passwords, or temporary authentication URLs.
 
 ## Verify a Release
+
+Confirm that the registry version and `latest` tag match the source version, then verify the package behavior:
 
 ```bash
 npm view pi-rakit version dist-tags.latest

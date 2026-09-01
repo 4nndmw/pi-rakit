@@ -99,6 +99,10 @@ node apps/installer/src/cli.js --local --dev --select-all --yes --write-only
 
 This writes workspace-relative package sources to `.pi/settings.json`. Remove that file after testing if you do not want to commit local Pi settings.
 
+## Releases
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes for every published workspace.
+
 ## Publishing
 
 First, authenticate and run the publishing checks:
