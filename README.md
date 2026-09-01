@@ -15,6 +15,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit`](https://www.npmjs.com/package/pi-rakit): the main interactive CLI installer
 - [`pi-rakit-hello`](https://www.npmjs.com/package/pi-rakit-hello): an example extension that provides the `/hello` command
 - [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider): a configurable OpenAI-compatible provider for local or hosted models
+- [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor): read-only health checks through the `/doctor` command
 
 The installer also provides optional third-party packages:
 
