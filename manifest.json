@@ -1,0 +1,30 @@
+{
+	"version": 1,
+	"packages": [
+		{
+			"id": "hello-pi",
+			"label": "Hello Pi",
+			"description": "Example extension that adds a /hello command.",
+			"category": "Starter",
+			"enabledByDefault": true,
+			"tags": ["example", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/hello-pi",
+				"npm": "pi-rakit-hello"
+			}
+		},
+		{
+			"id": "pi-mcp-adapter",
+			"label": "Pi MCP Adapter",
+			"description": "Optional MCP support for Pi.",
+			"category": "External",
+			"enabledByDefault": false,
+			"tags": ["external", "mcp"],
+			"source": {
+				"mode": "npm",
+				"name": "pi-mcp-adapter"
+			}
+		}
+	]
+}

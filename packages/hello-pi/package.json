@@ -1,0 +1,27 @@
+{
+	"name": "pi-rakit-hello",
+	"version": "0.1.0",
+	"description": "Ekstensi contoh perintah hello untuk Pi Rakit",
+	"type": "module",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"extensions",
+		"README.md"
+	],
+	"keywords": [
+		"pi-package",
+		"pi-coding-agent",
+		"extension"
+	],
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}

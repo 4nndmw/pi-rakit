@@ -1,0 +1,29 @@
+{
+	"name": "pi-rakit",
+	"version": "0.1.1",
+	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
+	"type": "module",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"bin": {
+		"pi-rakit": "src/cli.js"
+	},
+	"files": [
+		"src",
+		"manifest.json",
+		"README.md"
+	],
+	"keywords": [
+		"pi-package",
+		"pi-coding-agent",
+		"installer"
+	],
+	"dependencies": {
+		"@inquirer/prompts": "7.8.4"
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}
