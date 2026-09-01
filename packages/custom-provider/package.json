@@ -1,0 +1,29 @@
+{
+	"name": "pi-rakit-custom-provider",
+	"version": "0.1.0",
+	"description": "Configurable OpenAI-compatible custom provider for Pi",
+	"type": "module",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"extensions",
+		"README.md"
+	],
+	"keywords": [
+		"pi-package",
+		"pi-coding-agent",
+		"extension",
+		"custom-provider",
+		"openai-compatible"
+	],
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}

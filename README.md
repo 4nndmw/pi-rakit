@@ -14,6 +14,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 
 - [`pi-rakit`](https://www.npmjs.com/package/pi-rakit): the main interactive CLI installer
 - [`pi-rakit-hello`](https://www.npmjs.com/package/pi-rakit-hello): an example extension that provides the `/hello` command
+- [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider): a configurable OpenAI-compatible provider for local or hosted models
 
 ## Usage
 
@@ -70,7 +71,7 @@ Publishing is intentionally not automatic. Increment the affected package versio
 1. Copy `packages/hello-pi` to a new directory.
 2. Change its npm package name and extension implementation.
 3. Add it to `manifest.json`.
-4. Add its workspace path to `PUBLISH_WORKSPACES` in `scripts/publish-npm.mjs`.
+4. Add its workspace path to `PUBLISH_WORKSPACES` in `scripts/publish-npm.mjs` and the `pack:dry` script.
 5. Run `npm run check`.
 
 ## License
