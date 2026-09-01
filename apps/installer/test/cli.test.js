@@ -45,7 +45,11 @@ test("parses package listing options and rejects incompatible options", () => {
 		() => parseArgs(["--list-packages", "--select-all"]),
 		/--list-packages cannot be combined with package selection options/,
 	);
-	assert.throws(() => parseArgs(["--json"]), /--json requires --list-packages/);
+	assert.equal(parseArgs(["--dry-run", "--json"]).json, true);
+	assert.throws(
+		() => parseArgs(["--json"]),
+		/--json requires --list-packages or --dry-run/,
+	);
 });
 
 test("formats visible package ids, labels, and npm sources", () => {

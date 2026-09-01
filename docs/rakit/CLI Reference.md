@@ -26,7 +26,7 @@ npx pi-rakit@latest --help
 | `--dry-run` | Preview settings changes without writing or installing. | Disabled |
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
-| `--json` | Format `--list-packages` output as JSON. | Disabled |
+| `--json` | Format `--list-packages` or `--dry-run` output as JSON. | Disabled |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--version`, `-v` | Print the installed Pi Rakit version and exit. | Disabled |
@@ -115,6 +115,19 @@ npx pi-rakit@latest \
 ```
 
 Dry-run mode reads and validates existing settings, but does not prompt for confirmation, write files, or run `pi install` even when `--install` is present. Sources already in settings are omitted from the preview.
+
+Add `--json` for a stable automation-friendly object:
+
+```json
+{
+  "scope": "local",
+  "settingsPath": "/path/to/project/.pi/settings.json",
+  "packageSources": ["npm:@dietrichgebert/ponytail@4.9.0", "npm:caveman-pi@1.0.0"],
+  "addedSources": ["npm:caveman-pi@1.0.0"]
+}
+```
+
+`packageSources` contains every resolved source in installation order. `addedSources` contains only sources not already present in settings.
 
 ## Settings Merge Behavior
 

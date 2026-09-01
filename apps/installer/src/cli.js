@@ -31,7 +31,7 @@ Options:
   --dry-run          Preview settings changes without writing
   --package <id>     Select a package by manifest id (repeatable)
   --list-packages    List visible package ids and exit
-  --json             Output --list-packages as JSON
+  --json             Output --list-packages or --dry-run as JSON
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --version, -v      Show the installed version
@@ -101,8 +101,8 @@ export function parseArgs(argv) {
 			"--list-packages cannot be combined with package selection options.",
 		);
 	}
-	if (options.json && !options.listPackages) {
-		throw new Error("--json requires --list-packages.");
+	if (options.json && !options.listPackages && !options.dryRun) {
+		throw new Error("--json requires --list-packages or --dry-run.");
 	}
 
 	return options;
@@ -203,11 +203,21 @@ export async function main(argv = process.argv.slice(2)) {
 		const addedSources = plan.packageSources.filter(
 			(source) => !existingSources.has(source),
 		);
+		const preview = {
+			scope: options.global ? "global" : "local",
+			settingsPath: getSettingsPath(options),
+			packageSources: plan.packageSources,
+			addedSources,
+		};
+		if (options.json) {
+			console.log(JSON.stringify(preview, null, 2));
+			return;
+		}
 		console.log(
-			`Would update ${options.global ? "global" : "local"} settings: ${getSettingsPath(options)}`,
+			`Would update ${preview.scope} settings: ${preview.settingsPath}`,
 		);
-		if (addedSources.length === 0) console.log("  No package changes.");
-		else for (const source of addedSources) console.log(`  + ${source}`);
+		if (preview.addedSources.length === 0) console.log("  No package changes.");
+		else for (const source of preview.addedSources) console.log(`  + ${source}`);
 		return;
 	}
 
