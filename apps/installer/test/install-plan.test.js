@@ -29,6 +29,15 @@ const manifest = {
 			},
 		},
 		{
+			id: "worktree",
+			label: "Worktree",
+			source: {
+				mode: "workspace",
+				path: "packages/worktree",
+				npm: "pi-rakit-worktree",
+			},
+		},
+		{
 			id: "ponytail",
 			label: "Ponytail",
 			source: {
@@ -63,6 +72,19 @@ test("expands requirements before selected packages", () => {
 test("uses the Doctor npm package outside development mode", () => {
 	const plan = buildInstallPlan(["doctor"], manifest, options);
 	assert.deepEqual(plan.packageSources, ["npm:pi-rakit-doctor"]);
+});
+
+test("uses the Worktree npm package outside development mode", () => {
+	const plan = buildInstallPlan(["worktree"], manifest, options);
+	assert.deepEqual(plan.packageSources, ["npm:pi-rakit-worktree"]);
+});
+
+test("uses the Worktree workspace path in development mode", () => {
+	const plan = buildInstallPlan(["worktree"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.equal(plan.packageSources[0], "../../packages/worktree");
 });
 
 test("pins scoped external packages to the configured version", () => {

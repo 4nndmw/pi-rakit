@@ -1,0 +1,29 @@
+{
+	"name": "pi-rakit-worktree",
+	"version": "0.1.0",
+	"description": "Safe Git worktree management commands for Pi",
+	"type": "module",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"extensions",
+		"README.md"
+	],
+	"keywords": [
+		"pi-package",
+		"pi-coding-agent",
+		"extension",
+		"git",
+		"worktree"
+	],
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}

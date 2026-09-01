@@ -41,6 +41,19 @@
 			}
 		},
 		{
+			"id": "worktree",
+			"label": "Worktree",
+			"description": "Safe Git worktree listing, creation, and removal from Pi.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["git", "worktree", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/worktree",
+				"npm": "pi-rakit-worktree"
+			}
+		},
+		{
 			"id": "ponytail",
 			"label": "Ponytail",
 			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",

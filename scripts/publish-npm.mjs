@@ -9,6 +9,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/hello-pi",
 	"packages/custom-provider",
 	"packages/doctor",
+	"packages/worktree",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");
