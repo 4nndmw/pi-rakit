@@ -88,32 +88,39 @@ npm run license:check
 
 Before the version bump, add a dated entry for the affected workspace to [`CHANGELOG.md`](../../CHANGELOG.md). Describe user-visible changes and keep release notes grouped by package because workspace versions are independent.
 
+## Trusted Publishing Setup
+
+The manual [`publish.yml`](../../.github/workflows/publish.yml) workflow publishes through npm Trusted Publishing and GitHub OIDC. It does not use an npm token or OTP. An npm package owner must configure this once for every public package:
+
+1. Open the package on npm and go to **Settings → Trusted Publisher**.
+2. Choose **GitHub Actions**.
+3. Enter owner `4nndmw`, repository `pi-rakit`, workflow filename `publish.yml`, and environment `npm-publish`.
+4. Save the publisher.
+
+Configure the same publisher for:
+
+- `pi-rakit`
+- `pi-rakit-hello`
+- `pi-rakit-custom-provider`
+- `pi-rakit-doctor`
+- `pi-rakit-worktree`
+- `pi-rakit-git`
+
+All values are identity constraints and must match exactly. The workflow requests only `contents: read` and `id-token: write`. The `npm-publish` GitHub environment can additionally require reviewers in repository settings before a job is allowed to publish.
+
 ## Publish to npm
 
-Authenticate first:
-
-```bash
-npm login
-npm whoami
-```
-
-For accounts using npm web authentication, `npm publish` prints an authentication URL. Open that URL, approve the operation in the browser, and return to the terminal. Browser authentication is preferred for this repository; do not share or commit OTP values, npm tokens, or authentication URLs.
-
-Run final checks:
+First, merge the package version and changelog entry into `main`. Run the final dry-run locally:
 
 ```bash
 npm run publish:npm:dry
 ```
 
-Publish the configured workspaces in order:
+Then open **Actions → Publish npm package → Run workflow**, choose the changed workspace, select the `main` branch, and run it. The workflow validates the repository before executing one `npm publish --provenance`. Publish extension packages before an installer release that starts referring to them.
 
-```bash
-npm run publish:npm
-```
+Each workflow run publishes exactly one workspace. This avoids attempting to republish unchanged immutable versions. A release remains manual and will fail safely if the selected version already exists or its Trusted Publisher is not configured.
 
-The script currently publishes extension workspaces before the installer so the manifest does not point users to an unavailable package.
-
-If publishing several workspaces, npm may request browser approval for each publish operation. Never commit npm tokens, one-time passwords, or temporary authentication URLs.
+For emergency local publishing, use npm's browser authentication flow. Never commit npm tokens, one-time passwords, or temporary authentication URLs.
 
 ## Verify a Release
 
@@ -136,13 +143,6 @@ cat .pi/settings.json
 
 ## GitHub Workflow
 
-After validation, commit only the intended files and push the `main` branch:
-
-```bash
-git status
-git add <changed-files>
-git commit -m "Describe the change"
-git push origin main
-```
+After validation, commit only the intended files on a branch, open a pull request, and merge it after CI succeeds. Do not push release changes directly to `main`.
 
 See [[Creating an Extension]] for the extension development workflow.
