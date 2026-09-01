@@ -28,6 +28,19 @@
 			}
 		},
 		{
+			"id": "doctor",
+			"label": "Doctor",
+			"description": "Read-only health checks for Pi runtime, settings, packages, and environment.",
+			"category": "Diagnostics",
+			"enabledByDefault": false,
+			"tags": ["diagnostics", "health-check", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/doctor",
+				"npm": "pi-rakit-doctor"
+			}
+		},
+		{
 			"id": "ponytail",
 			"label": "Ponytail",
 			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",

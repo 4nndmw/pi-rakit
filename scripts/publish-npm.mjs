@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLISH_WORKSPACES = [
 	"packages/hello-pi",
 	"packages/custom-provider",
+	"packages/doctor",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");

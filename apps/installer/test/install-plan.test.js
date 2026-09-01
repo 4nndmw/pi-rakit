@@ -20,6 +20,15 @@ const manifest = {
 			},
 		},
 		{
+			id: "doctor",
+			label: "Doctor",
+			source: {
+				mode: "workspace",
+				path: "packages/doctor",
+				npm: "pi-rakit-doctor",
+			},
+		},
+		{
 			id: "ponytail",
 			label: "Ponytail",
 			source: {
@@ -49,6 +58,11 @@ test("expands requirements before selected packages", () => {
 		"npm:base-package@1.2.3",
 		"npm:@scope/feature",
 	]);
+});
+
+test("uses the Doctor npm package outside development mode", () => {
+	const plan = buildInstallPlan(["doctor"], manifest, options);
+	assert.deepEqual(plan.packageSources, ["npm:pi-rakit-doctor"]);
 });
 
 test("pins scoped external packages to the configured version", () => {
