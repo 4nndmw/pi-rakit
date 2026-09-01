@@ -30,6 +30,46 @@ const expectedSources = [
 	"npm:pi-mcp-adapter",
 ];
 
+test("CLI selects specific packages without an interactive prompt", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+
+	try {
+		mkdirSync(projectDirectory);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"ponytail",
+				"--package",
+				"caveman",
+				"--yes",
+				"--write-only",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		const settings = JSON.parse(
+			readFileSync(path.join(projectDirectory, ".pi", "settings.json"), "utf8"),
+		);
+		assert.deepEqual(settings.packages, [
+			"npm:@dietrichgebert/ponytail@4.9.0",
+			"npm:caveman-pi@1.0.0",
+		]);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
 test("CLI writes every selected package to isolated local settings", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");

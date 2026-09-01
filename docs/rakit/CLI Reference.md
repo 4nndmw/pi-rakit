@@ -23,6 +23,7 @@ npx pi-rakit@latest --help
 | `--dev` | Resolve workspace packages to local filesystem paths. | Disabled |
 | `--install` | Run `pi install` after updating settings. | Disabled |
 | `--write-only` | Never invoke `pi install`, even with `--install`. | Disabled |
+| `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--help`, `-h` | Print help and exit. | Disabled |
@@ -63,9 +64,19 @@ npx pi-rakit@latest --cwd /path/to/project --local
 
 ## Package Selection
 
-Without `--select-all`, Pi Rakit opens an interactive checkbox prompt. Packages with `enabledByDefault: true` start selected. Packages marked `hidden: true` are omitted from the selector.
+Without `--package` or `--select-all`, Pi Rakit opens an interactive checkbox prompt. Packages with `enabledByDefault: true` start selected. Packages marked `hidden: true` are omitted from the selector.
 
-If no package is selected, the CLI exits without changing settings. Package requirements are automatically added before dependent packages.
+Use repeatable `--package` options for noninteractive, targeted selection:
+
+```bash
+npx pi-rakit@latest \
+  --local \
+  --package ponytail \
+  --package caveman \
+  --yes
+```
+
+`--package` accepts manifest IDs, rejects unknown IDs, and cannot be combined with `--select-all`. Duplicate IDs are ignored. If no package is selected, the CLI exits without changing settings. Package requirements are automatically added before dependent packages.
 
 ## Settings Merge Behavior
 

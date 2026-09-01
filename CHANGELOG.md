@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.7 - 2026-09-01
+
+- Added repeatable `--package <id>` options for targeted noninteractive package selection.
+- Added argument validation and end-to-end coverage for package selection.
+
 ### 0.1.6 - 2026-09-01
 
 - Added the MIT license and standard npm repository, homepage, and issue metadata.

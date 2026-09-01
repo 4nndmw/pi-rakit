@@ -27,6 +27,7 @@ Options:
   --dev              Use local workspace paths
   --install          Run pi install after updating settings
   --write-only       Do not invoke pi install
+  --package <id>     Select a package by manifest id (repeatable)
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --help, -h         Show this help
@@ -41,6 +42,7 @@ export function parseArgs(argv) {
 		dev: false,
 		install: false,
 		writeOnly: false,
+		packageIds: [],
 		selectAll: false,
 		yes: false,
 	};
@@ -66,10 +68,17 @@ export function parseArgs(argv) {
 		else if (token === "--dev") options.dev = true;
 		else if (token === "--install") options.install = true;
 		else if (token === "--write-only") options.writeOnly = true;
-		else if (token === "--select-all") options.selectAll = true;
+		else if (token === "--package") {
+			options.packageIds.push(nextValue(index, token));
+			index += 1;
+		} else if (token === "--select-all") options.selectAll = true;
 		else if (token === "--yes" || token === "-y") options.yes = true;
 		else if (token === "--help" || token === "-h") options.help = true;
 		else throw new Error(`Unknown option: ${token}`);
+	}
+
+	if (options.selectAll && options.packageIds.length > 0) {
+		throw new Error("--package cannot be combined with --select-all.");
 	}
 
 	return options;
@@ -114,7 +123,9 @@ export async function main(argv = process.argv.slice(2)) {
 	const visiblePackages = manifest.packages.filter((item) => !item.hidden);
 	const selectedIds = options.selectAll
 		? visiblePackages.map((item) => item.id)
-		: await promptForPackageIds(manifest, getDefaultPackageIds(manifest));
+		: options.packageIds.length > 0
+			? [...new Set(options.packageIds)]
+			: await promptForPackageIds(manifest, getDefaultPackageIds(manifest));
 
 	if (selectedIds.length === 0) {
 		console.log("No packages selected.");
