@@ -1,6 +1,6 @@
 # Pi Rakit
 
-Monorepo untuk merakit, memilih, dan memasang kumpulan ekstensi Pi melalui installer interaktif. Proyek ini ditujukan terutama untuk komunitas Indonesia.
+A monorepo for selecting and installing a collection of Pi extensions through an interactive installer.
 
 ## Requirements
 
@@ -8,12 +8,26 @@ Monorepo untuk merakit, memilih, dan memasang kumpulan ekstensi Pi melalui insta
 - npm 11+
 - Pi installed and available as `pi`
 
-## Paket
+## Packages
 
-- `pi-rakit`: installer CLI utama
-- `pi-rakit-hello`: ekstensi contoh dengan perintah `/hello`
+- [`pi-rakit`](https://www.npmjs.com/package/pi-rakit): the main interactive CLI installer
+- [`pi-rakit-hello`](https://www.npmjs.com/package/pi-rakit-hello): an example extension that provides the `/hello` command
 
-Sebelum publikasi, lengkapi metadata repository, author, dan lisensi sesuai kebutuhan.
+## Usage
+
+Run the interactive installer:
+
+```bash
+npx pi-rakit@latest
+```
+
+Install packages only for the current project:
+
+```bash
+npx pi-rakit@latest --local
+```
+
+By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package.
 
 ## Development
 
@@ -23,32 +37,21 @@ npm test
 npm run check
 ```
 
-Test the installer against the current project without publishing:
+Test the installer against the current workspace without publishing:
 
 ```bash
 node apps/installer/src/cli.js --local --dev --select-all --yes --write-only
 ```
 
-This writes workspace-relative package sources to `.pi/settings.json`. Remove that file after testing if you do not want local Pi settings committed.
+This writes workspace-relative package sources to `.pi/settings.json`. Remove that file after testing if you do not want to commit local Pi settings.
 
-## Use after publishing
+## Publishing
 
-```bash
-npx pi-rakit
-# atau pasang hanya untuk proyek saat ini
-npx pi-rakit --local
-```
-
-By default the CLI only updates Pi settings. Add `--install` to also invoke `pi install` for each selected package.
-
-## Publish
-
-First authenticate and verify the package names:
+First, authenticate and run the publishing checks:
 
 ```bash
 npm login
 npm whoami
-npm view pi-rakit
 npm run publish:npm:dry
 ```
 
@@ -58,12 +61,12 @@ Then publish all public workspaces:
 npm run publish:npm
 ```
 
-Publishing is intentionally not automatic. Update versions before each subsequent release.
+Publishing is intentionally not automatic. Increment the affected package version before each subsequent release.
 
-## Add another extension
+## Adding Another Extension
 
 1. Copy `packages/hello-pi` to a new directory.
-2. Change its npm name and extension implementation.
+2. Change its npm package name and extension implementation.
 3. Add it to `manifest.json`.
 4. Add its workspace path to `PUBLISH_WORKSPACES` in `scripts/publish-npm.mjs`.
 5. Run `npm run check`.
