@@ -145,6 +145,54 @@ test("CLI dry-run previews only new sources without writing settings", () => {
 	}
 });
 
+test("CLI dry-run emits machine-readable JSON without writing settings", () => {
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const projectDirectory = path.join(temporaryRoot, "project");
+	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
+
+	try {
+		mkdirSync(projectDirectory);
+		const result = spawnSync(
+			process.execPath,
+			[
+				cliPath,
+				"--cwd",
+				projectDirectory,
+				"--local",
+				"--package",
+				"ponytail",
+				"--package",
+				"caveman",
+				"--dry-run",
+				"--json",
+			],
+			{ cwd: installerRoot, encoding: "utf8" },
+		);
+
+		assert.equal(
+			result.status,
+			0,
+			`CLI failed:\n${result.stdout}${result.stderr}`,
+		);
+		assert.deepEqual(JSON.parse(result.stdout), {
+			scope: "local",
+			settingsPath,
+			packageSources: [
+				"npm:@dietrichgebert/ponytail@4.9.0",
+				"npm:caveman-pi@1.0.0",
+			],
+			addedSources: [
+				"npm:@dietrichgebert/ponytail@4.9.0",
+				"npm:caveman-pi@1.0.0",
+			],
+		});
+		assert.equal(result.stderr, "");
+		assert.equal(existsSync(settingsPath), false);
+	} finally {
+		rmSync(temporaryRoot, { recursive: true, force: true });
+	}
+});
+
 test("CLI dry-run does not create a settings file", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
