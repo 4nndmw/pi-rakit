@@ -62,7 +62,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial read-only `/doctor` diagnostics command.
 - Added checks for Node.js, the Pi CLI, settings JSON, duplicate package sources, and referenced environment variables.
 
-## pi-rakit-git
+## [pi-rakit-git](https://www.npmjs.com/package/pi-rakit-git)
 
 ### 0.1.0 - 2026-09-01
 
