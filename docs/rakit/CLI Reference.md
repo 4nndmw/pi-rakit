@@ -25,6 +25,7 @@ npx pi-rakit@latest --help
 | `--write-only` | Never invoke `pi install`, even with `--install`. | Disabled |
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
+| `--json` | Format `--list-packages` output as JSON. | Disabled |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--help`, `-h` | Print help and exit. | Disabled |
@@ -74,6 +75,14 @@ npx pi-rakit@latest --list-packages
 ```
 
 The tab-separated output contains the package ID, display label, and npm source. `--list-packages` also supports `--manifest <path>` and exits without prompting or changing settings.
+
+For automation, request a JSON array whose objects contain stable `id`, `label`, and `source` fields:
+
+```bash
+npx pi-rakit@latest --list-packages --json
+```
+
+`--json` requires `--list-packages` and cannot be used during installation.
 
 Use repeatable `--package` options for noninteractive, targeted selection:
 

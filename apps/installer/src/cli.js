@@ -29,6 +29,7 @@ Options:
   --write-only       Do not invoke pi install
   --package <id>     Select a package by manifest id (repeatable)
   --list-packages    List visible package ids and exit
+  --json             Output --list-packages as JSON
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --help, -h         Show this help
@@ -45,6 +46,7 @@ export function parseArgs(argv) {
 		writeOnly: false,
 		packageIds: [],
 		listPackages: false,
+		json: false,
 		selectAll: false,
 		yes: false,
 	};
@@ -74,6 +76,7 @@ export function parseArgs(argv) {
 			options.packageIds.push(nextValue(index, token));
 			index += 1;
 		} else if (token === "--list-packages") options.listPackages = true;
+		else if (token === "--json") options.json = true;
 		else if (token === "--select-all") options.selectAll = true;
 		else if (token === "--yes" || token === "-y") options.yes = true;
 		else if (token === "--help" || token === "-h") options.help = true;
@@ -91,6 +94,9 @@ export function parseArgs(argv) {
 			"--list-packages cannot be combined with package selection options.",
 		);
 	}
+	if (options.json && !options.listPackages) {
+		throw new Error("--json requires --list-packages.");
+	}
 
 	return options;
 }
@@ -101,10 +107,18 @@ function formatPackageSource(item) {
 	return `npm:${item.source.name}${version}`;
 }
 
-export function formatPackageList(manifest) {
-	return manifest.packages
+export function formatPackageList(manifest, options = {}) {
+	const packages = manifest.packages
 		.filter((item) => !item.hidden)
-		.map((item) => `${item.id}\t${item.label}\t${formatPackageSource(item)}`)
+		.map((item) => ({
+			id: item.id,
+			label: item.label,
+			source: formatPackageSource(item),
+		}));
+
+	if (options.json) return JSON.stringify(packages, null, 2);
+	return packages
+		.map((item) => `${item.id}\t${item.label}\t${item.source}`)
 		.join("\n");
 }
 
@@ -142,7 +156,7 @@ export async function main(argv = process.argv.slice(2)) {
 	});
 
 	if (options.listPackages) {
-		console.log(formatPackageList(manifest));
+		console.log(formatPackageList(manifest, { json: options.json }));
 		return;
 	}
 	if (!existsSync(options.cwd)) {

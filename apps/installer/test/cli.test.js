@@ -27,8 +27,10 @@ test("requires a package id", () => {
 	assert.throws(() => parseArgs(["--package"]), /--package requires a value/);
 });
 
-test("parses package listing and rejects selection options", () => {
-	assert.equal(parseArgs(["--list-packages"]).listPackages, true);
+test("parses package listing options and rejects incompatible options", () => {
+	const options = parseArgs(["--list-packages", "--json"]);
+	assert.equal(options.listPackages, true);
+	assert.equal(options.json, true);
 	assert.throws(
 		() => parseArgs(["--list-packages", "--package", "ponytail"]),
 		/--list-packages cannot be combined with package selection options/,
@@ -37,6 +39,7 @@ test("parses package listing and rejects selection options", () => {
 		() => parseArgs(["--list-packages", "--select-all"]),
 		/--list-packages cannot be combined with package selection options/,
 	);
+	assert.throws(() => parseArgs(["--json"]), /--json requires --list-packages/);
 });
 
 test("formats visible package ids, labels, and npm sources", () => {
@@ -66,4 +69,33 @@ test("formats visible package ids, labels, and npm sources", () => {
 		"workspace\tWorkspace\tnpm:example-workspace\n" +
 			"external\tExternal\tnpm:example-external@1.2.3",
 	);
+});
+
+test("formats visible packages as structured JSON", () => {
+	const output = formatPackageList(
+		{
+			packages: [
+				{
+					id: "external",
+					label: "External",
+					source: { mode: "npm", name: "example-external", version: "1.2.3" },
+				},
+				{
+					id: "hidden",
+					label: "Hidden",
+					hidden: true,
+					source: { mode: "npm", name: "example-hidden" },
+				},
+			],
+		},
+		{ json: true },
+	);
+
+	assert.deepEqual(JSON.parse(output), [
+		{
+			id: "external",
+			label: "External",
+			source: "npm:example-external@1.2.3",
+		},
+	]);
 });
