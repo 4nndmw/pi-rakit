@@ -25,5 +25,15 @@
 	},
 	"engines": {
 		"node": ">=20"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/4nndmw/pi-rakit.git",
+		"directory": "apps/installer"
+	},
+	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
+	"bugs": {
+		"url": "https://github.com/4nndmw/pi-rakit/issues"
 	}
 }
