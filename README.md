@@ -39,6 +39,24 @@ npx pi-rakit@latest --local
 
 By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package.
 
+### Worktree Extension
+
+Install Worktree directly when you do not need the interactive installer:
+
+```bash
+pi install npm:pi-rakit-worktree
+```
+
+Then start or reload Pi and run:
+
+```text
+/worktree list
+/worktree create issue-123
+/worktree remove issue-123
+```
+
+Creating `issue-123` creates branch `worktree/issue-123` in the sibling directory `<repository>-issue-123`. Removal requires confirmation and a clean target, removes only the worktree directory, and preserves the branch. See the [complete Worktree guide](docs/rakit/Worktree.md).
+
 ## Development
 
 ```bash
