@@ -28,6 +28,7 @@ Options:
   --install          Run pi install after updating settings
   --write-only       Do not invoke pi install
   --package <id>     Select a package by manifest id (repeatable)
+  --list-packages    List visible package ids and exit
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
   --help, -h         Show this help
@@ -43,6 +44,7 @@ export function parseArgs(argv) {
 		install: false,
 		writeOnly: false,
 		packageIds: [],
+		listPackages: false,
 		selectAll: false,
 		yes: false,
 	};
@@ -71,7 +73,8 @@ export function parseArgs(argv) {
 		else if (token === "--package") {
 			options.packageIds.push(nextValue(index, token));
 			index += 1;
-		} else if (token === "--select-all") options.selectAll = true;
+		} else if (token === "--list-packages") options.listPackages = true;
+		else if (token === "--select-all") options.selectAll = true;
 		else if (token === "--yes" || token === "-y") options.yes = true;
 		else if (token === "--help" || token === "-h") options.help = true;
 		else throw new Error(`Unknown option: ${token}`);
@@ -80,8 +83,29 @@ export function parseArgs(argv) {
 	if (options.selectAll && options.packageIds.length > 0) {
 		throw new Error("--package cannot be combined with --select-all.");
 	}
+	if (
+		options.listPackages &&
+		(options.selectAll || options.packageIds.length > 0)
+	) {
+		throw new Error(
+			"--list-packages cannot be combined with package selection options.",
+		);
+	}
 
 	return options;
+}
+
+function formatPackageSource(item) {
+	if (item.source.mode === "workspace") return `npm:${item.source.npm}`;
+	const version = item.source.version ? `@${item.source.version}` : "";
+	return `npm:${item.source.name}${version}`;
+}
+
+export function formatPackageList(manifest) {
+	return manifest.packages
+		.filter((item) => !item.hidden)
+		.map((item) => `${item.id}\t${item.label}\t${formatPackageSource(item)}`)
+		.join("\n");
 }
 
 function runPiInstall(cwd, packageSources, global) {
@@ -104,10 +128,6 @@ export async function main(argv = process.argv.slice(2)) {
 		printHelp();
 		return;
 	}
-	if (!existsSync(options.cwd)) {
-		throw new Error(`Target directory does not exist: ${options.cwd}`);
-	}
-
 	const packageRoot = path.resolve(
 		path.dirname(fileURLToPath(import.meta.url)),
 		"..",
@@ -116,9 +136,18 @@ export async function main(argv = process.argv.slice(2)) {
 	const manifestPath =
 		options.manifest ?? path.join(packageRoot, "manifest.json");
 	const manifest = loadManifest(manifestPath, {
-		validateWorkspacePaths: options.dev || Boolean(options.manifest),
+		validateWorkspacePaths:
+			!options.listPackages && (options.dev || Boolean(options.manifest)),
 		workspaceRoot: repoRoot,
 	});
+
+	if (options.listPackages) {
+		console.log(formatPackageList(manifest));
+		return;
+	}
+	if (!existsSync(options.cwd)) {
+		throw new Error(`Target directory does not exist: ${options.cwd}`);
+	}
 
 	const visiblePackages = manifest.packages.filter((item) => !item.hidden);
 	const selectedIds = options.selectAll

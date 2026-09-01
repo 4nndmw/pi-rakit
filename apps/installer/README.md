@@ -4,7 +4,7 @@ Installer interaktif untuk memilih dan memasang kumpulan ekstensi Pi.
 
 ```bash
 npx pi-rakit
-npx pi-rakit --local
+npx pi-rakit --list-packages
 npx pi-rakit --local --package ponytail --package caveman --yes
 ```
 

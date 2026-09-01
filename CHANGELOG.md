@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.8 - 2026-09-01
+
+- Added `--list-packages` to display visible manifest IDs, labels, and npm sources without changing settings.
+- Added custom-manifest and end-to-end coverage for package listing.
+
 ### 0.1.7 - 2026-09-01
 
 - Added repeatable `--package <id>` options for targeted noninteractive package selection.

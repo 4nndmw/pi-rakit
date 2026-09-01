@@ -24,6 +24,7 @@ npx pi-rakit@latest --help
 | `--install` | Run `pi install` after updating settings. | Disabled |
 | `--write-only` | Never invoke `pi install`, even with `--install`. | Disabled |
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
+| `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--help`, `-h` | Print help and exit. | Disabled |
@@ -65,6 +66,14 @@ npx pi-rakit@latest --cwd /path/to/project --local
 ## Package Selection
 
 Without `--package` or `--select-all`, Pi Rakit opens an interactive checkbox prompt. Packages with `enabledByDefault: true` start selected. Packages marked `hidden: true` are omitted from the selector.
+
+List the available manifest IDs before selecting packages:
+
+```bash
+npx pi-rakit@latest --list-packages
+```
+
+The tab-separated output contains the package ID, display label, and npm source. `--list-packages` also supports `--manifest <path>` and exits without prompting or changing settings.
 
 Use repeatable `--package` options for noninteractive, targeted selection:
 
