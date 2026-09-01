@@ -3,6 +3,7 @@
 Installer interaktif untuk memilih dan memasang kumpulan ekstensi Pi.
 
 ```bash
+npx pi-rakit --version
 npx pi-rakit
 npx pi-rakit --list-packages
 npx pi-rakit --list-packages --json

@@ -28,9 +28,16 @@ npx pi-rakit@latest --help
 | `--json` | Format `--list-packages` output as JSON. | Disabled |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
+| `--version`, `-v` | Print the installed Pi Rakit version and exit. | Disabled |
 | `--help`, `-h` | Print help and exit. | Disabled |
 
 Unknown options and options with missing values cause the command to exit with an error.
+
+Print the installed CLI version without loading the manifest or target project:
+
+```bash
+npx pi-rakit@latest --version
+```
 
 ## Settings Locations
 

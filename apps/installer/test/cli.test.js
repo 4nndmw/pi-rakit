@@ -2,6 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { formatPackageList, parseArgs } from "../src/cli.js";
 
+test("parses version flags", () => {
+	assert.equal(parseArgs(["--version"]).version, true);
+	assert.equal(parseArgs(["-v"]).version, true);
+});
+
 test("parses repeatable package selections", () => {
 	const options = parseArgs([
 		"--package",
