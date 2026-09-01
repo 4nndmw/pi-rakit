@@ -1,27 +1,31 @@
 {
-	"name": "pi-rakit",
-	"version": "0.1.17",
-	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
+	"name": "pi-rakit-compact-tools",
+	"version": "0.1.0",
+	"description": "Make built-in tool output compact and easier to scan in Pi",
 	"type": "module",
 	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"bin": {
-		"pi-rakit": "src/cli.js"
-	},
 	"files": [
-		"src",
-		"manifest.json",
+		"extensions",
 		"README.md"
 	],
 	"keywords": [
 		"pi-package",
 		"pi-coding-agent",
-		"installer"
+		"extension",
+		"tools",
+		"ui"
 	],
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	},
 	"dependencies": {
-		"@inquirer/prompts": "7.8.4"
+		"@mariozechner/pi-coding-agent": "0.73.1",
+		"@mariozechner/pi-tui": "0.73.1"
 	},
 	"engines": {
 		"node": ">=20"
@@ -30,7 +34,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/4nndmw/pi-rakit.git",
-		"directory": "apps/installer"
+		"directory": "packages/compact-tools"
 	},
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {

@@ -80,6 +80,84 @@
 			}
 		},
 		{
+			"id": "token-speed",
+			"label": "Token Speed",
+			"description": "Shows live token streaming speed in the Pi status bar.",
+			"category": "Diagnostics",
+			"enabledByDefault": false,
+			"tags": ["tokens", "streaming", "status-bar"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/token-speed",
+				"npm": "pi-rakit-token-speed"
+			}
+		},
+		{
+			"id": "session-usage",
+			"label": "Session Usage",
+			"description": "Shows token usage across the current session and project history.",
+			"category": "Diagnostics",
+			"enabledByDefault": false,
+			"tags": ["tokens", "usage", "history"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/session-usage",
+				"npm": "pi-rakit-session-usage"
+			}
+		},
+		{
+			"id": "session-stats",
+			"label": "Session Stats",
+			"description": "Tracks session time, prompt count, turns, and tool calls.",
+			"category": "Diagnostics",
+			"enabledByDefault": false,
+			"tags": ["session", "statistics", "status-bar"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/session-stats",
+				"npm": "pi-rakit-session-stats"
+			}
+		},
+		{
+			"id": "session-delete",
+			"label": "Session Delete",
+			"description": "Adds a confirmation-gated flow for deleting inactive sessions.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["session", "delete", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/session-delete",
+				"npm": "pi-rakit-session-delete"
+			}
+		},
+		{
+			"id": "compact-tools",
+			"label": "Compact Tools",
+			"description": "Makes built-in tool output compact and easier to scan in the Pi UI.",
+			"category": "Interface",
+			"enabledByDefault": false,
+			"tags": ["tools", "renderer", "ui"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/compact-tools",
+				"npm": "pi-rakit-compact-tools"
+			}
+		},
+		{
+			"id": "auto-title",
+			"label": "Auto Title",
+			"description": "Automatically gives sessions useful titles for easier /resume browsing.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["session", "title", "resume"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/auto-title",
+				"npm": "pi-rakit-auto-title"
+			}
+		},
+		{
 			"id": "ponytail",
 			"label": "Ponytail",
 			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",

@@ -6,6 +6,15 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.17 - 2026-09-01
+
+- Added Session Usage, Session Stats, Session Delete, Compact Tools, and Auto Title to the installer catalog.
+- Added workspace development-mode resolution for all five packages.
+
+### 0.1.16 - 2026-09-01
+
+- Added Pi Rakit Token Speed to the installer catalog with workspace development-mode resolution.
+
 ### 0.1.15 - 2026-09-01
 
 - Added Pi Rakit Biome to the installer catalog with workspace development-mode resolution.
@@ -156,3 +165,39 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Initial `/worktree list|create|remove` commands.
 - Added sibling-directory worktrees, prefixed branches, clean-tree checks, protected branch names, and non-forced removal.
+
+## [pi-rakit-token-speed](https://www.npmjs.com/package/pi-rakit-token-speed)
+
+### 0.1.0 - 2026-09-01
+
+- Initial release with estimated live and provider-usage-based final token streaming speed in the Pi status bar.
+
+## [pi-rakit-session-usage](https://www.npmjs.com/package/pi-rakit-session-usage)
+
+### 0.1.0 - 2026-09-01
+
+- Added `/usage` and status-bar totals for current-session and project-history token usage.
+
+## [pi-rakit-session-stats](https://www.npmjs.com/package/pi-rakit-session-stats)
+
+### 0.1.0 - 2026-09-01
+
+- Added elapsed time, prompt, assistant-turn, and tool-call tracking with `/session-stats`.
+
+## [pi-rakit-session-delete](https://www.npmjs.com/package/pi-rakit-session-delete)
+
+### 0.1.0 - 2026-09-01
+
+- Added interactive, confirmation-gated deletion for inactive project sessions.
+
+## [pi-rakit-compact-tools](https://www.npmjs.com/package/pi-rakit-compact-tools)
+
+### 0.1.0 - 2026-09-01
+
+- Added compact interactive renderers for Pi's built-in file, search, and shell tools.
+
+## [pi-rakit-auto-title](https://www.npmjs.com/package/pi-rakit-auto-title)
+
+### 0.1.0 - 2026-09-01
+
+- Added deterministic local session titles derived from the first prompt without extra model calls.

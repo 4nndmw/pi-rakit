@@ -12,6 +12,12 @@ const PUBLISH_WORKSPACES = [
 	"packages/worktree",
 	"packages/git",
 	"packages/biome",
+	"packages/token-speed",
+	"packages/session-usage",
+	"packages/session-stats",
+	"packages/session-delete",
+	"packages/compact-tools",
+	"packages/auto-title",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");

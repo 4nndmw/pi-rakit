@@ -56,6 +56,30 @@ const manifest = {
 			},
 		},
 		{
+			id: "token-speed",
+			label: "Token Speed",
+			source: {
+				mode: "workspace",
+				path: "packages/token-speed",
+				npm: "pi-rakit-token-speed",
+			},
+		},
+		...[
+			"session-usage",
+			"session-stats",
+			"session-delete",
+			"compact-tools",
+			"auto-title",
+		].map((id) => ({
+			id,
+			label: id,
+			source: {
+				mode: "workspace",
+				path: `packages/${id}`,
+				npm: `pi-rakit-${id}`,
+			},
+		})),
+		{
 			id: "ponytail",
 			label: "Ponytail",
 			source: {
@@ -123,6 +147,34 @@ test("resolves the Biome package for npm and development mode", () => {
 		devMode: true,
 	});
 	assert.deepEqual(development.packageSources, ["../../packages/biome"]);
+});
+
+test("resolves Token Speed for npm and development mode", () => {
+	const published = buildInstallPlan(["token-speed"], manifest, options);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-token-speed"]);
+	const development = buildInstallPlan(["token-speed"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.deepEqual(development.packageSources, ["../../packages/token-speed"]);
+});
+
+test("resolves session utilities for npm and development mode", () => {
+	for (const id of [
+		"session-usage",
+		"session-stats",
+		"session-delete",
+		"compact-tools",
+		"auto-title",
+	]) {
+		const published = buildInstallPlan([id], manifest, options);
+		assert.deepEqual(published.packageSources, [`npm:pi-rakit-${id}`]);
+		const development = buildInstallPlan([id], manifest, {
+			...options,
+			devMode: true,
+		});
+		assert.deepEqual(development.packageSources, [`../../packages/${id}`]);
+	}
 });
 
 test("pins scoped external packages to the configured version", () => {

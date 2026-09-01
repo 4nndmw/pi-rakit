@@ -21,6 +21,12 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree): safe Git worktree management through the `/worktree` command
 - [`pi-rakit-git`](https://www.npmjs.com/package/pi-rakit-git): focused status, branch, and confirmation-gated commit commands through `/git`
 - [`pi-rakit-biome`](https://www.npmjs.com/package/pi-rakit-biome): safe checks, linting, and confirmation-gated formatting through `/biome`
+- [`pi-rakit-token-speed`](https://www.npmjs.com/package/pi-rakit-token-speed): live token streaming speed in the Pi status bar
+- [`pi-rakit-session-usage`](https://www.npmjs.com/package/pi-rakit-session-usage): current-session and project-history token usage
+- [`pi-rakit-session-stats`](https://www.npmjs.com/package/pi-rakit-session-stats): elapsed time, prompt, turn, and tool-call tracking
+- [`pi-rakit-session-delete`](https://www.npmjs.com/package/pi-rakit-session-delete): interactive, confirmation-gated deletion of inactive sessions
+- [`pi-rakit-compact-tools`](https://www.npmjs.com/package/pi-rakit-compact-tools): compact renderers for built-in tool output
+- [`pi-rakit-auto-title`](https://www.npmjs.com/package/pi-rakit-auto-title): automatic local session titles for easier `/resume` browsing
 
 The installer also provides optional third-party packages:
 
@@ -116,6 +122,30 @@ pi install npm:pi-rakit-biome
 ```
 
 Check and lint are read-only. Format writes files only after explicit confirmation and arbitrary CLI flags are rejected.
+
+### Token Speed Extension
+
+Install Token Speed directly to display live generation throughput in Pi's footer:
+
+```bash
+pi install npm:pi-rakit-token-speed
+```
+
+The status shows an updating estimate while content streams and a final rate based on provider-reported output token usage when the response finishes.
+
+### Session Utilities
+
+Install any utility independently:
+
+```bash
+pi install npm:pi-rakit-session-usage
+pi install npm:pi-rakit-session-stats
+pi install npm:pi-rakit-session-delete
+pi install npm:pi-rakit-compact-tools
+pi install npm:pi-rakit-auto-title
+```
+
+Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request.
 
 ## Development
 
