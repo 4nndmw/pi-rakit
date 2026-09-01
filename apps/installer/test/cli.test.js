@@ -2,10 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { formatPackageList, parseArgs } from "../src/cli.js";
 
-test("parses version and dry-run flags", () => {
+test("parses version and nonmutating flags", () => {
 	assert.equal(parseArgs(["--version"]).version, true);
 	assert.equal(parseArgs(["-v"]).version, true);
 	assert.equal(parseArgs(["--dry-run"]).dryRun, true);
+	assert.equal(parseArgs(["--check"]).check, true);
+	assert.throws(
+		() => parseArgs(["--dry-run", "--check"]),
+		/--dry-run cannot be combined with --check/,
+	);
 });
 
 test("parses repeatable package selections", () => {
@@ -46,9 +51,10 @@ test("parses package listing options and rejects incompatible options", () => {
 		/--list-packages cannot be combined with package selection options/,
 	);
 	assert.equal(parseArgs(["--dry-run", "--json"]).json, true);
+	assert.equal(parseArgs(["--check", "--json"]).json, true);
 	assert.throws(
 		() => parseArgs(["--json"]),
-		/--json requires --list-packages or --dry-run/,
+		/--json requires --list-packages, --dry-run, or --check/,
 	);
 });
 
