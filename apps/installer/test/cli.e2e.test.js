@@ -52,6 +52,30 @@ test("CLI lists package ids without requiring a target directory", () => {
 	assert.equal(existsSync(missingDirectory), false);
 });
 
+test("CLI lists packages as machine-readable JSON", () => {
+	const result = spawnSync(
+		process.execPath,
+		[cliPath, "--list-packages", "--json"],
+		{ cwd: installerRoot, encoding: "utf8" },
+	);
+
+	assert.equal(
+		result.status,
+		0,
+		`CLI failed:\n${result.stdout}${result.stderr}`,
+	);
+	const packages = JSON.parse(result.stdout);
+	assert.deepEqual(
+		packages.find((item) => item.id === "ponytail"),
+		{
+			id: "ponytail",
+			label: "Ponytail",
+			source: "npm:@dietrichgebert/ponytail@4.9.0",
+		},
+	);
+	assert.equal(packages.some((item) => item.hidden), false);
+});
+
 test("CLI selects specific packages without an interactive prompt", () => {
 	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
