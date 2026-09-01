@@ -19,6 +19,11 @@ const manifest = {
 				npm: "@scope/feature",
 			},
 		},
+		{
+			id: "caveman",
+			label: "Caveman",
+			source: { mode: "npm", name: "caveman-pi", version: "1.0.0" },
+		},
 	],
 };
 
@@ -35,6 +40,11 @@ test("expands requirements before selected packages", () => {
 		"npm:base-package@1.2.3",
 		"npm:@scope/feature",
 	]);
+});
+
+test("pins external packages to the configured version", () => {
+	const plan = buildInstallPlan(["caveman"], manifest, options);
+	assert.deepEqual(plan.packageSources, ["npm:caveman-pi@1.0.0"]);
 });
 
 test("rejects unknown package ids", () => {
