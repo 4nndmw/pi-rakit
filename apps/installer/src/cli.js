@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { existsSync, realpathSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -32,6 +32,7 @@ Options:
   --json             Output --list-packages as JSON
   --select-all       Select all visible packages
   --yes, -y          Skip confirmation
+  --version, -v      Show the installed version
   --help, -h         Show this help
 `);
 }
@@ -49,6 +50,7 @@ export function parseArgs(argv) {
 		json: false,
 		selectAll: false,
 		yes: false,
+		version: false,
 	};
 
 	function nextValue(index, option) {
@@ -79,6 +81,7 @@ export function parseArgs(argv) {
 		else if (token === "--json") options.json = true;
 		else if (token === "--select-all") options.selectAll = true;
 		else if (token === "--yes" || token === "-y") options.yes = true;
+		else if (token === "--version" || token === "-v") options.version = true;
 		else if (token === "--help" || token === "-h") options.help = true;
 		else throw new Error(`Unknown option: ${token}`);
 	}
@@ -146,6 +149,13 @@ export async function main(argv = process.argv.slice(2)) {
 		path.dirname(fileURLToPath(import.meta.url)),
 		"..",
 	);
+	if (options.version) {
+		const packageJson = JSON.parse(
+			readFileSync(path.join(packageRoot, "package.json"), "utf8"),
+		);
+		console.log(packageJson.version);
+		return;
+	}
 	const repoRoot = path.resolve(packageRoot, "../..");
 	const manifestPath =
 		options.manifest ?? path.join(packageRoot, "manifest.json");

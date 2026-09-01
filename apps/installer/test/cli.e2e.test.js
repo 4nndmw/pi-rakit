@@ -30,6 +30,29 @@ const expectedSources = [
 	"npm:pi-mcp-adapter",
 ];
 
+test("CLI prints its package version without loading a manifest", () => {
+	const missingManifest = path.join(
+		tmpdir(),
+		`pi-rakit-missing-manifest-${Date.now()}.json`,
+	);
+	const result = spawnSync(
+		process.execPath,
+		[cliPath, "--manifest", missingManifest, "--version"],
+		{ cwd: installerRoot, encoding: "utf8" },
+	);
+
+	assert.equal(
+		result.status,
+		0,
+		`CLI failed:\n${result.stdout}${result.stderr}`,
+	);
+	const packageJson = JSON.parse(
+		readFileSync(path.join(installerRoot, "package.json"), "utf8"),
+	);
+	assert.equal(result.stdout, `${packageJson.version}\n`);
+	assert.equal(result.stderr, "");
+});
+
 test("CLI lists package ids without requiring a target directory", () => {
 	const missingDirectory = path.join(tmpdir(), `pi-rakit-missing-${Date.now()}`);
 	const result = spawnSync(
