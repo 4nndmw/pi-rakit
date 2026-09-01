@@ -28,7 +28,14 @@ export PI_RAKIT_PROVIDER_MODEL="your-model-id"
 pi
 ```
 
-Then select `rakit-openai/your-model-id` with `/model`.
+Then start or reload Pi and select `rakit-openai/your-model-id` with `/model`. Configuration is read when the extension loads, so restart or reload Pi after changing environment variables.
+
+For the default local setup, ensure Ollama is running and the model is available:
+
+```bash
+ollama pull llama3.2
+ollama serve
+```
 
 ## Environment variables
 
@@ -45,7 +52,16 @@ Then select `rakit-openai/your-model-id` with `/model`.
 | `PI_RAKIT_PROVIDER_REASONING` | `false` | `true`/`false` or `1`/`0` |
 | `PI_RAKIT_PROVIDER_IMAGES` | `false` | Enable image input support |
 
-Do not commit API keys. The extension passes `$PI_RAKIT_PROVIDER_API_KEY` to Pi, so Pi resolves the environment variable only when it needs the credential.
+Do not commit API keys. The extension passes `$PI_RAKIT_PROVIDER_API_KEY` to Pi, so Pi resolves the environment variable only when it needs the credential. The provider always uses the `openai-completions` API adapter and registers one model. Enable reasoning or images only when the endpoint and model support them.
+
+## Troubleshooting
+
+- **Model missing:** restart or reload Pi, run `/model`, and look for `<provider-id>/<model-id>`.
+- **Connection refused:** start the local server and verify that the base URL includes its OpenAI-compatible path, commonly `/v1`.
+- **Unauthorized:** export `PI_RAKIT_PROVIDER_API_KEY` in the shell that starts Pi.
+- **Configuration error:** context and token limits must be positive integers; booleans accept only `true`, `false`, `1`, or `0`.
+
+See the [complete Custom Provider guide](https://github.com/4nndmw/pi-rakit/blob/main/docs/rakit/Custom%20Provider.md).
 
 ## Local development
 

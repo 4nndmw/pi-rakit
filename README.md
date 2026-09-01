@@ -41,6 +41,16 @@ npx pi-rakit@latest --local
 
 By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package.
 
+### Custom Provider Extension
+
+Install Custom Provider directly to connect Pi to an OpenAI-compatible local server or hosted gateway:
+
+```bash
+pi install npm:pi-rakit-custom-provider
+```
+
+The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Configure another endpoint through `PI_RAKIT_PROVIDER_BASE_URL`, `PI_RAKIT_PROVIDER_API_KEY`, and `PI_RAKIT_PROVIDER_MODEL` before starting Pi. See the [complete Custom Provider guide](docs/rakit/Custom%20Provider.md).
+
 ### Doctor Extension
 
 Install Doctor directly and run a read-only health check inside Pi:
