@@ -122,21 +122,11 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes for every published workspace
 
 ## Publishing
 
-First, authenticate and run the publishing checks:
+Publishing uses npm Trusted Publishing from the manual [Publish npm package](.github/workflows/publish.yml) workflow. It authenticates with GitHub OIDC, so no npm token or OTP is stored in the repository. Select only the workspace whose version was incremented.
 
-```bash
-npm login
-npm whoami
-npm run publish:npm:dry
-```
+Before the first workflow run, configure each npm package's Trusted Publisher with repository `4nndmw/pi-rakit`, workflow `publish.yml`, and environment `npm-publish`. See [Development and Release](docs/rakit/Development%20and%20Release.md#trusted-publishing-setup) for the full setup and release procedure.
 
-Then publish all public workspaces:
-
-```bash
-npm run publish:npm
-```
-
-Publishing is intentionally not automatic. Increment the affected package version before each subsequent release.
+Publishing is intentionally manual. Increment the affected package version and merge it into `main` before dispatching the workflow.
 
 ## Adding Another Extension
 
