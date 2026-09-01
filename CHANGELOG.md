@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.14 - 2026-09-01
+
+- Added `--output <path>` for writing JSON listing, dry-run, and check results to a file.
+- Added parent-directory creation, clean stdout, preserved check exit codes, and end-to-end documentation coverage.
+
 ### 0.1.13 - 2026-09-01
 
 - Added nonmutating `--check` mode for CI, with a nonzero exit status when selected package sources are missing.

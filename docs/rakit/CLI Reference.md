@@ -28,6 +28,7 @@ npx pi-rakit@latest --help
 | `--package <id>` | Select a package by manifest ID; repeat for multiple packages. | Interactive selection |
 | `--list-packages` | Print visible package IDs, labels, and npm sources, then exit. | Disabled |
 | `--json` | Format `--list-packages`, `--dry-run`, or `--check` output as JSON. | Disabled |
+| `--output <path>` | Write JSON output to a file, creating parent directories. Requires `--json`. | stdout |
 | `--select-all` | Select all visible manifest packages. | Disabled |
 | `--yes`, `-y` | Skip the confirmation prompt. | Disabled |
 | `--version`, `-v` | Print the installed Pi Rakit version and exit. | Disabled |
@@ -134,7 +135,10 @@ For CI, replace `--dry-run` with `--check`. Check mode produces the same preview
 
 ```bash
 npx pi-rakit@latest --local --select-all --check --json
+npx pi-rakit@latest --local --select-all --check --json --output reports/pi-rakit.json
 ```
+
+When `--output` is present, JSON is written with a trailing newline and stdout remains empty. Check mode still exits with status `1` when sources are missing.
 
 ## Settings Merge Behavior
 
