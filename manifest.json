@@ -28,6 +28,19 @@
 			}
 		},
 		{
+			"id": "ponytail",
+			"label": "Ponytail",
+			"description": "Lazy senior developer mode that helps Pi prefer the smallest effective solution.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["external", "skills", "minimalism"],
+			"source": {
+				"mode": "npm",
+				"name": "@dietrichgebert/ponytail",
+				"version": "4.9.0"
+			}
+		},
+		{
 			"id": "pi-mcp-adapter",
 			"label": "Pi MCP Adapter",
 			"description": "Optional MCP support for Pi.",
