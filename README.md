@@ -1,6 +1,6 @@
 # Pi Rakit
 
-Monorepo untuk merakit, memilih, dan memasang kumpulan ekstensi Pi melalui installer interaktif. Proyek ini ditujukan terutama untuk komunitas Indonesia dan terinspirasi oleh struktur `gnoviawan/pi-template`, dengan implementasi serta identitas tersendiri.
+Monorepo untuk merakit, memilih, dan memasang kumpulan ekstensi Pi melalui installer interaktif. Proyek ini ditujukan terutama untuk komunitas Indonesia.
 
 ## Requirements
 
