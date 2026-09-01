@@ -79,6 +79,13 @@ npm install --package-lock-only --ignore-scripts
 
 Only increment a package that changed. Use `minor` or `major` instead of `patch` when appropriate.
 
+The root MIT license is copied into every public workspace. After changing `LICENSE`, update and verify those copies:
+
+```bash
+npm run license:sync
+npm run license:check
+```
+
 Before the version bump, add a dated entry for the affected workspace to [`CHANGELOG.md`](../../CHANGELOG.md). Describe user-visible changes and keep release notes grouped by package because workspace versions are independent.
 
 ## Publish to npm

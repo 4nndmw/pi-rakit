@@ -148,4 +148,4 @@ Publishing is intentionally not automatic. Increment the affected package versio
 
 ## License
 
-Choose and add a license before public distribution.
+Licensed under the [MIT License](LICENSE).
