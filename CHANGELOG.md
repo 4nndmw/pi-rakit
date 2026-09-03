@@ -192,6 +192,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit-compact-tools](https://www.npmjs.com/package/pi-rakit-compact-tools)
 
+### 0.1.1 - 2026-09-03
+
+- Switched extension imports to the current `@earendil-works` Pi runtime, removing the obsolete vulnerable `@mariozechner` runtime dependency.
+- Documented the conflict with the superseded `@gnoviawan/pi-compact-tool-preview` package.
+
 ### 0.1.0 - 2026-09-01
 
 - Added compact interactive renderers for Pi's built-in file, search, and shell tools.
