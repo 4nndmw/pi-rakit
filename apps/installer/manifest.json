@@ -17,7 +17,7 @@
 		{
 			"id": "custom-provider",
 			"label": "Custom Provider",
-			"description": "Configurable OpenAI-compatible provider for local or hosted models.",
+			"description": "Interactive multi-provider manager for local and hosted OpenAI-compatible models.",
 			"category": "Provider",
 			"enabledByDefault": false,
 			"tags": ["provider", "openai-compatible", "local-model"],
@@ -155,6 +155,32 @@
 				"mode": "workspace",
 				"path": "packages/auto-title",
 				"npm": "pi-rakit-auto-title"
+			}
+		},
+		{
+			"id": "plan-mode",
+			"label": "Plan Mode",
+			"description": "Adds a persistent read-only /plan mode for safe codebase exploration.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["plan", "read-only", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/plan-mode",
+				"npm": "pi-rakit-plan-mode"
+			}
+		},
+		{
+			"id": "playwright-browser",
+			"label": "Playwright Browser",
+			"description": "Deterministic browser automation with Playwright for Pi.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["playwright", "browser", "automation", "skill"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/playwright-browser",
+				"npm": "pi-rakit-playwright-browser"
 			}
 		},
 		{

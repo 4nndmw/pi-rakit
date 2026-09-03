@@ -1,0 +1,25 @@
+{
+	"browser": "chromium",
+	"headless": true,
+	"steps": [
+		{
+			"action": "goto",
+			"url": "https://example.com"
+		},
+		{
+			"action": "assertText",
+			"selector": "h1",
+			"contains": "Example Domain"
+		},
+		{
+			"action": "text",
+			"selector": "h1",
+			"name": "heading"
+		},
+		{
+			"action": "screenshot",
+			"path": "example.png",
+			"fullPage": true
+		}
+	]
+}

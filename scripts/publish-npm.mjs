@@ -18,6 +18,8 @@ const PUBLISH_WORKSPACES = [
 	"packages/session-delete",
 	"packages/compact-tools",
 	"packages/auto-title",
+	"packages/plan-mode",
+	"packages/playwright-browser",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");
