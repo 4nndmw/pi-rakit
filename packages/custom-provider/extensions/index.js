@@ -1,11 +1,32 @@
 const DEFAULTS = Object.freeze({
   providerId: "rakit-openai",
+  customProviderId: "rakit-custom",
   providerName: "Pi Rakit OpenAI Compatible",
   baseUrl: "http://localhost:11434/v1",
   modelId: "llama3.2",
   contextWindow: 128000,
   maxTokens: 8192,
 });
+
+function readCustomProviderInput(value, variableName) {
+  const resolved = value?.trim();
+  if (!resolved) throw new Error(`${variableName} cannot be empty.`);
+  return resolved;
+}
+
+function readCustomProviderUrl(value) {
+  const resolved = readCustomProviderInput(value, "API URL");
+  let url;
+  try {
+    url = new URL(resolved);
+  } catch {
+    throw new Error("API URL must be a valid URL.");
+  }
+  if (!/^https?:$/.test(url.protocol)) {
+    throw new Error("API URL must use http or https.");
+  }
+  return resolved;
+}
 
 function readPositiveInteger(value, fallback, variableName) {
   if (value === undefined || value === "") return fallback;
@@ -90,22 +111,149 @@ export function buildProviderRegistration(env = process.env) {
   };
 }
 
+export function buildCustomProviderRegistration({
+  baseUrl,
+  apiKey,
+  modelId,
+  contextWindow,
+  maxTokens,
+}) {
+  return {
+    providerId: DEFAULTS.customProviderId,
+    config: {
+      name: "Rakit Custom Provider",
+      baseUrl: readCustomProviderUrl(baseUrl),
+      apiKey: readCustomProviderInput(apiKey, "API key"),
+      api: "openai-completions",
+      models: [
+        {
+          id: readCustomProviderInput(modelId, "Model"),
+          name: readCustomProviderInput(modelId, "Model"),
+          reasoning: false,
+          input: ["text"],
+          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+          contextWindow: readPositiveInteger(
+            contextWindow,
+            DEFAULTS.contextWindow,
+            "Context window",
+          ),
+          maxTokens: readPositiveInteger(
+            maxTokens,
+            DEFAULTS.maxTokens,
+            "Max tokens",
+          ),
+        },
+      ],
+    },
+  };
+}
+
+function getAvailableProviders(ctx) {
+  const models = ctx.modelRegistry?.getAvailable?.() || [];
+  return [...new Set(models.map((model) => model.provider))].filter(Boolean);
+}
+
+async function selectAvailableProvider(pi, ctx, providerId) {
+  const models = ctx.modelRegistry
+    .getAvailable()
+    .filter((model) => model.provider === providerId);
+  const modelId = await ctx.ui.select(
+    `Select a model from ${providerId}`,
+    models.map((model) => model.id),
+  );
+  if (!modelId) return;
+
+  const model = ctx.modelRegistry.find(providerId, modelId);
+  if (!model) {
+    ctx.ui.notify(`Model ${providerId}/${modelId} was not found.`, "error");
+    return;
+  }
+
+  const selected = await pi.setModel(model);
+  ctx.ui.notify(
+    selected
+      ? `Using ${providerId}/${modelId}.`
+      : `Could not authenticate with ${providerId}/${modelId}.`,
+    selected ? "info" : "error",
+  );
+}
+
+async function configureCustomProvider(pi, ctx) {
+  const baseUrl = await ctx.ui.input(
+    "Custom provider API URL",
+    "https://api.example.com/v1",
+  );
+  if (!baseUrl) return;
+  const apiKey = await ctx.ui.input("Custom provider API key", "API key");
+  if (!apiKey) return;
+  const modelId = await ctx.ui.input("Custom provider model", "model-id");
+  if (!modelId) return;
+  const contextWindow = await ctx.ui.input(
+    "Context window",
+    String(DEFAULTS.contextWindow),
+  );
+  if (!contextWindow) return;
+  const maxTokens = await ctx.ui.input(
+    "Max tokens",
+    String(DEFAULTS.maxTokens),
+  );
+  if (!maxTokens) return;
+
+  try {
+    const registration = buildCustomProviderRegistration({
+      baseUrl,
+      apiKey,
+      modelId,
+      contextWindow,
+      maxTokens,
+    });
+    pi.registerProvider(registration.providerId, registration.config);
+    const model = ctx.modelRegistry.find(
+      registration.providerId,
+      registration.config.models[0].id,
+    );
+    if (!model) {
+      ctx.ui.notify(
+        "The custom provider model could not be registered.",
+        "error",
+      );
+      return;
+    }
+    const selected = await pi.setModel(model);
+    ctx.ui.notify(
+      selected
+        ? `Using ${registration.providerId}/${registration.config.models[0].id}.`
+        : "The custom provider was registered, but authentication failed.",
+      selected ? "info" : "error",
+    );
+  } catch (error) {
+    ctx.ui.notify(error.message, "error");
+  }
+}
+
 export default function customProvider(pi) {
   const { providerId, config } = buildProviderRegistration();
   pi.registerProvider(providerId, config);
   pi.registerCommand("provider", {
-    description: "Show the active custom provider configuration",
+    description: "Choose a provider or configure a custom provider",
     handler: async (_args, ctx) => {
-      const model = config.models[0];
-      ctx.ui.notify(
-        [
-          `Provider: ${providerId}`,
-          `Name: ${config.name}`,
-          `Base URL: ${config.baseUrl}`,
-          `Model: ${model.name} (${model.id})`,
-        ].join("\n"),
-        "info",
-      );
+      if (!ctx.hasUI) {
+        ctx.ui.notify("/provider requires an interactive UI.", "error");
+        return;
+      }
+
+      const providers = getAvailableProviders(ctx);
+      const customOption = "Custom provider";
+      const selectedProvider = await ctx.ui.select("Select provider", [
+        ...providers,
+        customOption,
+      ]);
+      if (!selectedProvider) return;
+      if (selectedProvider === customOption) {
+        await configureCustomProvider(pi, ctx);
+        return;
+      }
+      await selectAvailableProvider(pi, ctx, selectedProvider);
     },
   });
 }

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import customProvider, {
+  buildCustomProviderRegistration,
   buildProviderRegistration,
 } from "../extensions/index.js";
 
@@ -61,6 +62,43 @@ test("rejects invalid numeric and boolean configuration", () => {
   );
 });
 
+test("builds a runtime custom provider registration", () => {
+  const registration = buildCustomProviderRegistration({
+    baseUrl: "https://api.example.com/v1",
+    apiKey: "secret",
+    modelId: "custom-model",
+    contextWindow: "65536",
+    maxTokens: "4096",
+  });
+
+  assert.equal(registration.providerId, "rakit-custom");
+  assert.equal(registration.config.baseUrl, "https://api.example.com/v1");
+  assert.equal(registration.config.apiKey, "secret");
+  assert.deepEqual(registration.config.models[0], {
+    id: "custom-model",
+    name: "custom-model",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 65536,
+    maxTokens: 4096,
+  });
+});
+
+test("rejects an invalid custom provider URL", () => {
+  assert.throws(
+    () =>
+      buildCustomProviderRegistration({
+        baseUrl: "localhost:11434/v1",
+        apiKey: "secret",
+        modelId: "custom-model",
+        contextWindow: "65536",
+        maxTokens: "4096",
+      }),
+    /API URL must use http or https/,
+  );
+});
+
 test("registers the provider with Pi", () => {
   let providerCall;
   let commandCall;
@@ -78,30 +116,64 @@ test("registers the provider with Pi", () => {
   assert.equal(commandCall.command, "provider");
   assert.equal(
     commandCall.config.description,
-    "Show the active custom provider configuration",
+    "Choose a provider or configure a custom provider",
   );
 });
 
-test("/provider reports the active configuration without the API key", async () => {
+test("/provider configures and selects a custom provider", async () => {
   let commandConfig;
+  let registeredProvider;
+  let selectedModel;
   customProvider({
-    registerProvider() {},
+    registerProvider(providerId, config) {
+      registeredProvider = { providerId, config };
+    },
     registerCommand(_command, config) {
       commandConfig = config;
     },
+    async setModel(model) {
+      selectedModel = model;
+      return true;
+    },
   });
 
-  let notification;
+  const inputValues = [
+    "https://api.example.com/v1",
+    "secret",
+    "custom-model",
+    "65536",
+    "4096",
+  ];
+  const notifications = [];
   await commandConfig.handler("", {
+    hasUI: true,
     ui: {
+      async select() {
+        return "Custom provider";
+      },
+      async input() {
+        return inputValues.shift();
+      },
       notify(message, level) {
-        notification = { message, level };
+        notifications.push({ message, level });
+      },
+    },
+    modelRegistry: {
+      find(providerId, modelId) {
+        return { provider: providerId, id: modelId };
       },
     },
   });
 
-  assert.equal(notification.level, "info");
-  assert.match(notification.message, /Provider: rakit-openai/);
-  assert.match(notification.message, /Model: llama3\.2 \(llama3\.2\)/);
-  assert.doesNotMatch(notification.message, /PI_RAKIT_PROVIDER_API_KEY/);
+  assert.equal(registeredProvider.providerId, "rakit-custom");
+  assert.equal(registeredProvider.config.apiKey, "secret");
+  assert.equal(registeredProvider.config.models[0].contextWindow, 65536);
+  assert.equal(registeredProvider.config.models[0].maxTokens, 4096);
+  assert.deepEqual(selectedModel, {
+    provider: "rakit-custom",
+    id: "custom-model",
+  });
+  assert.deepEqual(notifications, [
+    { message: "Using rakit-custom/custom-model.", level: "info" },
+  ]);
 });

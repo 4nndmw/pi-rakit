@@ -51,7 +51,15 @@ pi
 
 Kemudian pilih `rakit-openai/your-model-id` melalui `/model`.
 
-Gunakan `/provider` untuk melihat provider, endpoint, dan model yang sedang aktif. API key tidak ditampilkan oleh command ini.
+Gunakan `/provider` untuk memilih provider dan model yang tersedia. Pilih **Custom provider** untuk mengisi:
+
+- URL API dengan protokol `http` atau `https`
+- API key
+- ID model
+- Context window
+- Max tokens
+
+Provider custom didaftarkan sebagai `rakit-custom` dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi ini tidak disimpan setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
 
 Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
 
