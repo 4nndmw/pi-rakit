@@ -103,6 +103,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit-custom-provider](https://www.npmjs.com/package/pi-rakit-custom-provider)
 
+### 0.1.5 - 2026-09-04
+
+- Persist custom provider configuration to `~/.pi/agent/settings.json` so it survives Pi restarts.
+- Load and re-register saved custom provider config on extension startup.
+
 ### 0.1.2 - 2026-09-01
 
 - Added the MIT license and standard npm repository, homepage, and issue metadata.

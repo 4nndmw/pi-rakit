@@ -59,7 +59,7 @@ Gunakan `/provider` untuk memilih provider dan model yang tersedia. Pilih **Cust
 - Context window
 - Max tokens
 
-Provider custom didaftarkan sebagai `rakit-custom` dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi ini tidak disimpan setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
+Provider custom didaftarkan sebagai `rakit-custom` dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi ini disimpan di `~/.pi/agent/settings.json` sehingga akan tetap ada setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
 
 Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
 

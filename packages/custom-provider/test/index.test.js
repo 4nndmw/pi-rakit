@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
+import { rmSync } from "node:fs";
 import test from "node:test";
 import customProvider, {
   buildCustomProviderRegistration,
   buildProviderRegistration,
+  getSettingsPath,
+  loadCustomProviderConfig,
+  saveCustomProviderConfig,
 } from "../extensions/index.js";
 
 test("builds a safe local provider by default", () => {
@@ -176,4 +180,33 @@ test("/provider configures and selects a custom provider", async () => {
   assert.deepEqual(notifications, [
     { message: "Using rakit-custom/custom-model.", level: "info" },
   ]);
+});
+
+test("loadCustomProviderConfig returns null when no settings file exists", () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+  assert.equal(loadCustomProviderConfig(), null);
+});
+
+test("saveCustomProviderConfig persists config and loadCustomProviderConfig reads it", () => {
+  const testConfig = {
+    name: "Rakit Custom Provider",
+    baseUrl: "https://api.example.com/v1",
+    apiKey: "secret-key",
+    models: [
+      {
+        id: "custom-model",
+        name: "custom-model",
+        reasoning: false,
+        input: ["text"],
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        contextWindow: 128000,
+        maxTokens: 8192,
+      },
+    ],
+  };
+
+  saveCustomProviderConfig(testConfig);
+  const loaded = loadCustomProviderConfig();
+  assert.deepEqual(loaded, testConfig);
+  rmSync(getSettingsPath(), { recursive: true, force: true });
 });

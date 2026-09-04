@@ -1,3 +1,7 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import path from "node:path";
+
 const DEFAULTS = Object.freeze({
   providerId: "rakit-openai",
   customProviderId: "rakit-custom",
@@ -7,6 +11,37 @@ const DEFAULTS = Object.freeze({
   contextWindow: 128000,
   maxTokens: 8192,
 });
+
+export function getSettingsPath() {
+  return path.join(homedir(), ".pi", "agent", "settings.json");
+}
+
+function readSettings() {
+  const settingsPath = getSettingsPath();
+  if (!existsSync(settingsPath)) return {};
+  try {
+    return JSON.parse(readFileSync(settingsPath, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function writeSettings(settings) {
+  const settingsPath = getSettingsPath();
+  mkdirSync(path.dirname(settingsPath), { recursive: true });
+  writeFileSync(settingsPath, `${JSON.stringify(settings, null, 2)}\n`);
+}
+
+export function saveCustomProviderConfig(config) {
+  const settings = readSettings();
+  settings.customProvider = config;
+  writeSettings(settings);
+}
+
+export function loadCustomProviderConfig() {
+  const settings = readSettings();
+  return settings.customProvider || null;
+}
 
 function readCustomProviderInput(value, variableName) {
   const resolved = value?.trim();
@@ -208,6 +243,7 @@ async function configureCustomProvider(pi, ctx) {
       maxTokens,
     });
     pi.registerProvider(registration.providerId, registration.config);
+    saveCustomProviderConfig(registration.config);
     const model = ctx.modelRegistry.find(
       registration.providerId,
       registration.config.models[0].id,
@@ -234,6 +270,10 @@ async function configureCustomProvider(pi, ctx) {
 export default function customProvider(pi) {
   const { providerId, config } = buildProviderRegistration();
   pi.registerProvider(providerId, config);
+  const savedConfig = loadCustomProviderConfig();
+  if (savedConfig) {
+    pi.registerProvider(DEFAULTS.customProviderId, savedConfig);
+  }
   pi.registerCommand("provider", {
     description: "Choose a provider or configure a custom provider",
     handler: async (_args, ctx) => {
