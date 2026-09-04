@@ -27,6 +27,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit-session-delete`](https://www.npmjs.com/package/pi-rakit-session-delete): interactive, confirmation-gated deletion of inactive sessions
 - [`pi-rakit-compact-tools`](https://www.npmjs.com/package/pi-rakit-compact-tools): compact renderers for built-in tool output
 - [`pi-rakit-auto-title`](https://www.npmjs.com/package/pi-rakit-auto-title): automatic local session titles for easier `/resume` browsing
+- [`pi-rakit-onboarding`](https://www.npmjs.com/package/pi-rakit-onboarding): reopen package selection through `/onboarding`
 
 The installer also provides optional third-party packages:
 
@@ -47,7 +48,7 @@ Install packages only for the current project:
 npx pi-rakit@latest --local
 ```
 
-By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package.
+By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package. The installer always adds the hidden Onboarding package so you can later run `/onboarding`, choose global or project scope, and revise the selection without leaving Pi.
 
 ### Custom Provider Extension
 
@@ -143,9 +144,10 @@ pi install npm:pi-rakit-session-stats
 pi install npm:pi-rakit-session-delete
 pi install npm:pi-rakit-compact-tools
 pi install npm:pi-rakit-auto-title
+pi install npm:pi-rakit-onboarding
 ```
 
-Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request.
+Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request. Run `/onboarding` to update only Pi Rakit-managed package entries while preserving unrelated settings and packages.
 
 ## Development
 

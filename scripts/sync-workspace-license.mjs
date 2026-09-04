@@ -20,6 +20,7 @@ const workspacePaths = [
 	"packages/session-delete",
 	"packages/compact-tools",
 	"packages/auto-title",
+	"packages/onboarding",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);

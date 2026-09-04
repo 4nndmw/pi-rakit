@@ -6,6 +6,11 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.18 - 2026-09-04
+
+- Added the hidden, mandatory Onboarding package so `/onboarding` can revise global or project package selections from inside Pi.
+- Removed the stale Plan Mode catalog and release references because that workspace was never present.
+
 ### 0.1.17 - 2026-09-01
 
 - Added Session Usage, Session Stats, Session Delete, Compact Tools, and Auto Title to the installer catalog.
@@ -91,6 +96,12 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Initial npm release. Detailed release notes are not present in the repository history.
 
+## [pi-rakit-onboarding](https://www.npmjs.com/package/pi-rakit-onboarding)
+
+### 0.1.0 - 2026-09-04
+
+- Added `/onboarding` with global/project scope selection, an interactive package multi-select, settings-preserving reconciliation, and automatic reload.
+
 ## [pi-rakit-hello](https://www.npmjs.com/package/pi-rakit-hello)
 
 ### 0.1.1 - 2026-09-01
@@ -102,6 +113,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial example extension with the `/hello` command.
 
 ## [pi-rakit-custom-provider](https://www.npmjs.com/package/pi-rakit-custom-provider)
+
+### 0.1.7 - 2026-09-04
+
+- Added automatic OpenAI-compatible model discovery through `GET <baseUrl>/models`, with model selection, a five-second timeout, and manual fallback.
 
 ### 0.1.5 - 2026-09-04
 

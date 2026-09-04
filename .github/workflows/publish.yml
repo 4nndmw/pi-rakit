@@ -20,6 +20,7 @@ on:
           - packages/session-delete
           - packages/compact-tools
           - packages/auto-title
+          - packages/onboarding
           - apps/installer
 
 permissions:

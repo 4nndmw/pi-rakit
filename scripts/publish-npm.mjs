@@ -18,7 +18,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/session-delete",
 	"packages/compact-tools",
 	"packages/auto-title",
-	"packages/plan-mode",
+	"packages/onboarding",
 	"packages/playwright-browser",
 	"apps/installer",
 ];

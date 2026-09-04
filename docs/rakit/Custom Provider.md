@@ -55,13 +55,14 @@ Gunakan `/provider` untuk memilih provider dan model yang tersedia. Pilih **Cust
 
 - URL API dengan protokol `http` atau `https`
 - API key
-- ID model
 - Context window
 - Max tokens
 
+Setelah URL dan API key diisi, command memanggil endpoint OpenAI-compatible `GET <baseUrl>/models` dengan timeout lima detik dan menampilkan ID model yang ditemukan sebagai pilihan. Pilih **Enter model manually** bila diperlukan. Jika discovery gagal atau tidak mengembalikan model, command otomatis kembali ke input ID dan nama model manual.
+
 Provider custom didaftarkan dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi disimpan di `~/.pi/agent/settings.json` sehingga akan tetap ada setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
 
-Untuk mengelola konfigurasi, pilih **Manage custom providers** pada `/provider`. Di sana tersedia operasi CRUD provider dan model: tambah, edit, dan hapus provider; serta tambah, edit, dan hapus model. Provider bawaan seperti ChatGPT, Claude, Gemini, dan lainnya hanya muncul jika tersedia di konfigurasi Pi.
+Untuk mengelola konfigurasi, pilih **Manage custom providers** pada `/provider`. Di sana tersedia operasi CRUD provider dan model: tambah, edit, dan hapus provider; serta tambah, edit, dan hapus model. Penambahan model juga menjalankan discovery otomatis. Provider bawaan seperti ChatGPT, Claude, Gemini, dan lainnya hanya muncul jika tersedia di konfigurasi Pi.
 
 Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
 
@@ -114,6 +115,8 @@ Nilai biaya model didaftarkan sebagai nol karena extension tidak mengetahui tari
 ### Model tidak muncul
 
 Pastikan package telah terpasang, restart atau reload Pi, lalu buka `/model`. Jika `PI_RAKIT_PROVIDER_ID` atau `PI_RAKIT_PROVIDER_MODEL` diubah, pilihan model mengikuti nilai baru tersebut.
+
+Jika autodeteksi tidak menampilkan model, pastikan endpoint `GET <baseUrl>/models` tersedia dan API key memiliki akses untuk melihat daftar model. Gunakan **Enter model manually** untuk endpoint yang tidak menyediakan daftar model.
 
 ### Koneksi ditolak
 

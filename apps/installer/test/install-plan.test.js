@@ -102,6 +102,29 @@ const options = {
 	devMode: false,
 };
 
+test("always includes mandatory hidden packages once", () => {
+	const mandatoryManifest = {
+		packages: [
+			{
+				id: "onboarding",
+				alwaysInstall: true,
+				source: {
+					mode: "workspace",
+					path: "packages/onboarding",
+					npm: "pi-rakit-onboarding",
+				},
+			},
+		],
+	};
+	const emptyPlan = buildInstallPlan([], mandatoryManifest, options);
+	assert.deepEqual(emptyPlan.ids, ["onboarding"]);
+	assert.deepEqual(emptyPlan.packageSources, ["npm:pi-rakit-onboarding"]);
+	assert.deepEqual(
+		buildInstallPlan(["onboarding"], mandatoryManifest, options).ids,
+		["onboarding"],
+	);
+});
+
 test("expands requirements before selected packages", () => {
 	const plan = buildInstallPlan(["feature"], manifest, options);
 	assert.deepEqual(plan.ids, ["base", "feature"]);

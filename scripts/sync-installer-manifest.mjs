@@ -6,20 +6,33 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(root, "manifest.json");
-const outputPath = path.join(root, "apps", "installer", "manifest.json");
+const outputPaths = [
+	path.join(root, "apps", "installer", "manifest.json"),
+	path.join(root, "packages", "onboarding", "manifest.json"),
+];
 const checkOnly = process.argv.includes("--check");
 
 if (checkOnly) {
 	const source = readFileSync(sourcePath);
-	const output = readFileSync(outputPath);
-	if (!source.equals(output)) {
+	const mismatches = outputPaths.filter((outputPath) => {
+		try {
+			return !source.equals(readFileSync(outputPath));
+		} catch {
+			return true;
+		}
+	});
+	if (mismatches.length > 0) {
 		console.error(
-			"apps/installer/manifest.json is out of sync. Run npm run manifest:sync.",
+			`Manifest copies are out of sync: ${mismatches
+				.map((outputPath) => path.relative(root, outputPath))
+				.join(", ")}. Run npm run manifest:sync.`,
 		);
 		process.exit(1);
 	}
-	console.log("Installer manifest is in sync.");
+	console.log("Installer and onboarding manifests are in sync.");
 } else {
-	copyFileSync(sourcePath, outputPath);
-	console.log(`Synced ${path.relative(root, outputPath)}`);
+	for (const outputPath of outputPaths) {
+		copyFileSync(sourcePath, outputPath);
+		console.log(`Synced ${path.relative(root, outputPath)}`);
+	}
 }

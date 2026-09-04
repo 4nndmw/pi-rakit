@@ -19,7 +19,9 @@ const installerRoot = path.resolve(
 );
 const cliPath = path.join(installerRoot, "src", "cli.js");
 
+const onboardingSource = "npm:pi-rakit-onboarding";
 const expectedSources = [
+	onboardingSource,
 	"npm:pi-rakit-hello",
 	"npm:pi-rakit-custom-provider",
 	"npm:pi-rakit-doctor",
@@ -32,6 +34,7 @@ const expectedSources = [
 	"npm:pi-rakit-session-delete",
 	"npm:pi-rakit-compact-tools",
 	"npm:pi-rakit-auto-title",
+	"npm:pi-rakit-playwright-browser",
 	"npm:@dietrichgebert/ponytail@4.9.0",
 	"npm:caveman-pi@1.0.0",
 	"npm:pi-mcp-adapter",
@@ -219,10 +222,12 @@ test("CLI dry-run emits machine-readable JSON without writing settings", () => {
 			scope: "local",
 			settingsPath,
 			packageSources: [
+				onboardingSource,
 				"npm:@dietrichgebert/ponytail@4.9.0",
 				"npm:caveman-pi@1.0.0",
 			],
 			addedSources: [
+				onboardingSource,
 				"npm:@dietrichgebert/ponytail@4.9.0",
 				"npm:caveman-pi@1.0.0",
 			],
@@ -260,8 +265,8 @@ test("CLI check reports missing sources without writing settings", () => {
 		assert.deepEqual(JSON.parse(result.stdout), {
 			scope: "local",
 			settingsPath,
-			packageSources: ["npm:caveman-pi@1.0.0"],
-			addedSources: ["npm:caveman-pi@1.0.0"],
+			packageSources: [onboardingSource, "npm:caveman-pi@1.0.0"],
+			addedSources: [onboardingSource, "npm:caveman-pi@1.0.0"],
 		});
 		assert.equal(result.stderr, "");
 		assert.equal(existsSync(settingsPath), false);
@@ -300,8 +305,8 @@ test("CLI check preserves its exit status when writing JSON output", () => {
 		assert.deepEqual(JSON.parse(readFileSync(outputPath, "utf8")), {
 			scope: "local",
 			settingsPath,
-			packageSources: ["npm:caveman-pi@1.0.0"],
-			addedSources: ["npm:caveman-pi@1.0.0"],
+			packageSources: [onboardingSource, "npm:caveman-pi@1.0.0"],
+			addedSources: [onboardingSource, "npm:caveman-pi@1.0.0"],
 		});
 		assert.equal(existsSync(settingsPath), false);
 	} finally {
@@ -318,7 +323,11 @@ test("CLI check succeeds when selected sources are configured", () => {
 		mkdirSync(path.dirname(settingsPath), { recursive: true });
 		writeFileSync(
 			settingsPath,
-			`${JSON.stringify({ packages: ["npm:caveman-pi@1.0.0"] }, null, 2)}\n`,
+			`${JSON.stringify(
+				{ packages: [onboardingSource, "npm:caveman-pi@1.0.0"] },
+				null,
+				2,
+			)}\n`,
 		);
 		const result = spawnSync(
 			process.execPath,
@@ -341,7 +350,7 @@ test("CLI check succeeds when selected sources are configured", () => {
 		);
 		assert.match(result.stdout, /No package changes/);
 		assert.deepEqual(JSON.parse(readFileSync(settingsPath, "utf8")), {
-			packages: ["npm:caveman-pi@1.0.0"],
+			packages: [onboardingSource, "npm:caveman-pi@1.0.0"],
 		});
 	} finally {
 		rmSync(temporaryRoot, { recursive: true, force: true });
@@ -414,6 +423,7 @@ test("CLI selects specific packages without an interactive prompt", () => {
 			readFileSync(path.join(projectDirectory, ".pi", "settings.json"), "utf8"),
 		);
 		assert.deepEqual(settings.packages, [
+			onboardingSource,
 			"npm:@dietrichgebert/ponytail@4.9.0",
 			"npm:caveman-pi@1.0.0",
 		]);

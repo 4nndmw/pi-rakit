@@ -34,11 +34,12 @@ Run `/provider` to choose an available provider and model, or select **Custom pr
 
 - API URL (must use `http` or `https`)
 - API key
-- Model ID
 - Context window
 - Max tokens
 
-The custom provider is selected immediately for the current Pi session and saved in `~/.pi/agent/settings.json`. Choose **Manage custom providers** to add, edit, or delete providers and their models. The API key is entered through Pi's input dialog and is not displayed by the command.
+After the URL and API key are entered, the command queries the OpenAI-compatible `GET <baseUrl>/models` endpoint with a five-second timeout and displays the returned model IDs as a selection list. Choose **Enter model manually** when needed. If discovery fails or returns no models, the command automatically falls back to Model ID and name inputs.
+
+The custom provider is selected immediately for the current Pi session and saved in `~/.pi/agent/settings.json`. Choose **Manage custom providers** to add, edit, or delete providers and their models; adding a model also performs automatic discovery. The API key is entered through Pi's input dialog and is not displayed by the command.
 
 For the default local setup, ensure Ollama is running and the model is available:
 
@@ -67,6 +68,7 @@ Do not commit API keys. The extension passes `$PI_RAKIT_PROVIDER_API_KEY` to Pi,
 ## Troubleshooting
 
 - **Model missing:** restart or reload Pi, run `/model`, and look for `<provider-id>/<model-id>`.
+- **Discovery unavailable:** verify that `GET <baseUrl>/models` is supported, or use **Enter model manually**.
 - **Connection refused:** start the local server and verify that the base URL includes its OpenAI-compatible path, commonly `/v1`.
 - **Unauthorized:** export `PI_RAKIT_PROVIDER_API_KEY` in the shell that starts Pi.
 - **Configuration error:** context and token limits must be positive integers; booleans accept only `true`, `false`, `1`, or `0`.

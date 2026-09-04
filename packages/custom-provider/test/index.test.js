@@ -6,6 +6,7 @@ import test from "node:test";
 import customProvider, {
   buildCustomProviderRegistration,
   buildProviderRegistration,
+  discoverAvailableModels,
   getSettingsPath,
   loadCustomProviderConfig,
   saveCustomProviderConfig,
@@ -110,6 +111,50 @@ test("rejects an invalid custom provider URL", () => {
   );
 });
 
+test("discovers and normalizes OpenAI-compatible models", async () => {
+  let request;
+  const models = await discoverAvailableModels(
+    "https://api.example.com/v1/?ignored=true",
+    "secret",
+    {
+      async fetchImpl(url, options) {
+        request = { url: String(url), options };
+        return {
+          ok: true,
+          async json() {
+            return {
+              data: [
+                { id: " model-b ", name: "Model B" },
+                { id: "model-a" },
+                { id: "model-a", name: "Duplicate" },
+                { id: "" },
+              ],
+            };
+          },
+        };
+      },
+    },
+  );
+
+  assert.equal(request.url, "https://api.example.com/v1/models");
+  assert.equal(request.options.headers.Authorization, "Bearer secret");
+  assert.deepEqual(models, [
+    { id: "model-b", name: "Model B" },
+    { id: "model-a", name: "model-a" },
+  ]);
+});
+
+test("reports model discovery HTTP failures", async () => {
+  await assert.rejects(
+    discoverAvailableModels("https://api.example.com/v1", "secret", {
+      async fetchImpl() {
+        return { ok: false, status: 401 };
+      },
+    }),
+    /HTTP 401/,
+  );
+});
+
 test("registers the provider with Pi", () => {
   rmSync(getSettingsPath(), { recursive: true, force: true });
   let providerCall;
@@ -137,30 +182,125 @@ test("/provider configures and selects a custom provider", async () => {
   let commandConfig;
   let registeredProvider;
   let selectedModel;
-  customProvider({
-    registerProvider(providerId, config) {
-      registeredProvider = { providerId, config };
+  customProvider(
+    {
+      registerProvider(providerId, config) {
+        registeredProvider = { providerId, config };
+      },
+      registerCommand(_command, config) {
+        commandConfig = config;
+      },
+      async setModel(model) {
+        selectedModel = model;
+        return true;
+      },
     },
-    registerCommand(_command, config) {
-      commandConfig = config;
+    {
+      async fetchImpl() {
+        return {
+          ok: true,
+          async json() {
+            return {
+              data: [{ id: "custom-model", name: "Custom Model" }],
+            };
+          },
+        };
+      },
     },
-    async setModel(model) {
-      selectedModel = model;
-      return true;
-    },
-  });
+  );
 
   const inputValues = [
     "rakit-custom",
     "Rakit Custom Provider",
     "https://api.example.com/v1",
     "secret",
-    "custom-model",
-    "Custom Model",
     "65536",
     "4096",
   ];
-  const selectValues = ["Add custom provider", "custom-model"];
+  const inputLabels = [];
+  const selectValues = [
+    "Add custom provider",
+    "custom-model",
+    "custom-model",
+  ];
+  const notifications = [];
+  await commandConfig.handler("", {
+    hasUI: true,
+    ui: {
+      async select() {
+        return selectValues.shift();
+      },
+      async input(label) {
+        inputLabels.push(label);
+        return inputValues.shift();
+      },
+      notify(message, level) {
+        notifications.push({ message, level });
+      },
+    },
+    modelRegistry: {
+      find(providerId, modelId) {
+        return { provider: providerId, id: modelId };
+      },
+    },
+  });
+
+  assert.equal(registeredProvider.providerId, "rakit-custom");
+  assert.equal(registeredProvider.config.apiKey, "secret");
+  assert.deepEqual(registeredProvider.config.models[0], {
+    id: "custom-model",
+    name: "Custom Model",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 65536,
+    maxTokens: 4096,
+  });
+  assert.equal(inputLabels.includes("Model ID"), false);
+  assert.equal(inputLabels.includes("Model name"), false);
+  assert.deepEqual(selectedModel, {
+    provider: "rakit-custom",
+    id: "custom-model",
+  });
+  assert.deepEqual(notifications, [
+    { message: "Using rakit-custom/custom-model.", level: "info" },
+  ]);
+});
+
+test("/provider falls back to manual model input when discovery fails", async () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+  let commandConfig;
+  let registeredProvider;
+  customProvider(
+    {
+      registerProvider(providerId, config) {
+        registeredProvider = { providerId, config };
+      },
+      registerCommand(_command, config) {
+        commandConfig = config;
+      },
+      async setModel() {
+        return true;
+      },
+    },
+    {
+      async fetchImpl() {
+        throw new Error("connection refused");
+      },
+    },
+  );
+
+  const inputValues = [
+    "manual-provider",
+    "Manual Provider",
+    "http://localhost:11434/v1",
+    "local-key",
+    "manual-model",
+    "Manual Model",
+    "32768",
+    "2048",
+  ];
+  const selectValues = ["Add custom provider", "manual-model"];
   const notifications = [];
   await commandConfig.handler("", {
     hasUI: true,
@@ -182,17 +322,10 @@ test("/provider configures and selects a custom provider", async () => {
     },
   });
 
-  assert.equal(registeredProvider.providerId, "rakit-custom");
-  assert.equal(registeredProvider.config.apiKey, "secret");
-  assert.equal(registeredProvider.config.models[0].contextWindow, 65536);
-  assert.equal(registeredProvider.config.models[0].maxTokens, 4096);
-  assert.deepEqual(selectedModel, {
-    provider: "rakit-custom",
-    id: "custom-model",
-  });
-  assert.deepEqual(notifications, [
-    { message: "Using rakit-custom/custom-model.", level: "info" },
-  ]);
+  assert.equal(registeredProvider.providerId, "manual-provider");
+  assert.equal(registeredProvider.config.models[0].id, "manual-model");
+  assert.match(notifications[0].message, /connection refused/);
+  assert.equal(notifications[0].level, "warning");
 });
 
 test("loadCustomProviderConfig returns null when no settings file exists", () => {

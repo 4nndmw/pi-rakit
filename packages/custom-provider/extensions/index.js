@@ -80,6 +80,53 @@ function readCustomProviderUrl(value) {
   return resolved;
 }
 
+export async function discoverAvailableModels(
+  baseUrl,
+  apiKey,
+  { fetchImpl = globalThis.fetch, timeoutMs = 5000 } = {},
+) {
+  if (typeof fetchImpl !== "function") {
+    throw new Error("Model discovery is unavailable in this runtime");
+  }
+
+  const endpoint = new URL(readCustomProviderUrl(baseUrl));
+  endpoint.pathname = `${endpoint.pathname.replace(/\/$/, "")}/models`;
+  endpoint.search = "";
+  endpoint.hash = "";
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetchImpl(endpoint, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${readCustomProviderInput(apiKey, "API key")}`,
+      },
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      throw new Error(`Model discovery failed with HTTP ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const models = Array.isArray(payload?.data) ? payload.data : [];
+    const seen = new Set();
+    return models.flatMap((model) => {
+      const id = typeof model?.id === "string" ? model.id.trim() : "";
+      if (!id || seen.has(id)) return [];
+      seen.add(id);
+      const discoveredName = model.name || model.display_name;
+      const name =
+        typeof discoveredName === "string" && discoveredName.trim()
+          ? discoveredName.trim()
+          : id;
+      return [{ id, name }];
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 function readPositiveInteger(value, fallback, variableName) {
   if (value === undefined || value === "") return fallback;
 
@@ -270,10 +317,14 @@ async function selectAvailableProvider(pi, ctx, providerId) {
   );
 }
 
-async function promptModel(ctx, model = {}) {
-  const id = await ctx.ui.input("Model ID", model.id || "model-id");
+async function promptModel(ctx, model = {}, fixedIdentity) {
+  const id =
+    fixedIdentity?.id ||
+    (await ctx.ui.input("Model ID", model.id || "model-id"));
   if (!id) return null;
-  const name = await ctx.ui.input("Model name", model.name || id);
+  const name =
+    fixedIdentity?.name ||
+    (await ctx.ui.input("Model name", model.name || id));
   if (!name) return null;
   const contextWindow = await ctx.ui.input(
     "Context window",
@@ -288,7 +339,40 @@ async function promptModel(ctx, model = {}) {
   return { id, name, contextWindow, maxTokens };
 }
 
-async function promptProvider(ctx, current = {}) {
+async function discoverAndPromptModel(ctx, baseUrl, apiKey, current, options) {
+  const manualOption = "Enter model manually";
+  let discovered;
+  try {
+    discovered = await discoverAvailableModels(baseUrl, apiKey, options);
+  } catch (error) {
+    ctx.ui.notify(
+      `Could not detect models: ${error.message}. Enter the model manually.`,
+      "warning",
+    );
+    return promptModel(ctx, current);
+  }
+
+  if (discovered.length === 0) {
+    ctx.ui.notify(
+      "No models were returned by the API. Enter the model manually.",
+      "warning",
+    );
+    return promptModel(ctx, current);
+  }
+
+  const selectedId = await ctx.ui.select("Select a detected model", [
+    ...discovered.map((model) => model.id),
+    manualOption,
+  ]);
+  if (!selectedId) return null;
+  if (selectedId === manualOption) return promptModel(ctx, current);
+
+  const identity = discovered.find((model) => model.id === selectedId);
+  const existing = current?.id === selectedId ? current : {};
+  return promptModel(ctx, existing, identity);
+}
+
+async function promptProvider(ctx, current = {}, options = {}) {
   const providerId = await ctx.ui.input(
     "Provider ID",
     current.providerId || "my-provider",
@@ -306,7 +390,13 @@ async function promptProvider(ctx, current = {}) {
   if (!baseUrl) return null;
   const apiKey = await ctx.ui.input("API key", current.apiKey || "API key");
   if (!apiKey) return null;
-  const model = await promptModel(ctx, current.models?.[0]);
+  const model = await discoverAndPromptModel(
+    ctx,
+    baseUrl,
+    apiKey,
+    current.models?.[0],
+    options,
+  );
   if (!model) return null;
 
   const registration = buildCustomProviderRegistration({
@@ -340,7 +430,7 @@ async function selectCustomModel(pi, ctx, provider) {
   );
 }
 
-async function manageModels(pi, ctx, configs, provider) {
+async function manageModels(pi, ctx, configs, provider, options) {
   while (true) {
     const addOption = "Add model";
     const options = [
@@ -351,7 +441,13 @@ async function manageModels(pi, ctx, configs, provider) {
     const selected = await ctx.ui.select(`Models in ${provider.name}`, options);
     if (!selected || selected === "Back") return;
     if (selected === addOption) {
-      const model = await promptModel(ctx);
+      const model = await discoverAndPromptModel(
+        ctx,
+        provider.baseUrl,
+        provider.apiKey,
+        undefined,
+        options,
+      );
       if (!model) continue;
       provider.models.push(model);
     } else {
@@ -381,7 +477,7 @@ async function manageModels(pi, ctx, configs, provider) {
   }
 }
 
-async function manageProviders(pi, ctx, configs) {
+async function manageProviders(pi, ctx, configs, options) {
   while (true) {
     const addOption = "Add provider";
     const options = [
@@ -392,7 +488,7 @@ async function manageProviders(pi, ctx, configs) {
     const selected = await ctx.ui.select("Manage custom providers", options);
     if (!selected || selected === "Back") return;
     if (selected === addOption) {
-      const provider = await promptProvider(ctx);
+      const provider = await promptProvider(ctx, {}, options);
       if (!provider) continue;
       configs.push(provider);
       pi.registerProvider(
@@ -411,7 +507,7 @@ async function manageProviders(pi, ctx, configs) {
         "Back",
       ]);
       if (action === "Edit provider") {
-        const updated = await promptProvider(ctx, provider);
+        const updated = await promptProvider(ctx, provider, options);
         if (updated) {
           configs[providerIndex] = updated;
           pi.registerProvider(
@@ -420,7 +516,7 @@ async function manageProviders(pi, ctx, configs) {
           );
         }
       } else if (action === "Manage models") {
-        await manageModels(pi, ctx, configs, provider);
+        await manageModels(pi, ctx, configs, provider, options);
       } else if (action === "Delete provider") {
         configs.splice(providerIndex, 1);
         pi.unregisterProvider?.(
@@ -432,7 +528,7 @@ async function manageProviders(pi, ctx, configs) {
   }
 }
 
-export default function customProvider(pi) {
+export default function customProvider(pi, options = {}) {
   const { providerId, config } = buildProviderRegistration();
   pi.registerProvider(providerId, config);
   const savedConfigs = loadCustomProviderConfigs();
@@ -474,7 +570,7 @@ export default function customProvider(pi) {
       ]);
       if (!selectedProvider || selectedProvider === "Back") return;
       if (selectedProvider === addOption) {
-        const provider = await promptProvider(ctx);
+        const provider = await promptProvider(ctx, {}, options);
         if (!provider) return;
         savedConfigs.push(provider);
         pi.registerProvider(provider.providerId, provider);
@@ -483,7 +579,7 @@ export default function customProvider(pi) {
         return;
       }
       if (selectedProvider === manageOption) {
-        await manageProviders(pi, ctx, savedConfigs);
+        await manageProviders(pi, ctx, savedConfigs, options);
         return;
       }
       const choice = choices.find((item) => item.label === selectedProvider);

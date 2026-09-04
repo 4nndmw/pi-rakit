@@ -1,27 +1,31 @@
 {
-	"name": "pi-rakit",
-	"version": "0.1.18",
-	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
+	"name": "pi-rakit-onboarding",
+	"version": "0.1.0",
+	"description": "Rerun Pi Rakit package selection from inside Pi",
 	"type": "module",
 	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"bin": {
-		"pi-rakit": "src/cli.js"
-	},
 	"files": [
-		"src",
+		"extensions",
 		"manifest.json",
 		"README.md"
 	],
 	"keywords": [
 		"pi-package",
 		"pi-coding-agent",
+		"extension",
+		"onboarding",
 		"installer"
 	],
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	},
 	"dependencies": {
-		"@inquirer/prompts": "7.8.4"
+		"@earendil-works/pi-tui": "0.84.4"
 	},
 	"engines": {
 		"node": ">=20"
@@ -30,7 +34,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/4nndmw/pi-rakit.git",
-		"directory": "apps/installer"
+		"directory": "packages/onboarding"
 	},
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {

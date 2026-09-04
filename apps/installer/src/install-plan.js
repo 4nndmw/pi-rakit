@@ -18,7 +18,10 @@ function expandRequirements(selectedIds, packageMap) {
 		resolved.add(id);
 	}
 
-	for (const id of selectedIds) visit(id);
+	const alwaysInstallIds = [...packageMap.values()]
+		.filter((item) => item.alwaysInstall)
+		.map((item) => item.id);
+	for (const id of [...alwaysInstallIds, ...selectedIds]) visit(id);
 	return [...resolved];
 }
 

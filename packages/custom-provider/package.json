@@ -1,6 +1,6 @@
 {
   "name": "pi-rakit-custom-provider",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Configurable OpenAI-compatible custom provider for Pi",
   "type": "module",
   "private": false,

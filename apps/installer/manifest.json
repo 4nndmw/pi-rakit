@@ -2,6 +2,21 @@
 	"version": 1,
 	"packages": [
 		{
+			"id": "onboarding",
+			"label": "Onboarding",
+			"description": "Reopens Pi Rakit package selection from inside Pi.",
+			"category": "Core",
+			"enabledByDefault": false,
+			"hidden": true,
+			"alwaysInstall": true,
+			"tags": ["onboarding", "installer", "command"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/onboarding",
+				"npm": "pi-rakit-onboarding"
+			}
+		},
+		{
 			"id": "hello-pi",
 			"label": "Hello Pi",
 			"description": "Example extension that adds a /hello command.",
@@ -155,19 +170,6 @@
 				"mode": "workspace",
 				"path": "packages/auto-title",
 				"npm": "pi-rakit-auto-title"
-			}
-		},
-		{
-			"id": "plan-mode",
-			"label": "Plan Mode",
-			"description": "Adds a persistent read-only /plan mode for safe codebase exploration.",
-			"category": "Workflow",
-			"enabledByDefault": false,
-			"tags": ["plan", "read-only", "command"],
-			"source": {
-				"mode": "workspace",
-				"path": "packages/plan-mode",
-				"npm": "pi-rakit-plan-mode"
 			}
 		},
 		{
