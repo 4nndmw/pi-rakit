@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { rmSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import test from "node:test";
 import customProvider, {
   buildCustomProviderRegistration,
@@ -8,6 +10,11 @@ import customProvider, {
   loadCustomProviderConfig,
   saveCustomProviderConfig,
 } from "../extensions/index.js";
+
+process.env.PI_RAKIT_SETTINGS_PATH = path.join(
+  mkdtempSync(path.join(tmpdir(), "pi-rakit-custom-provider-")),
+  "settings.json",
+);
 
 test("builds a safe local provider by default", () => {
   const registration = buildProviderRegistration({});

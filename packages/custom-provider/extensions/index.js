@@ -13,7 +13,10 @@ const DEFAULTS = Object.freeze({
 });
 
 export function getSettingsPath() {
-  return path.join(homedir(), ".pi", "agent", "settings.json");
+  return (
+    process.env.PI_RAKIT_SETTINGS_PATH ||
+    path.join(homedir(), ".pi", "agent", "settings.json")
+  );
 }
 
 function readSettings() {
