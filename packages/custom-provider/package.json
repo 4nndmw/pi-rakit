@@ -1,39 +1,39 @@
 {
-	"name": "pi-rakit-custom-provider",
-	"version": "0.1.2",
-	"description": "Configurable OpenAI-compatible custom provider for Pi",
-	"type": "module",
-	"private": false,
-	"publishConfig": {
-		"access": "public"
-	},
-	"files": [
-		"extensions",
-		"README.md"
-	],
-	"keywords": [
-		"pi-package",
-		"pi-coding-agent",
-		"extension",
-		"custom-provider",
-		"openai-compatible"
-	],
-	"pi": {
-		"extensions": [
-			"./extensions"
-		]
-	},
-	"engines": {
-		"node": ">=20"
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/4nndmw/pi-rakit.git",
-		"directory": "packages/custom-provider"
-	},
-	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
-	"bugs": {
-		"url": "https://github.com/4nndmw/pi-rakit/issues"
-	}
+  "name": "pi-rakit-custom-provider",
+  "version": "0.1.3",
+  "description": "Configurable OpenAI-compatible custom provider for Pi",
+  "type": "module",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "extensions",
+    "README.md"
+  ],
+  "keywords": [
+    "pi-package",
+    "pi-coding-agent",
+    "extension",
+    "custom-provider",
+    "openai-compatible"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4nndmw/pi-rakit.git",
+    "directory": "packages/custom-provider"
+  },
+  "homepage": "https://github.com/4nndmw/pi-rakit#readme",
+  "bugs": {
+    "url": "https://github.com/4nndmw/pi-rakit/issues"
+  }
 }
