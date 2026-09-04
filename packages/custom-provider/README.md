@@ -38,7 +38,7 @@ Run `/provider` to choose an available provider and model, or select **Custom pr
 - Context window
 - Max tokens
 
-The custom provider is registered as `rakit-custom` and selected immediately for the current Pi session. Its configuration is not persisted after restart. The API key is entered through Pi's input dialog and is not displayed by the command.
+The custom provider is selected immediately for the current Pi session and saved in `~/.pi/agent/settings.json`. Choose **Manage custom providers** to add, edit, or delete providers and their models. The API key is entered through Pi's input dialog and is not displayed by the command.
 
 For the default local setup, ensure Ollama is running and the model is available:
 

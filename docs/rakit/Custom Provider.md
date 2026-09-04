@@ -59,7 +59,9 @@ Gunakan `/provider` untuk memilih provider dan model yang tersedia. Pilih **Cust
 - Context window
 - Max tokens
 
-Provider custom didaftarkan sebagai `rakit-custom` dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi ini disimpan di `~/.pi/agent/settings.json` sehingga akan tetap ada setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
+Provider custom didaftarkan dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi disimpan di `~/.pi/agent/settings.json` sehingga akan tetap ada setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
+
+Untuk mengelola konfigurasi, pilih **Manage custom providers** pada `/provider`. Di sana tersedia operasi CRUD provider dan model: tambah, edit, dan hapus provider; serta tambah, edit, dan hapus model. Provider bawaan seperti ChatGPT, Claude, Gemini, dan lainnya hanya muncul jika tersedia di konfigurasi Pi.
 
 Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
 
@@ -135,4 +137,4 @@ Extension ini secara tetap menggunakan adapter `openai-completions`. Endpoint ya
 
 ## Batasan
 
-Satu instalasi extension mendaftarkan satu provider dengan satu model. Untuk beberapa model atau provider sekaligus, diperlukan package tambahan atau pengembangan konfigurasi multi-model.
+Provider custom menggunakan adapter `openai-completions`, sehingga URL harus kompatibel dengan OpenAI Chat Completions. API key disimpan di settings Pi untuk mendukung pemakaian ulang setelah restart.

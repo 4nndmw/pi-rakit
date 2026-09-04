@@ -104,6 +104,7 @@ test("rejects an invalid custom provider URL", () => {
 });
 
 test("registers the provider with Pi", () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
   let providerCall;
   let commandCall;
   customProvider({
@@ -120,11 +121,12 @@ test("registers the provider with Pi", () => {
   assert.equal(commandCall.command, "provider");
   assert.equal(
     commandCall.config.description,
-    "Choose a provider or configure a custom provider",
+    "Choose and manage providers and models",
   );
 });
 
 test("/provider configures and selects a custom provider", async () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
   let commandConfig;
   let registeredProvider;
   let selectedModel;
@@ -142,18 +144,22 @@ test("/provider configures and selects a custom provider", async () => {
   });
 
   const inputValues = [
+    "rakit-custom",
+    "Rakit Custom Provider",
     "https://api.example.com/v1",
     "secret",
     "custom-model",
+    "Custom Model",
     "65536",
     "4096",
   ];
+  const selectValues = ["Add custom provider", "custom-model"];
   const notifications = [];
   await commandConfig.handler("", {
     hasUI: true,
     ui: {
       async select() {
-        return "Custom provider";
+        return selectValues.shift();
       },
       async input() {
         return inputValues.shift();
