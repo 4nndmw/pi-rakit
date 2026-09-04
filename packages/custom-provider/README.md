@@ -30,6 +30,8 @@ pi
 
 Then start or reload Pi and select `rakit-openai/your-model-id` with `/model`. Configuration is read when the extension loads, so restart or reload Pi after changing environment variables.
 
+Run `/provider` to inspect the active provider, endpoint, and model configuration. The command never displays the API key.
+
 For the default local setup, ensure Ollama is running and the model is available:
 
 ```bash

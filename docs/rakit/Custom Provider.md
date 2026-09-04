@@ -51,6 +51,8 @@ pi
 
 Kemudian pilih `rakit-openai/your-model-id` melalui `/model`.
 
+Gunakan `/provider` untuk melihat provider, endpoint, dan model yang sedang aktif. API key tidak ditampilkan oleh command ini.
+
 Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
 
 ## Environment Variable
