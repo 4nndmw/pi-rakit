@@ -6,6 +6,10 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 ## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
+### 0.1.20 - 2026-09-05
+
+- Added Pi Rakit Plan Mode and Pi Rakit UI to the installer catalog with npm and workspace development-mode resolution.
+
 ### 0.1.18 - 2026-09-04
 
 - Added the hidden, mandatory Onboarding package so `/onboarding` can revise global or project package selections from inside Pi.
@@ -95,6 +99,20 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 ### 0.1.0 - 2026-09-01
 
 - Initial npm release. Detailed release notes are not present in the repository history.
+
+## [pi-rakit-ui](https://www.npmjs.com/package/pi-rakit-ui)
+
+### 0.1.0 - 2026-09-05
+
+- Added the bundled `rakit` theme and global branded header, footer, editor, and working indicator.
+- Added `/rakit-ui [on|off|theme]`, narrow-terminal rendering, diagnostic preservation, and clean default restoration.
+
+## [pi-rakit-plan-mode](https://www.npmjs.com/package/pi-rakit-plan-mode)
+
+### 0.1.0 - 2026-09-05
+
+- Added `/plan`, `Ctrl+Alt+P`, and `--plan` activation for read-only exploration.
+- Added conservative tool and shell guards, numbered plan extraction, refinement, tracked execution, `/todos`, and session persistence.
 
 ## [pi-rakit-onboarding](https://www.npmjs.com/package/pi-rakit-onboarding)
 

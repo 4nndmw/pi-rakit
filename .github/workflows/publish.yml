@@ -21,6 +21,9 @@ on:
           - packages/compact-tools
           - packages/auto-title
           - packages/onboarding
+          - packages/plan-mode
+          - packages/ui
+          - packages/playwright-browser
           - apps/installer
 
 permissions:
@@ -60,4 +63,4 @@ jobs:
         run: npm run check
 
       - name: Publish package with provenance
-        run: npm publish --workspace "${{ inputs.workspace }}" --access public --provenance
+        run: node scripts/publish-npm.mjs --workspace "${{ inputs.workspace }}" --provenance

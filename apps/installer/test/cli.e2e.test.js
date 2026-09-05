@@ -22,6 +22,8 @@ const cliPath = path.join(installerRoot, "src", "cli.js");
 const onboardingSource = "npm:pi-rakit-onboarding";
 const expectedSources = [
 	onboardingSource,
+	"npm:pi-rakit-plan-mode",
+	"npm:pi-rakit-ui",
 	"npm:pi-rakit-hello",
 	"npm:pi-rakit-custom-provider",
 	"npm:pi-rakit-doctor",

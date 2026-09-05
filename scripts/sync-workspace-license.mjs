@@ -21,6 +21,9 @@ const workspacePaths = [
 	"packages/compact-tools",
 	"packages/auto-title",
 	"packages/onboarding",
+	"packages/plan-mode",
+	"packages/ui",
+	"packages/playwright-browser",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);

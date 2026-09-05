@@ -20,6 +20,24 @@ const manifest = {
 			},
 		},
 		{
+			id: "plan-mode",
+			label: "Plan Mode",
+			source: {
+				mode: "workspace",
+				path: "packages/plan-mode",
+				npm: "pi-rakit-plan-mode",
+			},
+		},
+		{
+			id: "ui",
+			label: "Rakit UI",
+			source: {
+				mode: "workspace",
+				path: "packages/ui",
+				npm: "pi-rakit-ui",
+			},
+		},
+		{
 			id: "doctor",
 			label: "Doctor",
 			source: {
@@ -132,6 +150,26 @@ test("expands requirements before selected packages", () => {
 		"npm:base-package@1.2.3",
 		"npm:@scope/feature",
 	]);
+});
+
+test("resolves Plan Mode for npm and development mode", () => {
+	const published = buildInstallPlan(["plan-mode"], manifest, options);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-plan-mode"]);
+	const development = buildInstallPlan(["plan-mode"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.deepEqual(development.packageSources, ["../../packages/plan-mode"]);
+});
+
+test("resolves Rakit UI for npm and development mode", () => {
+	const published = buildInstallPlan(["ui"], manifest, options);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-ui"]);
+	const development = buildInstallPlan(["ui"], manifest, {
+		...options,
+		devMode: true,
+	});
+	assert.deepEqual(development.packageSources, ["../../packages/ui"]);
 });
 
 test("uses the Doctor npm package outside development mode", () => {

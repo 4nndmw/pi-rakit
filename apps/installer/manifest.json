@@ -17,6 +17,32 @@
 			}
 		},
 		{
+			"id": "plan-mode",
+			"label": "Plan Mode",
+			"description": "Read-only exploration, structured planning, and tracked plan execution.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["planning", "read-only", "workflow"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/plan-mode",
+				"npm": "pi-rakit-plan-mode"
+			}
+		},
+		{
+			"id": "ui",
+			"label": "Rakit UI",
+			"description": "Cohesive global theme, header, footer, editor, and working indicator for Pi.",
+			"category": "Interface",
+			"enabledByDefault": false,
+			"tags": ["theme", "tui", "interface"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/ui",
+				"npm": "pi-rakit-ui"
+			}
+		},
+		{
 			"id": "hello-pi",
 			"label": "Hello Pi",
 			"description": "Example extension that adds a /hello command.",
