@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-playwright-browser",
+	"name": "@4nndmw/playwright-browser",
 	"version": "0.1.0",
 	"description": "Playwright browser automation skill for Pi",
 	"type": "module",

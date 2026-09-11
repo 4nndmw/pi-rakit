@@ -20,7 +20,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/onboarding",
-				npm: "pi-rakit-onboarding",
+				npm: "@4nndmw/onboarding",
 			},
 		},
 		{
@@ -87,7 +87,7 @@ test("replaces managed entries, preserves unrelated entries, and keeps onboardin
 	assert.deepEqual(result.packages, [
 		"npm:unrelated-string",
 		unrelatedObject,
-		"npm:pi-rakit-onboarding",
+		"npm:@4nndmw/onboarding",
 		"npm:@scope/feature",
 	]);
 });
@@ -104,14 +104,14 @@ test("updates managed object sources while preserving their resource filters", (
 			["external"],
 		).packages,
 		[
-			"npm:pi-rakit-onboarding",
+			"npm:@4nndmw/onboarding",
 			{ source: "npm:external-pkg@1.2.3", extensions: ["main.js"] },
 		],
 	);
 });
 
 test("writes settings atomically and resolves both scopes", () => {
-	const root = mkdtempSync(path.join(tmpdir(), "pi-rakit-onboarding-"));
+	const root = mkdtempSync(path.join(tmpdir(), "@4nndmw-onboarding-"));
 	try {
 		const projectPath = getSettingsPath("project", path.join(root, "project"), root);
 		const globalPath = getSettingsPath("global", "/unused", root);

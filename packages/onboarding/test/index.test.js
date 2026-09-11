@@ -48,7 +48,7 @@ test("registers onboarding and rejects non-interactive modes", async () => {
 });
 
 test("saves project choices through the selector and reloads Pi", async () => {
-	const root = mkdtempSync(path.join(tmpdir(), "pi-rakit-onboarding-command-"));
+	const root = mkdtempSync(path.join(tmpdir(), "@4nndmw-onboarding-command-"));
 	try {
 		const command = registerOnboarding();
 		const notifications = [];
@@ -94,7 +94,7 @@ test("saves project choices through the selector and reloads Pi", async () => {
 			JSON.parse(
 				readFileSync(path.join(root, ".pi", "settings.json"), "utf8"),
 			),
-			{ packages: ["npm:pi-rakit-onboarding"] },
+			{ packages: ["npm:@4nndmw/onboarding"] },
 		);
 		assert.equal(reloaded, true);
 		assert.equal(notifications.at(-1).level, "info");

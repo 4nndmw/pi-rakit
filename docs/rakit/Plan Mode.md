@@ -5,7 +5,7 @@ Pi Rakit Plan Mode adds read-only exploration, numbered planning, and tracked pl
 ## Install
 
 ```bash
-pi install npm:pi-rakit-plan-mode
+pi install npm:@4nndmw/plan-mode
 ```
 
 Reload Pi after installation.

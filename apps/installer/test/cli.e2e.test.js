@@ -19,24 +19,24 @@ const installerRoot = path.resolve(
 );
 const cliPath = path.join(installerRoot, "src", "cli.js");
 
-const onboardingSource = "npm:pi-rakit-onboarding";
+const onboardingSource = "npm:@4nndmw/onboarding";
 const expectedSources = [
 	onboardingSource,
-	"npm:pi-rakit-plan-mode",
-	"npm:pi-rakit-ui",
-	"npm:pi-rakit-hello",
-	"npm:pi-rakit-custom-provider",
-	"npm:pi-rakit-doctor",
-	"npm:pi-rakit-worktree",
-	"npm:pi-rakit-git",
-	"npm:pi-rakit-biome",
-	"npm:pi-rakit-token-speed",
-	"npm:pi-rakit-session-usage",
-	"npm:pi-rakit-session-stats",
-	"npm:pi-rakit-session-delete",
-	"npm:pi-rakit-compact-tools",
-	"npm:pi-rakit-auto-title",
-	"npm:pi-rakit-playwright-browser",
+	"npm:@4nndmw/plan-mode",
+	"npm:@4nndmw/ui",
+	"npm:@4nndmw/hello-pi",
+	"npm:@4nndmw/custom-provider",
+	"npm:@4nndmw/doctor",
+	"npm:@4nndmw/worktree",
+	"npm:@4nndmw/git",
+	"npm:@4nndmw/biome",
+	"npm:@4nndmw/token-speed",
+	"npm:@4nndmw/session-usage",
+	"npm:@4nndmw/session-stats",
+	"npm:@4nndmw/session-delete",
+	"npm:@4nndmw/compact-tools",
+	"npm:@4nndmw/auto-title",
+	"npm:@4nndmw/playwright-browser",
 	"npm:@dietrichgebert/ponytail@4.9.0",
 	"npm:caveman-pi@1.0.0",
 	"npm:pi-mcp-adapter",
@@ -45,7 +45,7 @@ const expectedSources = [
 test("CLI prints its package version without loading a manifest", () => {
 	const missingManifest = path.join(
 		tmpdir(),
-		`pi-rakit-missing-manifest-${Date.now()}.json`,
+		`@4nndmw/pi-rakit-missing-manifest-${Date.now()}.json`,
 	);
 	const result = spawnSync(
 		process.execPath,
@@ -68,7 +68,7 @@ test("CLI prints its package version without loading a manifest", () => {
 test("CLI lists package ids without requiring a target directory", () => {
 	const missingDirectory = path.join(
 		tmpdir(),
-		`pi-rakit-missing-${Date.now()}`,
+		`@4nndmw/pi-rakit-missing-${Date.now()}`,
 	);
 	const result = spawnSync(
 		process.execPath,
@@ -81,7 +81,7 @@ test("CLI lists package ids without requiring a target directory", () => {
 		0,
 		`CLI failed:\n${result.stdout}${result.stderr}`,
 	);
-	assert.match(result.stdout, /^hello-pi\tHello Pi\tnpm:pi-rakit-hello$/m);
+	assert.match(result.stdout, /^hello-pi\\tHello Pi\\tnpm:@4nndmw\/hello-pi$/m);
 	assert.match(
 		result.stdout,
 		/^ponytail\tPonytail\tnpm:@dietrichgebert\/ponytail@4\.9\.0$/m,
@@ -118,7 +118,7 @@ test("CLI lists packages as machine-readable JSON", () => {
 });
 
 test("CLI writes JSON package listing to an output file", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const outputPath = path.join(temporaryRoot, "reports", "packages.json");
 
 	try {
@@ -146,7 +146,7 @@ test("CLI writes JSON package listing to an output file", () => {
 });
 
 test("CLI dry-run previews only new sources without writing settings", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 	const originalSettings = `${JSON.stringify(
@@ -192,7 +192,7 @@ test("CLI dry-run previews only new sources without writing settings", () => {
 });
 
 test("CLI dry-run emits machine-readable JSON without writing settings", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 
@@ -242,7 +242,7 @@ test("CLI dry-run emits machine-readable JSON without writing settings", () => {
 });
 
 test("CLI check reports missing sources without writing settings", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 
@@ -278,7 +278,7 @@ test("CLI check reports missing sources without writing settings", () => {
 });
 
 test("CLI check preserves its exit status when writing JSON output", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 	const outputPath = path.join(temporaryRoot, "reports", "check.json");
@@ -317,7 +317,7 @@ test("CLI check preserves its exit status when writing JSON output", () => {
 });
 
 test("CLI check succeeds when selected sources are configured", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 
@@ -360,7 +360,7 @@ test("CLI check succeeds when selected sources are configured", () => {
 });
 
 test("CLI dry-run does not create a settings file", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");
 
@@ -394,7 +394,7 @@ test("CLI dry-run does not create a settings file", () => {
 });
 
 test("CLI selects specific packages without an interactive prompt", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 
 	try {
@@ -435,7 +435,7 @@ test("CLI selects specific packages without an interactive prompt", () => {
 });
 
 test("CLI writes every selected package to isolated local settings", () => {
-	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "pi-rakit-e2e-"));
+	const temporaryRoot = mkdtempSync(path.join(tmpdir(), "@4nndmw-pi-rakit-e2e-"));
 	const projectDirectory = path.join(temporaryRoot, "project");
 	const homeDirectory = path.join(temporaryRoot, "home");
 	const settingsPath = path.join(projectDirectory, ".pi", "settings.json");

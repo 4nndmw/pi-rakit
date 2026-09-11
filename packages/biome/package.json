@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-biome",
+	"name": "@4nndmw/biome",
 	"version": "0.1.0",
 	"description": "Safe Biome check, lint, and confirmation-gated formatting commands for Pi",
 	"type": "module",

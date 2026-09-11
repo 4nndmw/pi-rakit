@@ -14,13 +14,13 @@ A Pi extension for safely listing, creating, and removing Git worktrees without 
 Install directly:
 
 ```bash
-pi install npm:pi-rakit-worktree
+pi install npm:@4nndmw/worktree
 ```
 
 Or run the Pi Rakit installer and select **Worktree**:
 
 ```bash
-npx pi-rakit@latest --install
+npx @4nndmw/pi-rakit@latest --install
 ```
 
 Start or reload Pi after installation.

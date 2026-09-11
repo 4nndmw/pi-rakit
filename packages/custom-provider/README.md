@@ -1,11 +1,11 @@
-# pi-rakit-custom-provider
+# @4nndmw/custom-provider
 
 A Pi extension that registers one configurable OpenAI-compatible model provider. It works with local servers such as Ollama, llama.cpp, and vLLM, as well as hosted OpenAI-compatible gateways.
 
 ## Install
 
 ```bash
-pi install npm:pi-rakit-custom-provider
+pi install npm:@4nndmw/custom-provider
 ```
 
 Or select **Custom Provider** in the Pi Rakit installer.

@@ -3,7 +3,7 @@
 Makes built-in read, bash, edit, write, grep, find, and ls output compact and easier to scan in Pi's interactive UI.
 
 ```bash
-pi install npm:pi-rakit-compact-tools
+pi install npm:@4nndmw/compact-tools
 ```
 
 Do not install this package together with `@gnoviawan/pi-compact-tool-preview`; both replace the same built-in tools. If the preview package is already installed, remove it first:

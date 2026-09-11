@@ -1,5 +1,5 @@
 {
-  "name": "pi-rakit-custom-provider",
+  "name": "@4nndmw/custom-provider",
   "version": "0.1.7",
   "description": "Configurable OpenAI-compatible custom provider for Pi",
   "type": "module",

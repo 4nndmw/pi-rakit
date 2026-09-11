@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit",
+	"name": "@4nndmw/pi-rakit",
 	"version": "0.1.20",
 	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
 	"type": "module",

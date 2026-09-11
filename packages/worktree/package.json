@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-worktree",
+	"name": "@4nndmw/worktree",
 	"version": "0.1.2",
 	"description": "Safe Git worktree management commands for Pi",
 	"type": "module",

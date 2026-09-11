@@ -11,7 +11,7 @@
 Launch the interactive package selector without installing Pi Rakit globally:
 
 ```bash
-npx pi-rakit@latest
+npx @4nndmw/pi-rakit@latest
 ```
 
 By default, Pi Rakit updates the global Pi settings file:
@@ -27,7 +27,7 @@ Select the packages you want, review the installation plan, and confirm the chan
 Use `--local` to update only the current project:
 
 ```bash
-npx pi-rakit@latest --local
+npx @4nndmw/pi-rakit@latest --local
 ```
 
 This writes the package list to:
@@ -41,7 +41,7 @@ A generated configuration may look like this:
 ```json
 {
   "packages": [
-    "npm:pi-rakit-hello",
+    "npm:@4nndmw/hello-pi",
     "npm:pi-mcp-adapter"
   ]
 }
@@ -54,7 +54,7 @@ Existing settings are preserved, and package sources already in the list are not
 Pi Rakit updates settings by default but does not invoke `pi install`. Add `--install` when you want both operations:
 
 ```bash
-npx pi-rakit@latest --local --install
+npx @4nndmw/pi-rakit@latest --local --install
 ```
 
 For local mode, Pi Rakit invokes `pi install <source> -l` for every selected source. In global mode, it invokes `pi install <source>`.
@@ -64,14 +64,14 @@ For local mode, Pi Rakit invokes `pi install <source> -l` for every selected sou
 Select every visible package and skip confirmation:
 
 ```bash
-npx pi-rakit@latest --local --select-all --yes
+npx @4nndmw/pi-rakit@latest --local --select-all --yes
 ```
 
 This is useful for setup scripts and smoke tests. See [[CLI Reference]] for every available option.
 
 ## Try the Example Extension
 
-After adding `pi-rakit-hello`, start Pi and run:
+After adding `@4nndmw/hello-pi`, start Pi and run:
 
 ```text
 /hello

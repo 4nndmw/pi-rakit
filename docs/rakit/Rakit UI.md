@@ -1,11 +1,11 @@
 # Rakit UI
 
-`pi-rakit-ui` gives Pi's interactive terminal UI one cohesive visual system without replacing or forking Pi core.
+`@4nndmw/ui` gives Pi's interactive terminal UI one cohesive visual system without replacing or forking Pi core.
 
 ## Install
 
 ```bash
-pi install npm:pi-rakit-ui
+pi install npm:@4nndmw/ui
 ```
 
 Reload Pi after installation. The package activates automatically in interactive TUI sessions.

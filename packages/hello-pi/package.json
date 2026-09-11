@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-hello",
+	"name": "@4nndmw/hello-pi",
 	"version": "0.1.1",
 	"description": "Ekstensi contoh perintah hello untuk Pi Rakit",
 	"type": "module",

@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-plan-mode",
+	"name": "@4nndmw/plan-mode",
 	"version": "0.1.0",
 	"description": "Read-only planning and tracked plan execution for Pi",
 	"type": "module",

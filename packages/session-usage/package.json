@@ -1,5 +1,5 @@
 {
-	"name": "pi-rakit-session-usage",
+	"name": "@4nndmw/session-usage",
 	"version": "0.1.0",
 	"description": "Show token usage for the current Pi session and project history",
 	"type": "module",

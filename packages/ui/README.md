@@ -5,7 +5,7 @@ A global visual system for Pi: bundled `rakit` theme, compact branded header, in
 ## Install
 
 ```bash
-pi install npm:pi-rakit-ui
+pi install npm:@4nndmw/ui
 ```
 
 The package activates its theme and UI when an interactive session starts. Built-in transcript and picker layouts remain native Pi components and inherit the bundled theme.

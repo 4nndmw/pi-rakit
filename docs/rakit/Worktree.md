@@ -1,6 +1,6 @@
 # Worktree
 
-`pi-rakit-worktree` adds a `/worktree` command to Pi for managing isolated Git worktrees without leaving the Pi session.
+`@4nndmw/worktree` adds a `/worktree` command to Pi for managing isolated Git worktrees without leaving the Pi session.
 
 A Git worktree gives a branch its own working directory. This is useful when you want to work on another task without stashing or replacing the files in your current checkout.
 
@@ -9,13 +9,13 @@ A Git worktree gives a branch its own working directory. This is useful when you
 Install the extension directly:
 
 ```bash
-pi install npm:pi-rakit-worktree
+pi install npm:@4nndmw/worktree
 ```
 
 Alternatively, run the Pi Rakit installer and select **Worktree**:
 
 ```bash
-npx pi-rakit@latest --install
+npx @4nndmw/pi-rakit@latest --install
 ```
 
 Start or reload Pi after installation so the command is available.
