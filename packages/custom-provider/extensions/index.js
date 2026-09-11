@@ -528,6 +528,92 @@ async function manageProviders(pi, ctx, configs, options) {
   }
 }
 
+// ── models.json management ───────────────────────────────────────────
+
+function modelsPath() {
+  return path.join(homedir(), ".pi", "agent", "models.json");
+}
+
+function readModels() {
+  if (!existsSync(modelsPath())) return { providers: {} };
+  try {
+    return JSON.parse(readFileSync(modelsPath(), "utf8"));
+  } catch {
+    return { providers: {} };
+  }
+}
+
+function writeModels(data) {
+  mkdirSync(path.dirname(modelsPath()), { recursive: true });
+  writeFileSync(modelsPath(), `${JSON.stringify(data, null, 2)}\n`);
+}
+
+function modelsProviderLabel(pid, pdata) {
+  const count = Array.isArray(pdata?.models) ? pdata.models.length : 0;
+  return `${pid} (${count} model${count !== 1 ? "s" : ""})`;
+}
+
+async function manageModelsJSON(pi, ctx) {
+  const data = readModels();
+  const pids = Object.keys(data.providers);
+
+  if (pids.length === 0) {
+    ctx.ui.notify("No providers in models.json.", "info");
+    return;
+  }
+
+  while (true) {
+    const selected = await ctx.ui.select(
+      "Manage providers in models.json",
+      [...pids.map((pid) => modelsProviderLabel(pid, data.providers[pid])), "Back"],
+    );
+    if (!selected || selected === "Back") return;
+
+    const pid = pids.find((id) => selected.startsWith(id));
+    if (!pid) continue;
+    const provider = data.providers[pid];
+    const models = Array.isArray(provider?.models) ? provider.models : [];
+
+    const action = await ctx.ui.select(`Manage provider "${pid}"`, [
+      "Delete entire provider",
+      "Delete individual models",
+      "Back",
+    ]);
+    if (action === "Delete entire provider") {
+      const confirm = await ctx.ui.confirm(
+        `Delete provider "${pid}" and all ${models.length} model(s)?`,
+      );
+      if (confirm) {
+        delete data.providers[pid];
+        writeModels(data);
+        ctx.ui.notify(`Deleted provider "${pid}". Reload Pi to apply.`, "info");
+        return;
+      }
+    } else if (action === "Delete individual models") {
+      if (models.length === 0) {
+        ctx.ui.notify("No models in this provider.", "info");
+        continue;
+      }
+      const mid = await ctx.ui.select(
+        "Select model to delete",
+        [...models.map((m) => m.id), "Back"],
+      );
+      if (!mid || mid === "Back") continue;
+      const confirm = await ctx.ui.confirm(`Delete model "${mid}"?`);
+      if (confirm) {
+        provider.models = models.filter((m) => m.id !== mid);
+        if (provider.models.length === 0) {
+          // ponytail: prompt to also delete empty provider, add when users complain
+        }
+        writeModels(data);
+        ctx.ui.notify(`Deleted model "${mid}". Reload Pi to apply.`, "info");
+      }
+    }
+  }
+}
+
+// ── main extension ────────────────────────────────────────────────────
+
 export default function customProvider(pi, options = {}) {
   const { providerId, config } = buildProviderRegistration();
   pi.registerProvider(providerId, config);
@@ -590,6 +676,17 @@ export default function customProvider(pi, options = {}) {
         return;
       }
       await selectAvailableProvider(pi, ctx, choice.id);
+    },
+  });
+
+  pi.registerCommand("models", {
+    description: "Delete providers and models from models.json",
+    handler: async (_args, ctx) => {
+      if (!ctx.hasUI) {
+        ctx.ui.notify("/models requires an interactive UI.", "error");
+        return;
+      }
+      await manageModelsJSON(pi, ctx);
     },
   });
 }
