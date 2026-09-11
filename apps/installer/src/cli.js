@@ -285,6 +285,29 @@ export async function main(argv = process.argv.slice(2)) {
   ║     build · inspect · ship              ║
   ╚══════════════════════════════════════════╝
 `);
+
+	checkForUpdates(packageRoot);
+}
+
+function checkForUpdates(packageRoot) {
+	const pkg = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
+	const current = pkg.version;
+	let latest;
+	try {
+		const result = spawnSync("npm", ["view", pkg.name, "version", "--json"], {
+			encoding: "utf8",
+			shell: process.platform === "win32",
+			timeout: 5000,
+		});
+		latest = result.status === 0 ? JSON.parse(result.stdout.trim()) : null;
+	} catch {
+		return;
+	}
+	if (!latest || latest === current) return;
+	console.log(
+		`  Update available: ${pkg.name} ${current} → ${latest}
+  Run: npx @anandamw/pi-rakit@latest`,
+	);
 }
 
 function isMainModule() {
