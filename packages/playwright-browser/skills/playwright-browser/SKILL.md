@@ -4,7 +4,7 @@ description: Automates real browser tasks with Playwright, including navigation,
 license: MIT
 compatibility: Requires Node.js 20+ and a Playwright browser binary.
 metadata:
-  author: @anandamw/pi-rakit
+  author: "@anandamw/pi-rakit"
   version: "0.1.0"
 ---
 
