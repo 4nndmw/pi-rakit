@@ -278,6 +278,13 @@ export async function main(argv = process.argv.slice(2)) {
 	if (options.install && !options.writeOnly) {
 		runPiInstall(options.cwd, plan.packageSources, options.global);
 	}
+
+	console.log(`
+  ╔══════════════════════════════════════════╗
+  ║  ◆  PI RAKIT installed successfully!  ◆  ║
+  ║     build · inspect · ship              ║
+  ╚══════════════════════════════════════════╝
+`);
 }
 
 function isMainModule() {
