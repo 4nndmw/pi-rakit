@@ -1,6 +1,6 @@
 {
 	"name": "@anandamw/playwright-browser",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Playwright browser automation skill for Pi",
 	"type": "module",
 	"private": false,
