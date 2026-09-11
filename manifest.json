@@ -13,7 +13,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/onboarding",
-				"npm": "@4nndmw/onboarding"
+				"npm": "@anandamw/onboarding"
 			}
 		},
 		{
@@ -26,7 +26,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/plan-mode",
-				"npm": "@4nndmw/plan-mode"
+				"npm": "@anandamw/plan-mode"
 			}
 		},
 		{
@@ -39,7 +39,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/ui",
-				"npm": "@4nndmw/ui"
+				"npm": "@anandamw/ui"
 			}
 		},
 		{
@@ -52,7 +52,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/hello-pi",
-				"npm": "@4nndmw/hello-pi"
+				"npm": "@anandamw/hello-pi"
 			}
 		},
 		{
@@ -65,7 +65,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/custom-provider",
-				"npm": "@4nndmw/custom-provider"
+				"npm": "@anandamw/custom-provider"
 			}
 		},
 		{
@@ -78,7 +78,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/doctor",
-				"npm": "@4nndmw/doctor"
+				"npm": "@anandamw/doctor"
 			}
 		},
 		{
@@ -91,7 +91,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/worktree",
-				"npm": "@4nndmw/worktree"
+				"npm": "@anandamw/worktree"
 			}
 		},
 		{
@@ -104,7 +104,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/git",
-				"npm": "@4nndmw/git"
+				"npm": "@anandamw/git"
 			}
 		},
 		{
@@ -117,7 +117,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/biome",
-				"npm": "@4nndmw/biome"
+				"npm": "@anandamw/biome"
 			}
 		},
 		{
@@ -130,7 +130,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/token-speed",
-				"npm": "@4nndmw/token-speed"
+				"npm": "@anandamw/token-speed"
 			}
 		},
 		{
@@ -143,7 +143,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-usage",
-				"npm": "@4nndmw/session-usage"
+				"npm": "@anandamw/session-usage"
 			}
 		},
 		{
@@ -156,7 +156,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-stats",
-				"npm": "@4nndmw/session-stats"
+				"npm": "@anandamw/session-stats"
 			}
 		},
 		{
@@ -169,7 +169,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-delete",
-				"npm": "@4nndmw/session-delete"
+				"npm": "@anandamw/session-delete"
 			}
 		},
 		{
@@ -182,7 +182,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/compact-tools",
-				"npm": "@4nndmw/compact-tools"
+				"npm": "@anandamw/compact-tools"
 			}
 		},
 		{
@@ -195,7 +195,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/auto-title",
-				"npm": "@4nndmw/auto-title"
+				"npm": "@anandamw/auto-title"
 			}
 		},
 		{
@@ -208,7 +208,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/playwright-browser",
-				"npm": "@4nndmw/playwright-browser"
+				"npm": "@anandamw/playwright-browser"
 			}
 		},
 		{

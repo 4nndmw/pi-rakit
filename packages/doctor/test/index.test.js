@@ -28,7 +28,7 @@ test("reports duplicate packages and missing environment variables", () => {
 });
 
 test("diagnoses runtime and valid project settings", () => {
-	const root = mkdtempSync(path.join(tmpdir(), "@4nndmw-doctor-"));
+	const root = mkdtempSync(path.join(tmpdir(), "@anandamw-doctor-"));
 	const settingsDirectory = path.join(root, ".pi");
 	mkdirSync(settingsDirectory);
 	writeFileSync(
@@ -53,7 +53,7 @@ test("diagnoses runtime and valid project settings", () => {
 });
 
 test("reports invalid settings and unavailable runtimes", () => {
-	const root = mkdtempSync(path.join(tmpdir(), "@4nndmw-doctor-"));
+	const root = mkdtempSync(path.join(tmpdir(), "@anandamw-doctor-"));
 	const settingsDirectory = path.join(root, ".pi");
 	mkdirSync(settingsDirectory);
 	writeFileSync(path.join(settingsDirectory, "settings.json"), "{");
@@ -69,7 +69,7 @@ test("reports invalid settings and unavailable runtimes", () => {
 });
 
 test("reports a non-object settings root", () => {
-	const root = mkdtempSync(path.join(tmpdir(), "@4nndmw-doctor-"));
+	const root = mkdtempSync(path.join(tmpdir(), "@anandamw-doctor-"));
 	const settingsDirectory = path.join(root, ".pi");
 	mkdirSync(settingsDirectory);
 	writeFileSync(path.join(settingsDirectory, "settings.json"), "null");

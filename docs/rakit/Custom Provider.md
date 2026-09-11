@@ -7,13 +7,13 @@ Pi Rakit Custom Provider mendaftarkan satu provider dan satu model OpenAI-compat
 Pilih **Custom Provider** saat menjalankan installer:
 
 ```bash
-npx @4nndmw/pi-rakit@latest
+npx @anandamw/pi-rakit@latest
 ```
 
 Atau instal langsung:
 
 ```bash
-pi install npm:@4nndmw/custom-provider
+pi install npm:@anandamw/custom-provider
 ```
 
 ## Penggunaan Default dengan Ollama

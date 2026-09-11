@@ -14,22 +14,22 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 
 ## Packages
 
-- [`@4nndmw/pi-rakit`](https://www.npmjs.com/package/@4nndmw/pi-rakit): the main interactive CLI installer
-- [`@4nndmw/hello-pi`](https://www.npmjs.com/package/@4nndmw/hello-pi): an example extension that provides the `/hello` command
-- [`@4nndmw/custom-provider`](https://www.npmjs.com/package/@4nndmw/custom-provider): a configurable OpenAI-compatible provider for local or hosted models
-- [`@4nndmw/doctor`](https://www.npmjs.com/package/@4nndmw/doctor): read-only health checks through the `/doctor` command
-- [`@4nndmw/worktree`](https://www.npmjs.com/package/@4nndmw/worktree): safe Git worktree management through the `/worktree` command
-- [`@4nndmw/git`](https://www.npmjs.com/package/@4nndmw/git): focused status, branch, and confirmation-gated commit commands through `/git`
-- [`@4nndmw/biome`](https://www.npmjs.com/package/@4nndmw/biome): safe checks, linting, and confirmation-gated formatting through `/biome`
-- [`@4nndmw/token-speed`](https://www.npmjs.com/package/@4nndmw/token-speed): live token streaming speed in the Pi status bar
-- [`@4nndmw/session-usage`](https://www.npmjs.com/package/@4nndmw/session-usage): current-session and project-history token usage
-- [`@4nndmw/session-stats`](https://www.npmjs.com/package/@4nndmw/session-stats): elapsed time, prompt, turn, and tool-call tracking
-- [`@4nndmw/session-delete`](https://www.npmjs.com/package/@4nndmw/session-delete): interactive, confirmation-gated deletion of inactive sessions
-- [`@4nndmw/compact-tools`](https://www.npmjs.com/package/@4nndmw/compact-tools): compact renderers for built-in tool output
-- [`@4nndmw/auto-title`](https://www.npmjs.com/package/@4nndmw/auto-title): automatic local session titles for easier `/resume` browsing
-- [`@4nndmw/onboarding`](https://www.npmjs.com/package/@4nndmw/onboarding): reopen package selection through `/onboarding`
-- [`@4nndmw/plan-mode`](https://www.npmjs.com/package/@4nndmw/plan-mode): read-only exploration, structured plans, and tracked execution
-- [`@4nndmw/ui`](https://www.npmjs.com/package/@4nndmw/ui): cohesive global theme, header, footer, editor, and working indicator
+- [`@anandamw/pi-rakit`](https://www.npmjs.com/package/@anandamw/pi-rakit): the main interactive CLI installer
+- [`@anandamw/hello-pi`](https://www.npmjs.com/package/@anandamw/hello-pi): an example extension that provides the `/hello` command
+- [`@anandamw/custom-provider`](https://www.npmjs.com/package/@anandamw/custom-provider): a configurable OpenAI-compatible provider for local or hosted models
+- [`@anandamw/doctor`](https://www.npmjs.com/package/@anandamw/doctor): read-only health checks through the `/doctor` command
+- [`@anandamw/worktree`](https://www.npmjs.com/package/@anandamw/worktree): safe Git worktree management through the `/worktree` command
+- [`@anandamw/git`](https://www.npmjs.com/package/@anandamw/git): focused status, branch, and confirmation-gated commit commands through `/git`
+- [`@anandamw/biome`](https://www.npmjs.com/package/@anandamw/biome): safe checks, linting, and confirmation-gated formatting through `/biome`
+- [`@anandamw/token-speed`](https://www.npmjs.com/package/@anandamw/token-speed): live token streaming speed in the Pi status bar
+- [`@anandamw/session-usage`](https://www.npmjs.com/package/@anandamw/session-usage): current-session and project-history token usage
+- [`@anandamw/session-stats`](https://www.npmjs.com/package/@anandamw/session-stats): elapsed time, prompt, turn, and tool-call tracking
+- [`@anandamw/session-delete`](https://www.npmjs.com/package/@anandamw/session-delete): interactive, confirmation-gated deletion of inactive sessions
+- [`@anandamw/compact-tools`](https://www.npmjs.com/package/@anandamw/compact-tools): compact renderers for built-in tool output
+- [`@anandamw/auto-title`](https://www.npmjs.com/package/@anandamw/auto-title): automatic local session titles for easier `/resume` browsing
+- [`@anandamw/onboarding`](https://www.npmjs.com/package/@anandamw/onboarding): reopen package selection through `/onboarding`
+- [`@anandamw/plan-mode`](https://www.npmjs.com/package/@anandamw/plan-mode): read-only exploration, structured plans, and tracked execution
+- [`@anandamw/ui`](https://www.npmjs.com/package/@anandamw/ui): cohesive global theme, header, footer, editor, and working indicator
 
 The installer also provides optional third-party packages:
 
@@ -41,13 +41,13 @@ The installer also provides optional third-party packages:
 Run the interactive installer:
 
 ```bash
-npx @4nndmw/pi-rakit@latest
+npx @anandamw/pi-rakit@latest
 ```
 
 Install packages only for the current project:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --local
+npx @anandamw/pi-rakit@latest --local
 ```
 
 By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package. The installer always adds the hidden Onboarding package so you can later run `/onboarding`, choose global or project scope, and revise the selection without leaving Pi.
@@ -57,7 +57,7 @@ By default, the CLI only updates the Pi settings. Add `--install` to also invoke
 Install Custom Provider directly to connect Pi to an OpenAI-compatible local server or hosted gateway:
 
 ```bash
-pi install npm:@4nndmw/custom-provider
+pi install npm:@anandamw/custom-provider
 ```
 
 The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Configure another endpoint through `PI_RAKIT_PROVIDER_BASE_URL`, `PI_RAKIT_PROVIDER_API_KEY`, and `PI_RAKIT_PROVIDER_MODEL` before starting Pi. See the [complete Custom Provider guide](docs/rakit/Custom%20Provider.md).
@@ -67,7 +67,7 @@ The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Co
 Install Doctor directly and run a read-only health check inside Pi:
 
 ```bash
-pi install npm:@4nndmw/doctor
+pi install npm:@anandamw/doctor
 ```
 
 ```text
@@ -81,7 +81,7 @@ Doctor checks the runtime, global and project settings, duplicate package source
 Install Worktree directly when you do not need the interactive installer:
 
 ```bash
-pi install npm:@4nndmw/worktree
+pi install npm:@anandamw/worktree
 ```
 
 Then start or reload Pi and run:
@@ -99,7 +99,7 @@ Creating `issue-123` creates branch `worktree/issue-123` in the sibling director
 Install Git directly for focused repository inspection and staged commits:
 
 ```bash
-pi install npm:@4nndmw/git
+pi install npm:@anandamw/git
 ```
 
 ```text
@@ -115,7 +115,7 @@ The commit command requires confirmation and commits only changes already staged
 Install Biome directly for project checks, linting, and formatting:
 
 ```bash
-pi install npm:@4nndmw/biome
+pi install npm:@anandamw/biome
 ```
 
 ```text
@@ -131,7 +131,7 @@ Check and lint are read-only. Format writes files only after explicit confirmati
 Install Token Speed directly to display live generation throughput in Pi's footer:
 
 ```bash
-pi install npm:@4nndmw/token-speed
+pi install npm:@anandamw/token-speed
 ```
 
 The status shows an updating estimate while content streams and a final rate based on provider-reported output token usage when the response finishes.
@@ -141,7 +141,7 @@ The status shows an updating estimate while content streams and a final rate bas
 Install Plan Mode directly for read-only analysis and structured execution:
 
 ```bash
-pi install npm:@4nndmw/plan-mode
+pi install npm:@anandamw/plan-mode
 ```
 
 Run `/plan` or press `Ctrl+Alt+P` to toggle it. Plan mode blocks mutation tools and non-allowlisted shell commands. Generated numbered plans can be refined or executed with persistent checklist progress. See the [complete Plan Mode guide](docs/rakit/Plan%20Mode.md).
@@ -151,7 +151,7 @@ Run `/plan` or press `Ctrl+Alt+P` to toggle it. Plan mode blocks mutation tools 
 Install the global visual system directly:
 
 ```bash
-pi install npm:@4nndmw/ui
+pi install npm:@anandamw/ui
 ```
 
 Rakit UI applies the bundled `rakit` theme plus a compact header, diagnostic footer, framed editor, and working indicator. Use `/rakit-ui [on|off|theme]` for runtime control. Built-in transcript and picker layouts stay native Pi components and inherit the theme. See the [complete Rakit UI guide](docs/rakit/Rakit%20UI.md).
@@ -161,14 +161,14 @@ Rakit UI applies the bundled `rakit` theme plus a compact header, diagnostic foo
 Install any utility independently:
 
 ```bash
-pi install npm:@4nndmw/session-usage
-pi install npm:@4nndmw/session-stats
-pi install npm:@4nndmw/session-delete
-pi install npm:@4nndmw/compact-tools
-pi install npm:@4nndmw/auto-title
-pi install npm:@4nndmw/onboarding
-pi install npm:@4nndmw/plan-mode
-pi install npm:@4nndmw/ui
+pi install npm:@anandamw/session-usage
+pi install npm:@anandamw/session-stats
+pi install npm:@anandamw/session-delete
+pi install npm:@anandamw/compact-tools
+pi install npm:@anandamw/auto-title
+pi install npm:@anandamw/onboarding
+pi install npm:@anandamw/plan-mode
+pi install npm:@anandamw/ui
 ```
 
 Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request. Run `/onboarding` to update only Pi Rakit-managed package entries while preserving unrelated settings and packages.
@@ -178,46 +178,46 @@ Use `/usage` for current and project token totals, `/session-stats` for elapsed/
 Remove every package that Pi Rakit installed:
 
 ```bash
-pi remove npm:@4nndmw/pi-rakit
-pi remove npm:@4nndmw/hello-pi
-pi remove npm:@4nndmw/custom-provider
-pi remove npm:@4nndmw/doctor
-pi remove npm:@4nndmw/worktree
-pi remove npm:@4nndmw/git
-pi remove npm:@4nndmw/biome
-pi remove npm:@4nndmw/token-speed
-pi remove npm:@4nndmw/session-usage
-pi remove npm:@4nndmw/session-stats
-pi remove npm:@4nndmw/session-delete
-pi remove npm:@4nndmw/compact-tools
-pi remove npm:@4nndmw/auto-title
-pi remove npm:@4nndmw/onboarding
-pi remove npm:@4nndmw/plan-mode
-pi remove npm:@4nndmw/ui
-pi remove npm:@4nndmw/playwright-browser
+pi remove npm:@anandamw/pi-rakit
+pi remove npm:@anandamw/hello-pi
+pi remove npm:@anandamw/custom-provider
+pi remove npm:@anandamw/doctor
+pi remove npm:@anandamw/worktree
+pi remove npm:@anandamw/git
+pi remove npm:@anandamw/biome
+pi remove npm:@anandamw/token-speed
+pi remove npm:@anandamw/session-usage
+pi remove npm:@anandamw/session-stats
+pi remove npm:@anandamw/session-delete
+pi remove npm:@anandamw/compact-tools
+pi remove npm:@anandamw/auto-title
+pi remove npm:@anandamw/onboarding
+pi remove npm:@anandamw/plan-mode
+pi remove npm:@anandamw/ui
+pi remove npm:@anandamw/playwright-browser
 ```
 
 Or uninstall in one line:
 
 ```bash
 pi remove \
-  npm:@4nndmw/pi-rakit \
-  npm:@4nndmw/hello-pi \
-  npm:@4nndmw/custom-provider \
-  npm:@4nndmw/doctor \
-  npm:@4nndmw/worktree \
-  npm:@4nndmw/git \
-  npm:@4nndmw/biome \
-  npm:@4nndmw/token-speed \
-  npm:@4nndmw/session-usage \
-  npm:@4nndmw/session-stats \
-  npm:@4nndmw/session-delete \
-  npm:@4nndmw/compact-tools \
-  npm:@4nndmw/auto-title \
-  npm:@4nndmw/onboarding \
-  npm:@4nndmw/plan-mode \
-  npm:@4nndmw/ui \
-  npm:@4nndmw/playwright-browser
+  npm:@anandamw/pi-rakit \
+  npm:@anandamw/hello-pi \
+  npm:@anandamw/custom-provider \
+  npm:@anandamw/doctor \
+  npm:@anandamw/worktree \
+  npm:@anandamw/git \
+  npm:@anandamw/biome \
+  npm:@anandamw/token-speed \
+  npm:@anandamw/session-usage \
+  npm:@anandamw/session-stats \
+  npm:@anandamw/session-delete \
+  npm:@anandamw/compact-tools \
+  npm:@anandamw/auto-title \
+  npm:@anandamw/onboarding \
+  npm:@anandamw/plan-mode \
+  npm:@anandamw/ui \
+  npm:@anandamw/playwright-browser
 ```
 
 Third-party packages installed through the installer (Ponytail, Caveman) must be removed separately:
@@ -253,7 +253,7 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes for every published workspace
 
 Publishing uses npm Trusted Publishing from the manual [Publish npm package](.github/workflows/publish.yml) workflow. It authenticates with GitHub OIDC, so no npm token or OTP is stored in the repository. Select only the workspace whose version was incremented.
 
-Before the first workflow run, configure each npm package's Trusted Publisher with repository `4nndmw/@4nndmw/pi-rakit`, workflow `publish.yml`, and environment `npm-publish`. See [Development and Release](docs/rakit/Development%20and%20Release.md#trusted-publishing-setup) for the full setup and release procedure.
+Before the first workflow run, configure each npm package's Trusted Publisher with repository `4nndmw/pi-rakit`, workflow `publish.yml`, and environment `npm-publish`. See [Development and Release](docs/rakit/Development%20and%20Release.md#trusted-publishing-setup) for the full setup and release procedure.
 
 Publishing is intentionally manual. Increment the affected package version and merge it into `main` before dispatching the workflow.
 

@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/session-delete",
+	"name": "@anandamw/session-delete",
 	"version": "0.1.0",
 	"description": "Interactively delete saved Pi sessions with confirmation",
 	"type": "module",

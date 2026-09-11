@@ -13,7 +13,7 @@ import customProvider, {
 } from "../extensions/index.js";
 
 process.env.PI_RAKIT_SETTINGS_PATH = path.join(
-  mkdtempSync(path.join(tmpdir(), "@4nndmw-custom-provider-")),
+  mkdtempSync(path.join(tmpdir(), "@anandamw-custom-provider-")),
   "settings.json",
 );
 

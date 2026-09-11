@@ -25,7 +25,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/plan-mode",
-				npm: "@4nndmw/plan-mode",
+				npm: "@anandamw/plan-mode",
 			},
 		},
 		{
@@ -34,7 +34,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/ui",
-				npm: "@4nndmw/ui",
+				npm: "@anandamw/ui",
 			},
 		},
 		{
@@ -43,7 +43,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/doctor",
-				npm: "@4nndmw/doctor",
+				npm: "@anandamw/doctor",
 			},
 		},
 		{
@@ -52,7 +52,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/worktree",
-				npm: "@4nndmw/worktree",
+				npm: "@anandamw/worktree",
 			},
 		},
 		{
@@ -61,7 +61,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/git",
-				npm: "@4nndmw/git",
+				npm: "@anandamw/git",
 			},
 		},
 		{
@@ -70,7 +70,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/biome",
-				npm: "@4nndmw/biome",
+				npm: "@anandamw/biome",
 			},
 		},
 		{
@@ -79,7 +79,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/token-speed",
-				npm: "@4nndmw/token-speed",
+				npm: "@anandamw/token-speed",
 			},
 		},
 		...[
@@ -94,7 +94,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: `packages/${id}`,
-				npm: `@4nndmw/${id}`,
+				npm: `@anandamw/${id}`,
 			},
 		})),
 		{
@@ -129,14 +129,14 @@ test("always includes mandatory hidden packages once", () => {
 				source: {
 					mode: "workspace",
 					path: "packages/onboarding",
-					npm: "@4nndmw/onboarding",
+					npm: "@anandamw/onboarding",
 				},
 			},
 		],
 	};
 	const emptyPlan = buildInstallPlan([], mandatoryManifest, options);
 	assert.deepEqual(emptyPlan.ids, ["onboarding"]);
-	assert.deepEqual(emptyPlan.packageSources, ["npm:@4nndmw/onboarding"]);
+	assert.deepEqual(emptyPlan.packageSources, ["npm:@anandamw/onboarding"]);
 	assert.deepEqual(
 		buildInstallPlan(["onboarding"], mandatoryManifest, options).ids,
 		["onboarding"],
@@ -154,7 +154,7 @@ test("expands requirements before selected packages", () => {
 
 test("resolves Plan Mode for npm and development mode", () => {
 	const published = buildInstallPlan(["plan-mode"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@4nndmw/plan-mode"]);
+	assert.deepEqual(published.packageSources, ["npm:@anandamw/plan-mode"]);
 	const development = buildInstallPlan(["plan-mode"], manifest, {
 		...options,
 		devMode: true,
@@ -164,7 +164,7 @@ test("resolves Plan Mode for npm and development mode", () => {
 
 test("resolves Rakit UI for npm and development mode", () => {
 	const published = buildInstallPlan(["ui"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@4nndmw/ui"]);
+	assert.deepEqual(published.packageSources, ["npm:@anandamw/ui"]);
 	const development = buildInstallPlan(["ui"], manifest, {
 		...options,
 		devMode: true,
@@ -174,12 +174,12 @@ test("resolves Rakit UI for npm and development mode", () => {
 
 test("uses the Doctor npm package outside development mode", () => {
 	const plan = buildInstallPlan(["doctor"], manifest, options);
-	assert.deepEqual(plan.packageSources, ["npm:@4nndmw/doctor"]);
+	assert.deepEqual(plan.packageSources, ["npm:@anandamw/doctor"]);
 });
 
 test("uses the Worktree npm package outside development mode", () => {
 	const plan = buildInstallPlan(["worktree"], manifest, options);
-	assert.deepEqual(plan.packageSources, ["npm:@4nndmw/worktree"]);
+	assert.deepEqual(plan.packageSources, ["npm:@anandamw/worktree"]);
 });
 
 test("uses the Worktree workspace path in development mode", () => {
@@ -192,7 +192,7 @@ test("uses the Worktree workspace path in development mode", () => {
 
 test("resolves the Git package for npm and development mode", () => {
 	const published = buildInstallPlan(["git"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@4nndmw/git"]);
+	assert.deepEqual(published.packageSources, ["npm:@anandamw/git"]);
 	const development = buildInstallPlan(["git"], manifest, {
 		...options,
 		devMode: true,
@@ -202,7 +202,7 @@ test("resolves the Git package for npm and development mode", () => {
 
 test("resolves the Biome package for npm and development mode", () => {
 	const published = buildInstallPlan(["biome"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@4nndmw/biome"]);
+	assert.deepEqual(published.packageSources, ["npm:@anandamw/biome"]);
 	const development = buildInstallPlan(["biome"], manifest, {
 		...options,
 		devMode: true,
@@ -212,7 +212,7 @@ test("resolves the Biome package for npm and development mode", () => {
 
 test("resolves Token Speed for npm and development mode", () => {
 	const published = buildInstallPlan(["token-speed"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@4nndmw/token-speed"]);
+	assert.deepEqual(published.packageSources, ["npm:@anandamw/token-speed"]);
 	const development = buildInstallPlan(["token-speed"], manifest, {
 		...options,
 		devMode: true,
@@ -229,7 +229,7 @@ test("resolves session utilities for npm and development mode", () => {
 		"auto-title",
 	]) {
 		const published = buildInstallPlan([id], manifest, options);
-		assert.deepEqual(published.packageSources, [`npm:@4nndmw/${id}`]);
+		assert.deepEqual(published.packageSources, [`npm:@anandamw/${id}`]);
 		const development = buildInstallPlan([id], manifest, {
 			...options,
 			devMode: true,

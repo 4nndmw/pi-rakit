@@ -3,8 +3,8 @@
 ## Repository Layout
 
 ```text
-@4nndmw/pi-rakit/
-├── apps/installer/          # Published @4nndmw/pi-rakit CLI
+@anandamw/pi-rakit/
+├── apps/installer/          # Published @anandamw/pi-rakit CLI
 │   ├── src/                 # CLI implementation
 │   └── test/                # Installer unit tests
 ├── packages/hello-pi/       # Example Pi extension
@@ -94,17 +94,17 @@ The manual [`publish.yml`](../../.github/workflows/publish.yml) workflow publish
 
 1. Open the package on npm and go to **Settings → Trusted Publisher**.
 2. Choose **GitHub Actions**.
-3. Enter owner `4nndmw`, repository `@4nndmw/pi-rakit`, workflow filename `publish.yml`, and environment `npm-publish`.
+3. Enter owner `4nndmw`, repository `pi-rakit`, workflow filename `publish.yml`, and environment `npm-publish`.
 4. Save the publisher.
 
 Configure the same publisher for:
 
-- `@4nndmw/pi-rakit`
-- `@4nndmw/hello-pi`
-- `@4nndmw/custom-provider`
-- `@4nndmw/doctor`
-- `@4nndmw/worktree`
-- `@4nndmw/git`
+- `@anandamw/pi-rakit`
+- `@anandamw/hello-pi`
+- `@anandamw/custom-provider`
+- `@anandamw/doctor`
+- `@anandamw/worktree`
+- `@anandamw/git`
 
 All values are identity constraints and must match exactly. The workflow requests only `contents: read` and `id-token: write`. The `npm-publish` GitHub environment can additionally require reviewers in repository settings before a job is allowed to publish.
 
@@ -127,9 +127,9 @@ For emergency local publishing, use npm's browser authentication flow. Never com
 Confirm that the registry version and `latest` tag match the source version, then verify the package behavior:
 
 ```bash
-npm view @4nndmw/pi-rakit version dist-tags.latest
-npm view @4nndmw/hello-pi version dist-tags.latest
-npx --yes @4nndmw/pi-rakit@latest --help
+npm view @anandamw/pi-rakit version dist-tags.latest
+npm view @anandamw/hello-pi version dist-tags.latest
+npx --yes @anandamw/pi-rakit@latest --help
 ```
 
 For an end-to-end test, run Pi Rakit in a temporary directory:
@@ -137,7 +137,7 @@ For an end-to-end test, run Pi Rakit in a temporary directory:
 ```bash
 tmpdir=$(mktemp -d)
 cd "$tmpdir"
-npx --yes @4nndmw/pi-rakit@latest --local --select-all --yes --write-only
+npx --yes @anandamw/pi-rakit@latest --local --select-all --yes --write-only
 cat .pi/settings.json
 ```
 

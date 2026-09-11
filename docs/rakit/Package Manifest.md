@@ -18,7 +18,7 @@ The root `manifest.json` defines the packages available in Pi Rakit. The release
       "source": {
         "mode": "workspace",
         "path": "packages/hello-pi",
-        "npm": "@4nndmw/hello-pi"
+        "npm": "@anandamw/hello-pi"
       }
     }
   ]

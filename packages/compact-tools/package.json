@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/compact-tools",
+	"name": "@anandamw/compact-tools",
 	"version": "0.1.1",
 	"description": "Make built-in tool output compact and easier to scan in Pi",
 	"type": "module",

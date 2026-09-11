@@ -5,7 +5,7 @@ A Pi extension that shows the current token streaming speed in the status bar.
 ## Install
 
 ```bash
-pi install npm:@4nndmw/token-speed
+pi install npm:@anandamw/token-speed
 ```
 
 During an assistant response the footer displays an updating estimate such as:

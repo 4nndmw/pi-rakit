@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/worktree",
+	"name": "@anandamw/worktree",
 	"version": "0.1.2",
 	"description": "Safe Git worktree management commands for Pi",
 	"type": "module",

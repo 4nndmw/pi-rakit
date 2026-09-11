@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/token-speed",
+	"name": "@anandamw/token-speed",
 	"version": "0.1.0",
 	"description": "Show live token streaming speed in the Pi status bar",
 	"type": "module",

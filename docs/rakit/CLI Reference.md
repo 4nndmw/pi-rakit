@@ -3,13 +3,13 @@
 ## Synopsis
 
 ```bash
-npx @4nndmw/pi-rakit [options]
+npx @anandamw/pi-rakit [options]
 ```
 
 Display built-in help:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --help
+npx @anandamw/pi-rakit@latest --help
 ```
 
 ## Options
@@ -17,7 +17,7 @@ npx @4nndmw/pi-rakit@latest --help
 | Option | Description | Default |
 | --- | --- | --- |
 | `--cwd <path>` | Set the target project directory. | Current working directory |
-| `--manifest <path>` | Load a custom package manifest. | Manifest bundled with `@4nndmw/pi-rakit` |
+| `--manifest <path>` | Load a custom package manifest. | Manifest bundled with `@anandamw/pi-rakit` |
 | `--global` | Update the user-level Pi settings. | Enabled |
 | `--local` | Update settings inside the target project. | Disabled |
 | `--dev` | Resolve workspace packages to local filesystem paths. | Disabled |
@@ -39,7 +39,7 @@ Unknown options and options with missing values cause the command to exit with a
 Print the installed CLI version without loading the manifest or target project:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --version
+npx @anandamw/pi-rakit@latest --version
 ```
 
 ## Settings Locations
@@ -53,7 +53,7 @@ npx @4nndmw/pi-rakit@latest --version
 Example:
 
 ```bash
-npx @4nndmw/pi-rakit@latest
+npx @anandamw/pi-rakit@latest
 ```
 
 ### Local
@@ -65,13 +65,13 @@ npx @4nndmw/pi-rakit@latest
 Example:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --local
+npx @anandamw/pi-rakit@latest --local
 ```
 
 Use `--cwd` to target another existing directory:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --cwd /path/to/project --local
+npx @anandamw/pi-rakit@latest --cwd /path/to/project --local
 ```
 
 ## Package Selection
@@ -81,7 +81,7 @@ Without `--package` or `--select-all`, Pi Rakit opens an interactive checkbox pr
 List the available manifest IDs before selecting packages:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --list-packages
+npx @anandamw/pi-rakit@latest --list-packages
 ```
 
 The tab-separated output contains the package ID, display label, and npm source. `--list-packages` also supports `--manifest <path>` and exits without prompting or changing settings.
@@ -89,7 +89,7 @@ The tab-separated output contains the package ID, display label, and npm source.
 For automation, request a JSON array whose objects contain stable `id`, `label`, and `source` fields:
 
 ```bash
-npx @4nndmw/pi-rakit@latest --list-packages --json
+npx @anandamw/pi-rakit@latest --list-packages --json
 ```
 
 `--json` requires `--list-packages` and cannot be used during installation.
@@ -97,7 +97,7 @@ npx @4nndmw/pi-rakit@latest --list-packages --json
 Use repeatable `--package` options for noninteractive, targeted selection:
 
 ```bash
-npx @4nndmw/pi-rakit@latest \
+npx @anandamw/pi-rakit@latest \
   --local \
   --package ponytail \
   --package caveman \
@@ -109,7 +109,7 @@ npx @4nndmw/pi-rakit@latest \
 Preview the target settings path and package sources that would be added:
 
 ```bash
-npx @4nndmw/pi-rakit@latest \
+npx @anandamw/pi-rakit@latest \
   --local \
   --package ponytail \
   --package caveman \
@@ -134,8 +134,8 @@ Add `--json` for a stable automation-friendly object:
 For CI, replace `--dry-run` with `--check`. Check mode produces the same preview without changing files, exits with status `0` when every selected source is already configured, and exits with status `1` when `addedSources` is nonempty. `--dry-run` and `--check` cannot be combined.
 
 ```bash
-npx @4nndmw/pi-rakit@latest --local --select-all --check --json
-npx @4nndmw/pi-rakit@latest --local --select-all --check --json --output reports/@4nndmw/pi-rakit.json
+npx @anandamw/pi-rakit@latest --local --select-all --check --json
+npx @anandamw/pi-rakit@latest --local --select-all --check --json --output reports/@anandamw/pi-rakit.json
 ```
 
 When `--output` is present, JSON is written with a trailing newline and stdout remains empty. Check mode still exits with status `1` when sources are missing.

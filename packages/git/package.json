@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/git",
+	"name": "@anandamw/git",
 	"version": "0.1.1",
 	"description": "Focused and confirmation-gated Git commands for Pi",
 	"type": "module",

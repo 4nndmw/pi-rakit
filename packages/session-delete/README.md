@@ -3,7 +3,7 @@
 Adds an interactive, confirmation-gated flow for deleting old Pi sessions.
 
 ```bash
-pi install npm:@4nndmw/session-delete
+pi install npm:@anandamw/session-delete
 ```
 
 Run `/session-delete`, choose a saved session, and confirm permanent deletion. The active session is always excluded, non-interactive use is rejected, and paths outside the active project's session directory are refused. Deletion is permanent.

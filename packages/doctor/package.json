@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/doctor",
+	"name": "@anandamw/doctor",
 	"version": "0.1.2",
 	"description": "Read-only health checks for Pi installations and project settings",
 	"type": "module",

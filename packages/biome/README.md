@@ -5,7 +5,7 @@ A safe [Biome](https://biomejs.dev/) integration for [Pi](https://pi.dev/). It p
 ## Install
 
 ```bash
-pi install npm:@4nndmw/biome
+pi install npm:@anandamw/biome
 ```
 
 Or select **Biome** in the Pi Rakit installer. Start or reload Pi after installation.

@@ -1,9 +1,9 @@
-# @4nndmw/hello-pi
+# @anandamw/hello-pi
 
 Ekstensi contoh Pi Rakit yang mendaftarkan perintah `/hello [nama]`.
 
 Pasang dengan Pi:
 
 ```bash
-pi install npm:@4nndmw/hello-pi
+pi install npm:@anandamw/hello-pi
 ```

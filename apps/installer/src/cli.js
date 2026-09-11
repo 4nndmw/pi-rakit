@@ -24,7 +24,7 @@ function printHelp() {
 	console.log(`Pi Rakit
 
 Usage:
-  npx @4nndmw/pi-rakit [options]
+  npx @anandamw/pi-rakit [options]
 
 Options:
   --cwd <path>       Target project directory

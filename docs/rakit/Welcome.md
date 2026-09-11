@@ -19,13 +19,13 @@ Pi Rakit is an interactive CLI for selecting and adding a collection of extensio
 
 | Package | Purpose |
 | --- | --- |
-| [`@4nndmw/pi-rakit`](https://www.npmjs.com/package/@4nndmw/pi-rakit) | Interactive installer CLI |
-| [`@4nndmw/hello-pi`](https://www.npmjs.com/package/@4nndmw/hello-pi) | Example extension providing `/hello` |
-| [`@4nndmw/custom-provider`](https://www.npmjs.com/package/@4nndmw/custom-provider) | Configurable OpenAI-compatible provider |
-| [`@4nndmw/doctor`](https://www.npmjs.com/package/@4nndmw/doctor) | Runtime and settings diagnostics through `/doctor` |
-| [`@4nndmw/worktree`](https://www.npmjs.com/package/@4nndmw/worktree) | Safe Git worktree management through `/worktree` |
-| [`@4nndmw/git`](https://www.npmjs.com/package/@4nndmw/git) | Focused status, branch, and staged commit commands through `/git` |
+| [`@anandamw/pi-rakit`](https://www.npmjs.com/package/@anandamw/pi-rakit) | Interactive installer CLI |
+| [`@anandamw/hello-pi`](https://www.npmjs.com/package/@anandamw/hello-pi) | Example extension providing `/hello` |
+| [`@anandamw/custom-provider`](https://www.npmjs.com/package/@anandamw/custom-provider) | Configurable OpenAI-compatible provider |
+| [`@anandamw/doctor`](https://www.npmjs.com/package/@anandamw/doctor) | Runtime and settings diagnostics through `/doctor` |
+| [`@anandamw/worktree`](https://www.npmjs.com/package/@anandamw/worktree) | Safe Git worktree management through `/worktree` |
+| [`@anandamw/git`](https://www.npmjs.com/package/@anandamw/git) | Focused status, branch, and staged commit commands through `/git` |
 
 ## Repository
 
-Source code and issue tracking are available at [github.com/anandamw/@4nndmw/pi-rakit](https://github.com/anandamw/@4nndmw/pi-rakit).
+Source code and issue tracking are available at [github.com/4nndmw/pi-rakit](https://github.com/4nndmw/pi-rakit).

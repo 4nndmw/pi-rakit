@@ -1,11 +1,11 @@
 # Rakit UI
 
-`@4nndmw/ui` gives Pi's interactive terminal UI one cohesive visual system without replacing or forking Pi core.
+`@anandamw/ui` gives Pi's interactive terminal UI one cohesive visual system without replacing or forking Pi core.
 
 ## Install
 
 ```bash
-pi install npm:@4nndmw/ui
+pi install npm:@anandamw/ui
 ```
 
 Reload Pi after installation. The package activates automatically in interactive TUI sessions.

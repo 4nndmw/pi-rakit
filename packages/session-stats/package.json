@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/session-stats",
+	"name": "@anandamw/session-stats",
 	"version": "0.1.0",
 	"description": "Track Pi session time, prompts, turns, and tool calls",
 	"type": "module",

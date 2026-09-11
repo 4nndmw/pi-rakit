@@ -1,5 +1,5 @@
 {
-	"name": "@4nndmw/auto-title",
+	"name": "@anandamw/auto-title",
 	"version": "0.1.0",
 	"description": "Automatically give Pi sessions useful resume titles",
 	"type": "module",

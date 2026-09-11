@@ -1,6 +1,6 @@
 # Creating an Extension
 
-Pi Rakit includes `@4nndmw/hello-pi` as a minimal extension example. Its source is located at:
+Pi Rakit includes `@anandamw/hello-pi` as a minimal extension example. Its source is located at:
 
 ```text
 packages/hello-pi/

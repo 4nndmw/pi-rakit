@@ -3,7 +3,7 @@
 Rerun Pi Rakit package selection from inside Pi.
 
 ```bash
-pi install npm:@4nndmw/onboarding
+pi install npm:@anandamw/onboarding
 ```
 
 Run `/onboarding`, choose global or project settings, toggle packages with Space, and press Enter to save. The command replaces only package entries managed by Pi Rakit, preserves unrelated packages and other settings, then reloads Pi.
