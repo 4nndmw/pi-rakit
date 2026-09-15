@@ -650,85 +650,78 @@ export default function customProvider(pi, options = {}) {
   pi.registerProvider(providerId, config);
   const savedConfigs = loadCustomProviderConfigs();
   registerSavedProviders(pi, savedConfigs);
-  pi.registerCommand("custom-provider", {
-    description: "Choose and manage providers and models",
+  pi.registerCommand("rakit", {
+    description: "Manage Pi Rakit providers and models",
     handler: async (_args, ctx) => {
       if (!ctx.hasUI) {
-        ctx.ui.notify("/provider requires an interactive UI.", "error");
+        ctx.ui.notify("/rakit requires an interactive UI.", "error");
         return;
       }
 
-      const providers = getAvailableProviders(ctx);
-      const savedProviderIds = new Set(
-        savedConfigs.map(
-          (provider) => provider.providerId || DEFAULTS.customProviderId,
-        ),
-      );
-      const choices = [
-        ...providers
-          .filter((id) => !savedProviderIds.has(id))
-          .map((id) => ({
-            label: providerLabel(id),
-            id,
-            custom: false,
+      while (true) {
+        const providers = getAvailableProviders(ctx);
+        const savedProviderIds = new Set(
+          savedConfigs.map(
+            (provider) => provider.providerId || DEFAULTS.customProviderId,
+          ),
+        );
+        const choices = [
+          ...providers
+            .filter((id) => !savedProviderIds.has(id))
+            .map((id) => ({
+              label: providerLabel(id),
+              id,
+              custom: false,
+            })),
+          ...savedConfigs.map((provider) => ({
+            label: `${provider.name} (custom)`,
+            id: provider.providerId,
+            custom: true,
           })),
-        ...savedConfigs.map((provider) => ({
-          label: `${provider.name} (custom)`,
-          id: provider.providerId,
-          custom: true,
-        })),
-      ];
-      const addOption = "Add custom provider";
-      const manageOption = "Manage custom providers";
-      const selectedProvider = await ctx.ui.select("Select provider", [
-        ...choices.map((choice) => choice.label),
-        addOption,
-        manageOption,
-      ]);
-      if (!selectedProvider || selectedProvider === "Back") return;
-      if (selectedProvider === addOption) {
-        const provider = await promptProvider(ctx, {}, options);
-        if (!provider) return;
-        savedConfigs.push(provider);
-        pi.registerProvider(provider.providerId, provider);
-        saveCustomProviderConfigs(savedConfigs);
-        await selectCustomModel(pi, ctx, provider);
+        ];
+        
+        const addOption = "Add custom provider";
+        const manageOption = "Manage custom providers";
+        const modelsJsonOption = "Manage models.json";
+        
+        const selectedProvider = await ctx.ui.select("Select provider or manage", [
+          ...choices.map((choice) => choice.label),
+          addOption,
+          manageOption,
+          modelsJsonOption,
+          "Exit",
+        ]);
+        
+        if (!selectedProvider || selectedProvider === "Exit") return;
+        
+        if (selectedProvider === addOption) {
+          const provider = await promptProvider(ctx, {}, options);
+          if (!provider) continue;
+          savedConfigs.push(provider);
+          pi.registerProvider(provider.providerId, provider);
+          saveCustomProviderConfigs(savedConfigs);
+          await selectCustomModel(pi, ctx, provider);
+          return;
+        }
+        if (selectedProvider === manageOption) {
+          await manageProviders(pi, ctx, savedConfigs, options);
+          continue; // loop back to main menu
+        }
+        if (selectedProvider === modelsJsonOption) {
+          await manageModelsJSON(pi, ctx);
+          continue; // loop back to main menu
+        }
+        
+        const choice = choices.find((item) => item.label === selectedProvider);
+        if (!choice) continue;
+        if (choice.custom) {
+          const provider = findCustomProvider(savedConfigs, choice.id);
+          if (provider) await selectCustomModel(pi, ctx, provider);
+          return;
+        }
+        await selectAvailableProvider(pi, ctx, choice.id);
         return;
       }
-      if (selectedProvider === manageOption) {
-        await manageProviders(pi, ctx, savedConfigs, options);
-        return;
-      }
-      const choice = choices.find((item) => item.label === selectedProvider);
-      if (!choice) return;
-      if (choice.custom) {
-        const provider = findCustomProvider(savedConfigs, choice.id);
-        if (provider) await selectCustomModel(pi, ctx, provider);
-        return;
-      }
-      await selectAvailableProvider(pi, ctx, choice.id);
-    },
-  });
-
-  pi.registerCommand("models", {
-    description: "Delete providers and models from models.json",
-    handler: async (_args, ctx) => {
-      if (!ctx.hasUI) {
-        ctx.ui.notify("/models requires an interactive UI.", "error");
-        return;
-      }
-      await manageModelsJSON(pi, ctx);
-    },
-  });
-
-  pi.registerCommand("model", {
-    description: "Alias for /models",
-    handler: async (args, ctx) => {
-      if (!ctx.hasUI) {
-        ctx.ui.notify("/model requires an interactive UI.", "error");
-        return;
-      }
-      await manageModelsJSON(pi, ctx);
     },
   });
 }
