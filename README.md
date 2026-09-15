@@ -16,7 +16,8 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 
 - [`@anandamw/pi-rakit`](https://www.npmjs.com/package/@anandamw/pi-rakit): the main interactive CLI installer
 - [`@anandamw/hello-pi`](https://www.npmjs.com/package/@anandamw/hello-pi): an example extension that provides the `/hello` command
-- [`@anandamw/custom-provider`](https://www.npmjs.com/package/@anandamw/custom-provider): a configurable OpenAI-compatible provider for local or hosted models
+- [`@anandamw/custom-provider`](https://www.npmjs.com/package/@anandamw/custom-provider): unified `/rakit` command to switch providers, manage custom providers, and manage Pi-native `models.json` providers and models
+- [`@anandamw/markdown-preview`](https://www.npmjs.com/package/@anandamw/markdown-preview): render any markdown file in a scrollable TUI overlay with `/md <file>`
 - [`@anandamw/doctor`](https://www.npmjs.com/package/@anandamw/doctor): read-only health checks through the `/doctor` command
 - [`@anandamw/worktree`](https://www.npmjs.com/package/@anandamw/worktree): safe Git worktree management through the `/worktree` command
 - [`@anandamw/git`](https://www.npmjs.com/package/@anandamw/git): focused status, branch, and confirmation-gated commit commands through `/git`
@@ -60,7 +61,30 @@ Install Custom Provider directly to connect Pi to an OpenAI-compatible local ser
 pi install npm:@anandamw/custom-provider
 ```
 
-The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Configure another endpoint through `PI_RAKIT_PROVIDER_BASE_URL`, `PI_RAKIT_PROVIDER_API_KEY`, and `PI_RAKIT_PROVIDER_MODEL` before starting Pi. See the [complete Custom Provider guide](docs/rakit/Custom%20Provider.md).
+Run `/rakit` inside Pi to open the unified management menu:
+
+- **Select a provider** — shows all registered providers with model count; pick one to switch the active model
+- **Add custom provider** — prompts API URL, key, and auto-discovers models from `GET <baseUrl>/models`
+- **Manage custom providers** — add, edit, or delete providers and their models (saved to `~/.pi/agent/settings.json`)
+- **Manage models.json** — add, edit, or delete providers and models in Pi-native `~/.pi/agent/models.json`
+
+Model lists show inline details: `ag-claude — ctx:68k max:16k` and `🧠` for reasoning models. When creating or editing a model, choose input type `text` or `text + image`.
+
+The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Configure another endpoint through `PI_RAKIT_PROVIDER_BASE_URL`, `PI_RAKIT_PROVIDER_API_KEY`, and `PI_RAKIT_PROVIDER_MODEL` before starting Pi. See the [package README](packages/custom-provider/README.md).
+
+### Markdown Preview Extension
+
+Install Markdown Preview directly to render any markdown file as a scrollable overlay:
+
+```bash
+pi install npm:@anandamw/markdown-preview
+```
+
+```text
+/md path/to/file.md
+```
+
+Controls: `↑`/`↓` to scroll, `q` or `Esc` to close.
 
 ### Doctor Extension
 
@@ -195,6 +219,7 @@ pi remove npm:@anandamw/onboarding
 pi remove npm:@anandamw/plan-mode
 pi remove npm:@anandamw/ui
 pi remove npm:@anandamw/playwright-browser
+pi remove npm:@anandamw/markdown-preview
 ```
 
 Or uninstall in one line:
@@ -217,7 +242,8 @@ pi remove \
   npm:@anandamw/onboarding \
   npm:@anandamw/plan-mode \
   npm:@anandamw/ui \
-  npm:@anandamw/playwright-browser
+  npm:@anandamw/playwright-browser \
+  npm:@anandamw/markdown-preview
 ```
 
 Third-party packages installed through the installer (Ponytail, Caveman) must be removed separately:
