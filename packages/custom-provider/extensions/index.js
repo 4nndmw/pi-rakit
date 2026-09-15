@@ -572,41 +572,72 @@ async function manageModelsJSON(pi, ctx) {
     const pid = pids.find((id) => selected.startsWith(id));
     if (!pid) continue;
     const provider = data.providers[pid];
-    const models = Array.isArray(provider?.models) ? provider.models : [];
+    if (!Array.isArray(provider.models)) provider.models = [];
+    const models = provider.models;
 
-    const action = await ctx.ui.select(`Manage provider "${pid}"`, [
-      "Delete entire provider",
-      "Delete individual models",
-      "Back",
-    ]);
-    if (action === "Delete entire provider") {
-      const confirm = await ctx.ui.confirm(
-        `Delete provider "${pid}" and all ${models.length} model(s)?`,
+    // Inner loop: manage models inside this provider
+    while (true) {
+      const modelOptions = [
+        ...models.map((m) => m.id),
+        "+ Add new model",
+        "Back",
+      ];
+      const action = await ctx.ui.select(
+        `"${pid}" — ${models.length} model(s)`,
+        modelOptions,
       );
-      if (confirm) {
-        delete data.providers[pid];
+      if (!action || action === "Back") break;
+
+      if (action === "+ Add new model") {
+        const mid = await ctx.ui.input("Model ID", "model-id");
+        if (!mid) continue;
+        const name = await ctx.ui.input("Model name", mid);
+        if (!name) continue;
+        const contextStr = await ctx.ui.input("Context window", "68000");
+        if (!contextStr) continue;
+        const maxTokensStr = await ctx.ui.input("Max tokens", "16384");
+        if (!maxTokensStr) continue;
+        const reasoningStr = await ctx.ui.input("Reasoning (true/false)", "false");
+        if (!reasoningStr) continue;
+        const contextWindow = Number(contextStr);
+        const maxTokens = Number(maxTokensStr);
+        const reasoning = reasoningStr === "true";
+        if (!Number.isSafeInteger(contextWindow) || contextWindow <= 0) {
+          ctx.ui.notify("Context window must be a positive integer.", "error");
+          continue;
+        }
+        if (!Number.isSafeInteger(maxTokens) || maxTokens <= 0) {
+          ctx.ui.notify("Max tokens must be a positive integer.", "error");
+          continue;
+        }
+        const existing = models.some((m) => m.id === mid);
+        if (existing) {
+          ctx.ui.notify(`Model "${mid}" already exists in this provider.`, "error");
+          continue;
+        }
+        models.push({
+          id: mid,
+          name,
+          reasoning,
+          input: ["text"],
+          contextWindow,
+          maxTokens,
+          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        });
         writeModels(data);
-        ctx.ui.notify(`Deleted provider "${pid}". Reload Pi to apply.`, "info");
-        return;
-      }
-    } else if (action === "Delete individual models") {
-      if (models.length === 0) {
-        ctx.ui.notify("No models in this provider.", "info");
+        ctx.ui.notify(`Added model "${mid}" to "${pid}". Reload Pi to apply.`, "info");
         continue;
       }
-      const mid = await ctx.ui.select(
-        "Select model to delete",
-        [...models.map((m) => m.id), "Back"],
-      );
-      if (!mid || mid === "Back") continue;
-      const confirm = await ctx.ui.confirm(`Delete model "${mid}"?`);
+
+      // Existing model selected — delete it
+      const confirm = await ctx.ui.confirm(`Delete model "${action}" from "${pid}"?`);
       if (confirm) {
-        provider.models = models.filter((m) => m.id !== mid);
+        provider.models = models.filter((m) => m.id !== action);
         if (provider.models.length === 0) {
           // ponytail: prompt to also delete empty provider, add when users complain
         }
         writeModels(data);
-        ctx.ui.notify(`Deleted model "${mid}". Reload Pi to apply.`, "info");
+        ctx.ui.notify(`Deleted model "${action}". Reload Pi to apply.`, "info");
       }
     }
   }
