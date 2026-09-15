@@ -1,6 +1,6 @@
 {
   "name": "@anandamw/custom-provider",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Configurable OpenAI-compatible custom provider for Pi",
   "type": "module",
   "private": false,

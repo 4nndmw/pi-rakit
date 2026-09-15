@@ -720,4 +720,15 @@ export default function customProvider(pi, options = {}) {
       await manageModelsJSON(pi, ctx);
     },
   });
+
+  pi.registerCommand("model", {
+    description: "Alias for /models",
+    handler: async (args, ctx) => {
+      if (!ctx.hasUI) {
+        ctx.ui.notify("/model requires an interactive UI.", "error");
+        return;
+      }
+      await manageModelsJSON(pi, ctx);
+    },
+  });
 }
