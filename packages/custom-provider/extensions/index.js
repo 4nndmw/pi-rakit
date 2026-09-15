@@ -268,7 +268,7 @@ function getAvailableProviders(ctx) {
   return [...new Set(models.map((model) => model.provider))].filter(Boolean);
 }
 
-function providerLabel(providerId) {
+function providerLabel(providerId, modelCount) {
   const labels = {
     anthropic: "Claude (Anthropic)",
     openai: "ChatGPT (OpenAI)",
@@ -277,7 +277,8 @@ function providerLabel(providerId) {
     groq: "Groq",
     xai: "Grok (xAI)",
   };
-  return labels[providerId] || providerId;
+  const name = labels[providerId] || providerId;
+  return modelCount != null ? `${name} — ${modelCount} model${modelCount !== 1 ? "s" : ""}` : name;
 }
 
 function findCustomProvider(configs, providerId) {
@@ -292,27 +293,41 @@ function registerSavedProviders(pi, configs) {
   }
 }
 
+function fmtNum(n) {
+  if (!n) return "?";
+  return n >= 1000 ? `${Math.round(n / 1000)}k` : String(n);
+}
+
+function modelDetail(model) {
+  const ctx_ = fmtNum(model.contextWindow);
+  const max = fmtNum(model.maxTokens);
+  const r = model.reasoning ? " | 🧠" : "";
+  return `${model.id} — ctx:${ctx_} max:${max}${r}`;
+}
+
 async function selectAvailableProvider(pi, ctx, providerId) {
   const models = ctx.modelRegistry
     .getAvailable()
     .filter((model) => model.provider === providerId);
   const modelId = await ctx.ui.select(
     `Select a model from ${providerId}`,
-    models.map((model) => model.id),
+    models.map((model) => modelDetail(model)),
   );
   if (!modelId) return;
 
-  const model = ctx.modelRegistry.find(providerId, modelId);
+  // extract real id from label (format: "id — ctx:Xk max:Yk")
+  const realId = modelId.includes(" — ") ? modelId.split(" — ")[0] : modelId;
+  const model = ctx.modelRegistry.find(providerId, realId);
   if (!model) {
-    ctx.ui.notify(`Model ${providerId}/${modelId} was not found.`, "error");
+    ctx.ui.notify(`Model ${providerId}/${realId} was not found.`, "error");
     return;
   }
 
   const selected = await pi.setModel(model);
   ctx.ui.notify(
     selected
-      ? `Using ${providerId}/${modelId}.`
-      : `Could not authenticate with ${providerId}/${modelId}.`,
+      ? `Using ${providerId}/${realId}.`
+      : `Could not authenticate with ${providerId}/${realId}.`,
     selected ? "info" : "error",
   );
 }
@@ -413,19 +428,20 @@ async function selectCustomModel(pi, ctx, provider) {
   const providerId = provider.providerId || DEFAULTS.customProviderId;
   const modelId = await ctx.ui.select(
     `Select a model from ${provider.name}`,
-    provider.models.map((model) => model.id),
+    provider.models.map((model) => modelDetail(model)),
   );
   if (!modelId) return;
-  const model = ctx.modelRegistry.find(providerId, modelId);
+  const realId = modelId.includes(" — ") ? modelId.split(" — ")[0] : modelId;
+  const model = ctx.modelRegistry.find(providerId, realId);
   if (!model) {
-    ctx.ui.notify(`Model ${providerId}/${modelId} was not found.`, "error");
+    ctx.ui.notify(`Model ${providerId}/${realId} was not found.`, "error");
     return;
   }
   const selected = await pi.setModel(model);
   ctx.ui.notify(
     selected
-      ? `Using ${providerId}/${modelId}.`
-      : `Could not authenticate with ${providerId}/${modelId}.`,
+      ? `Using ${providerId}/${realId}.`
+      : `Could not authenticate with ${providerId}/${realId}.`,
     selected ? "info" : "error",
   );
 }
@@ -562,10 +578,17 @@ async function manageModelsJSON(pi, ctx) {
     return;
   }
 
+  function modelsJSONProviderLabel(pid) {
+    const pdata = data.providers[pid];
+    const count = Array.isArray(pdata?.models) ? pdata.models.length : 0;
+    const url = pdata?.baseUrl ? ` | ${pdata.baseUrl}` : "";
+    return `${pid} — ${count} model${count !== 1 ? "s" : ""}${url}`;
+  }
+
   while (true) {
     const selected = await ctx.ui.select(
       "Manage providers in models.json",
-      [...pids.map((pid) => modelsProviderLabel(pid, data.providers[pid])), "Back"],
+      [...pids.map((pid) => modelsJSONProviderLabel(pid)), "Back"],
     );
     if (!selected || selected === "Back") return;
 
@@ -578,7 +601,7 @@ async function manageModelsJSON(pi, ctx) {
     // Inner loop: manage models inside this provider
     while (true) {
       const modelOptions = [
-        ...models.map((m) => m.id),
+        ...models.map((m) => modelDetail(m)),
         "+ Add new model",
         "Back",
       ];
@@ -629,10 +652,11 @@ async function manageModelsJSON(pi, ctx) {
         continue;
       }
 
-      // Existing model selected — delete it
-      const confirm = await ctx.ui.confirm(`Delete model "${action}" from "${pid}"?`);
+      // Existing model selected — extract real id from detail label
+      const realModelId = action.includes(" — ") ? action.split(" — ")[0] : action;
+      const confirm = await ctx.ui.confirm(`Delete model "${realModelId}" from "${pid}"?`);
       if (confirm) {
-        provider.models = models.filter((m) => m.id !== action);
+        provider.models = models.filter((m) => m.id !== realModelId);
         if (provider.models.length === 0) {
           // ponytail: prompt to also delete empty provider, add when users complain
         }
@@ -665,19 +689,24 @@ export default function customProvider(pi, options = {}) {
             (provider) => provider.providerId || DEFAULTS.customProviderId,
           ),
         );
+        const allModels = ctx.modelRegistry?.getAvailable?.() || [];
         const choices = [
           ...providers
             .filter((id) => !savedProviderIds.has(id))
             .map((id) => ({
-              label: providerLabel(id),
+              label: providerLabel(id, allModels.filter((m) => m.provider === id).length),
               id,
               custom: false,
             })),
-          ...savedConfigs.map((provider) => ({
-            label: `${provider.name} (custom)`,
-            id: provider.providerId,
-            custom: true,
-          })),
+          ...savedConfigs.map((provider) => {
+            const n = provider.models?.length ?? 0;
+            const url = provider.baseUrl ? ` | ${provider.baseUrl}` : "";
+            return {
+              label: `${provider.name} — ${n} model${n !== 1 ? "s" : ""}${url} (custom)`,
+              id: provider.providerId,
+              custom: true,
+            };
+          }),
         ];
         
         const addOption = "Add custom provider";
