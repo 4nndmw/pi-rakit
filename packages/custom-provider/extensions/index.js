@@ -650,7 +650,7 @@ export default function customProvider(pi, options = {}) {
   pi.registerProvider(providerId, config);
   const savedConfigs = loadCustomProviderConfigs();
   registerSavedProviders(pi, savedConfigs);
-  pi.registerCommand("provider", {
+  pi.registerCommand("custom-provider", {
     description: "Choose and manage providers and models",
     handler: async (_args, ctx) => {
       if (!ctx.hasUI) {
