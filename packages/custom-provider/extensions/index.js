@@ -351,7 +351,10 @@ async function promptModel(ctx, model = {}, fixedIdentity) {
     String(model.maxTokens || DEFAULTS.maxTokens),
   );
   if (!maxTokens) return null;
-  return { id, name, contextWindow, maxTokens };
+  const inputType = await ctx.ui.select("Input type", ["text", "text + image"]);
+  if (!inputType) return null;
+  const input = inputType === "text + image" ? ["text", "image"] : ["text"];
+  return { id, name, contextWindow, maxTokens, input };
 }
 
 async function discoverAndPromptModel(ctx, baseUrl, apiKey, current, options) {
@@ -622,9 +625,12 @@ async function manageModelsJSON(pi, ctx) {
         if (!maxTokensStr) continue;
         const reasoningStr = await ctx.ui.input("Reasoning (true/false)", "false");
         if (!reasoningStr) continue;
+        const inputType = await ctx.ui.select("Input type", ["text", "text + image"]);
+        if (!inputType) continue;
         const contextWindow = Number(contextStr);
         const maxTokens = Number(maxTokensStr);
         const reasoning = reasoningStr === "true";
+        const input = inputType === "text + image" ? ["text", "image"] : ["text"];
         if (!Number.isSafeInteger(contextWindow) || contextWindow <= 0) {
           ctx.ui.notify("Context window must be a positive integer.", "error");
           continue;
@@ -642,7 +648,7 @@ async function manageModelsJSON(pi, ctx) {
           id: mid,
           name,
           reasoning,
-          input: ["text"],
+          input,
           contextWindow,
           maxTokens,
           cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
