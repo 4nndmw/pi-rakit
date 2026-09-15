@@ -660,14 +660,65 @@ async function manageModelsJSON(pi, ctx) {
 
       // Existing model selected — extract real id from detail label
       const realModelId = action.includes(" — ") ? action.split(" — ")[0] : action;
-      const confirm = await ctx.ui.confirm(`Delete model "${realModelId}" from "${pid}"?`);
-      if (confirm) {
-        provider.models = models.filter((m) => m.id !== realModelId);
-        if (provider.models.length === 0) {
-          // ponytail: prompt to also delete empty provider, add when users complain
+      const modelIdx = models.findIndex((m) => m.id === realModelId);
+      if (modelIdx === -1) continue;
+      const modelAction = await ctx.ui.select(`Model: ${realModelId}`, ["Edit", "Delete", "Back"]);
+      if (!modelAction || modelAction === "Back") continue;
+
+      if (modelAction === "Delete") {
+        const confirm = await ctx.ui.confirm(`Delete model "${realModelId}" from "${pid}"?`);
+        if (confirm) {
+          provider.models = models.filter((m) => m.id !== realModelId);
+          if (provider.models.length === 0) {
+            // ponytail: prompt to also delete empty provider, add when users complain
+          }
+          writeModels(data);
+          ctx.ui.notify(`Deleted model "${realModelId}". Reload Pi to apply.`, "info");
         }
+        continue;
+      }
+
+      if (modelAction === "Edit") {
+        const cur = models[modelIdx];
+        const newId = await ctx.ui.input("Model ID", cur.id);
+        if (!newId) continue;
+        const newName = await ctx.ui.input("Model name", cur.name || cur.id);
+        if (!newName) continue;
+        const newCtx = await ctx.ui.input("Context window", String(cur.contextWindow ?? 68000));
+        if (!newCtx) continue;
+        const newMax = await ctx.ui.input("Max tokens", String(cur.maxTokens ?? 16384));
+        if (!newMax) continue;
+        const newReasoning = await ctx.ui.input("Reasoning (true/false)", String(cur.reasoning ?? false));
+        if (!newReasoning) continue;
+        const curInputType = Array.isArray(cur.input) && cur.input.includes("image") ? "text + image" : "text";
+        const newInputType = await ctx.ui.select("Input type", ["text", "text + image"]);
+        if (!newInputType) continue;
+        const contextWindow = Number(newCtx);
+        const maxTokens = Number(newMax);
+        if (!Number.isSafeInteger(contextWindow) || contextWindow <= 0) {
+          ctx.ui.notify("Context window must be a positive integer.", "error");
+          continue;
+        }
+        if (!Number.isSafeInteger(maxTokens) || maxTokens <= 0) {
+          ctx.ui.notify("Max tokens must be a positive integer.", "error");
+          continue;
+        }
+        // check duplicate id only if id changed
+        if (newId !== cur.id && models.some((m) => m.id === newId)) {
+          ctx.ui.notify(`Model "${newId}" already exists.`, "error");
+          continue;
+        }
+        models[modelIdx] = {
+          ...cur,
+          id: newId,
+          name: newName,
+          reasoning: newReasoning === "true",
+          input: newInputType === "text + image" ? ["text", "image"] : ["text"],
+          contextWindow,
+          maxTokens,
+        };
         writeModels(data);
-        ctx.ui.notify(`Deleted model "${action}". Reload Pi to apply.`, "info");
+        ctx.ui.notify(`Updated model "${newId}". Reload Pi to apply.`, "info");
       }
     }
   }
