@@ -731,11 +731,11 @@ export default function customProvider(pi, options = {}) {
   pi.registerProvider(providerId, config);
   const savedConfigs = loadCustomProviderConfigs();
   registerSavedProviders(pi, savedConfigs);
-  pi.registerCommand("rakit", {
+  pi.registerCommand("custom-provider", {
     description: "Manage Pi Rakit providers and models",
     handler: async (_args, ctx) => {
       if (!ctx.hasUI) {
-        ctx.ui.notify("/rakit requires an interactive UI.", "error");
+        ctx.ui.notify("/custom-provider requires an interactive UI.", "error");
         return;
       }
 

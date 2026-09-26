@@ -1,38 +1,38 @@
 # Custom Provider
 
-Pi Rakit Custom Provider mendaftarkan satu provider dan satu model OpenAI-compatible di Pi. Extension ini dapat digunakan dengan server lokal seperti Ollama, llama.cpp, dan vLLM, atau dengan gateway hosted yang menyediakan endpoint OpenAI-compatible.
+Pi Rakit Custom Provider registers a single OpenAI-compatible provider and model in Pi. The extension works with local servers such as Ollama, llama.cpp, and vLLM, or with a hosted gateway that exposes an OpenAI-compatible endpoint.
 
-## Instalasi
+## Installation
 
-Pilih **Custom Provider** saat menjalankan installer:
+Select **Custom Provider** when running the installer:
 
 ```bash
 npx pi-rakit@latest
 ```
 
-Atau instal langsung:
+Or install it directly:
 
 ```bash
 pi install npm:pi-rakit-custom-provider
 ```
 
-## Penggunaan Default dengan Ollama
+## Default Usage with Ollama
 
-Konfigurasi default mengarah ke:
+The default configuration points to:
 
 - Provider ID: `rakit-openai`
 - Base URL: `http://localhost:11434/v1`
 - Model: `llama3.2`
 - API: `openai-completions`
 
-Pastikan Ollama berjalan dan model tersedia:
+Make sure Ollama is running and the model is available:
 
 ```bash
 ollama pull llama3.2
 ollama serve
 ```
 
-Mulai atau reload Pi, jalankan `/model`, lalu pilih:
+Start or reload Pi, run `/model`, then select:
 
 ```text
 rakit-openai/llama3.2
@@ -40,7 +40,7 @@ rakit-openai/llama3.2
 
 ## Hosted Gateway
 
-Atur konfigurasi sebelum memulai Pi:
+Set the configuration before starting Pi:
 
 ```bash
 export PI_RAKIT_PROVIDER_BASE_URL="https://api.example.com/v1"
@@ -49,43 +49,43 @@ export PI_RAKIT_PROVIDER_MODEL="your-model-id"
 pi
 ```
 
-Kemudian pilih `rakit-openai/your-model-id` melalui `/model`.
+Then select `rakit-openai/your-model-id` through `/model`.
 
-Gunakan `/provider` untuk memilih provider dan model yang tersedia. Pilih **Custom provider** untuk mengisi:
+Use `/custom-provider` to choose an available provider and model. Select **Custom provider** to fill in:
 
-- URL API dengan protokol `http` atau `https`
+- API URL with the `http` or `https` protocol
 - API key
 - Context window
 - Max tokens
 
-Setelah URL dan API key diisi, command memanggil endpoint OpenAI-compatible `GET <baseUrl>/models` dengan timeout lima detik dan menampilkan ID model yang ditemukan sebagai pilihan. Pilih **Enter model manually** bila diperlukan. Jika discovery gagal atau tidak mengembalikan model, command otomatis kembali ke input ID dan nama model manual.
+After the URL and API key are provided, the command calls the OpenAI-compatible `GET <baseUrl>/models` endpoint with a five-second timeout and lists the discovered model IDs as options. Select **Enter model manually** when needed. If discovery fails or returns no models, the command falls back to manual model ID and name input.
 
-Provider custom didaftarkan dan langsung dipilih untuk sesi Pi saat ini. Konfigurasi disimpan di `~/.pi/agent/settings.json` sehingga akan tetap ada setelah Pi direstart. API key diisi melalui dialog input Pi dan tidak ditampilkan oleh command.
+The custom provider is registered and selected immediately for the current Pi session. The configuration is saved to `~/.pi/agent/settings.json`, so it persists after Pi restarts. The API key is entered through Pi's input dialog and is not displayed by the command.
 
-Untuk mengelola konfigurasi, pilih **Manage custom providers** pada `/provider`. Di sana tersedia operasi CRUD provider dan model: tambah, edit, dan hapus provider; serta tambah, edit, dan hapus model. Penambahan model juga menjalankan discovery otomatis. Provider bawaan seperti ChatGPT, Claude, Gemini, dan lainnya hanya muncul jika tersedia di konfigurasi Pi.
+To manage the configuration, select **Manage custom providers** in `/custom-provider`. It provides CRUD operations for providers and models: add, edit, and delete providers, as well as add, edit, and delete models. Adding a model also runs automatic discovery. Built-in providers such as ChatGPT, Claude, Gemini, and others only appear when they are available in the Pi configuration.
 
-Konfigurasi dibaca ketika extension dimuat. Setelah mengubah environment variable, restart atau reload Pi.
+The configuration is read when the extension loads. After changing environment variables, restart or reload Pi.
 
-## Environment Variable
+## Environment Variables
 
-| Variable | Default | Keterangan |
+| Variable | Default | Description |
 | --- | --- | --- |
-| `PI_RAKIT_PROVIDER_ID` | `rakit-openai` | ID provider yang digunakan pada pilihan model |
-| `PI_RAKIT_PROVIDER_NAME` | `Pi Rakit OpenAI Compatible` | Nama tampilan provider |
-| `PI_RAKIT_PROVIDER_BASE_URL` | `http://localhost:11434/v1` | Base URL endpoint OpenAI-compatible |
-| `PI_RAKIT_PROVIDER_API_KEY` | tidak diatur | Credential yang diselesaikan Pi saat request dibuat |
-| `PI_RAKIT_PROVIDER_MODEL` | `llama3.2` | ID model yang dikirim ke endpoint |
-| `PI_RAKIT_PROVIDER_MODEL_NAME` | sama dengan ID model | Nama tampilan model |
-| `PI_RAKIT_PROVIDER_CONTEXT_WINDOW` | `128000` | Context window berupa bilangan bulat positif |
-| `PI_RAKIT_PROVIDER_MAX_TOKENS` | `8192` | Batas output berupa bilangan bulat positif |
-| `PI_RAKIT_PROVIDER_REASONING` | `false` | `true`/`false` atau `1`/`0` |
-| `PI_RAKIT_PROVIDER_IMAGES` | `false` | Aktifkan input gambar dengan `true` atau `1` |
+| `PI_RAKIT_PROVIDER_ID` | `rakit-openai` | Provider ID used in the model selection |
+| `PI_RAKIT_PROVIDER_NAME` | `Pi Rakit OpenAI Compatible` | Provider display name |
+| `PI_RAKIT_PROVIDER_BASE_URL` | `http://localhost:11434/v1` | Base URL of the OpenAI-compatible endpoint |
+| `PI_RAKIT_PROVIDER_API_KEY` | unset | Credential resolved by Pi when the request is made |
+| `PI_RAKIT_PROVIDER_MODEL` | `llama3.2` | Model ID sent to the endpoint |
+| `PI_RAKIT_PROVIDER_MODEL_NAME` | same as the model ID | Model display name |
+| `PI_RAKIT_PROVIDER_CONTEXT_WINDOW` | `128000` | Context window as a positive integer |
+| `PI_RAKIT_PROVIDER_MAX_TOKENS` | `8192` | Output limit as a positive integer |
+| `PI_RAKIT_PROVIDER_REASONING` | `false` | `true`/`false` or `1`/`0` |
+| `PI_RAKIT_PROVIDER_IMAGES` | `false` | Enable image input with `true` or `1` |
 
-Extension mendaftarkan API key sebagai `$PI_RAKIT_PROVIDER_API_KEY`; nilai rahasia tidak disalin ke konfigurasi provider. Jangan commit API key, file `.env`, atau output shell yang memuat credential.
+The extension registers the API key as `$PI_RAKIT_PROVIDER_API_KEY`; the secret value is not copied into the provider configuration. Do not commit API keys, `.env` files, or shell output that contains credentials.
 
-## Contoh Konfigurasi
+## Configuration Examples
 
-### Model lokal yang berbeda
+### A different local model
 
 ```bash
 export PI_RAKIT_PROVIDER_MODEL="qwen2.5-coder:7b"
@@ -95,9 +95,9 @@ export PI_RAKIT_PROVIDER_MAX_TOKENS="4096"
 pi
 ```
 
-### Endpoint dengan reasoning dan gambar
+### An endpoint with reasoning and images
 
-Aktifkan hanya jika model dan endpoint benar-benar mendukung kemampuan tersebut:
+Enable these only when the model and the endpoint actually support them:
 
 ```bash
 export PI_RAKIT_PROVIDER_BASE_URL="https://api.example.com/v1"
@@ -108,36 +108,36 @@ export PI_RAKIT_PROVIDER_IMAGES="true"
 pi
 ```
 
-Nilai biaya model didaftarkan sebagai nol karena extension tidak mengetahui tarif gateway. Periksa tarif layanan secara terpisah.
+Model cost values are registered as zero because the extension does not know the gateway rates. Check the service rates separately.
 
 ## Troubleshooting
 
-### Model tidak muncul
+### The model does not appear
 
-Pastikan package telah terpasang, restart atau reload Pi, lalu buka `/model`. Jika `PI_RAKIT_PROVIDER_ID` atau `PI_RAKIT_PROVIDER_MODEL` diubah, pilihan model mengikuti nilai baru tersebut.
+Make sure the package is installed, restart or reload Pi, then open `/model`. If `PI_RAKIT_PROVIDER_ID` or `PI_RAKIT_PROVIDER_MODEL` was changed, the model selection follows the new values.
 
-Jika autodeteksi tidak menampilkan model, pastikan endpoint `GET <baseUrl>/models` tersedia dan API key memiliki akses untuk melihat daftar model. Gunakan **Enter model manually** untuk endpoint yang tidak menyediakan daftar model.
+If auto-detection does not show any model, make sure the `GET <baseUrl>/models` endpoint is available and that the API key is allowed to list models. Use **Enter model manually** for endpoints that do not expose a model list.
 
-### Koneksi ditolak
+### Connection refused
 
-Periksa apakah server berjalan dan base URL menyertakan path OpenAI-compatible yang benar, biasanya `/v1`:
+Check that the server is running and that the base URL includes the correct OpenAI-compatible path, usually `/v1`:
 
 ```bash
 curl http://localhost:11434/v1/models
 ```
 
-### Unauthorized atau credential hilang
+### Unauthorized or missing credentials
 
-Pastikan `PI_RAKIT_PROVIDER_API_KEY` tersedia di environment shell yang memulai Pi. Jangan menaruh key langsung di source extension.
+Make sure `PI_RAKIT_PROVIDER_API_KEY` is available in the shell environment that starts Pi. Do not put the key directly in the extension source.
 
-### Konfigurasi gagal dimuat
+### Configuration failed to load
 
-`CONTEXT_WINDOW` dan `MAX_TOKENS` harus berupa bilangan bulat positif. Nilai boolean hanya menerima `true`, `false`, `1`, atau `0`. Pesan error menyebutkan variable yang tidak valid.
+`CONTEXT_WINDOW` and `MAX_TOKENS` must be positive integers. Boolean values only accept `true`, `false`, `1`, or `0`. Error messages name the invalid variable.
 
-### Endpoint tidak kompatibel
+### Incompatible endpoint
 
-Extension ini secara tetap menggunakan adapter `openai-completions`. Endpoint yang hanya mendukung protokol lain memerlukan extension provider yang berbeda atau perubahan implementasi.
+The extension always uses the `openai-completions` adapter. Endpoints that only support other protocols require a different provider extension or an implementation change.
 
-## Batasan
+## Limitations
 
-Provider custom menggunakan adapter `openai-completions`, sehingga URL harus kompatibel dengan OpenAI Chat Completions. API key disimpan di settings Pi untuk mendukung pemakaian ulang setelah restart.
+Custom providers use the `openai-completions` adapter, so the URL must be compatible with OpenAI Chat Completions. The API key is stored in Pi settings to support reuse after a restart.

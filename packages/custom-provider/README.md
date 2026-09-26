@@ -1,6 +1,6 @@
 # pi-rakit-custom-provider
 
-A Pi extension for managing providers and models through a unified `/rakit` command. Supports OpenAI-compatible local servers (Ollama, llama.cpp, vLLM), hosted gateways, and Pi-native `models.json` providers.
+A Pi extension for managing providers and models through a unified `/custom-provider` command. Supports OpenAI-compatible local servers (Ollama, llama.cpp, vLLM), hosted gateways, and Pi-native `models.json` providers.
 
 ## Install
 
@@ -10,9 +10,9 @@ pi install npm:pi-rakit-custom-provider
 
 Or select **Custom Provider** in the Pi Rakit installer.
 
-## Command: `/rakit`
+## Command: `/custom-provider`
 
-Type `/rakit` inside Pi to open the management menu:
+Type `/custom-provider` inside Pi to open the management menu:
 
 ```
 Select provider or manage
@@ -109,7 +109,7 @@ ollama serve
 
 ## Troubleshooting
 
-- **Model missing:** restart Pi, run `/rakit`, and check the provider's model list.
+- **Model missing:** restart Pi, run `/custom-provider`, and check the provider's model list.
 - **Discovery unavailable:** verify `GET <baseUrl>/models` is supported, or use **Enter model manually**.
 - **Connection refused:** start the local server and confirm the base URL includes `/v1`.
 - **Unauthorized:** export `PI_RAKIT_PROVIDER_API_KEY` in the shell that starts Pi.

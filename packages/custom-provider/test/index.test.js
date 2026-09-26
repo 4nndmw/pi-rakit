@@ -170,7 +170,7 @@ test("registers the provider with Pi", () => {
 
   assert.equal(providerCall.providerId, "rakit-openai");
   assert.equal(providerCall.config.models[0].id, "llama3.2");
-  assert.equal(commandCall.command, "rakit");
+  assert.equal(commandCall.command, "custom-provider");
   assert.equal(
     commandCall.config.description,
     "Manage Pi Rakit providers and models",

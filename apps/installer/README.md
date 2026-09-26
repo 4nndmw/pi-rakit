@@ -1,6 +1,6 @@
 # Pi Rakit
 
-Installer interaktif untuk memilih dan memasang kumpulan ekstensi Pi.
+Interactive installer to select and install a set of Pi extensions.
 
 ```bash
 npx pi-rakit --version
@@ -13,4 +13,4 @@ npx pi-rakit --local --package ponytail --package caveman --check --json --outpu
 npx pi-rakit --local --package ponytail --package caveman --yes
 ```
 
-Gunakan `--package <id>` berulang kali untuk memilih package tertentu tanpa prompt interaktif. Tambahkan `--dry-run` untuk melihat perubahan tanpa menulis settings atau menjalankan instalasi. Gunakan `--check` di CI untuk keluar dengan status nonzero jika settings belum lengkap. Tambahkan `--json` ke `--list-packages`, `--dry-run`, atau `--check` untuk output yang dapat diproses program. Gunakan `--output <path>` bersama `--json` untuk menulis hasil ke file. Jalankan `npx pi-rakit --help` untuk melihat semua opsi.
+Use `--package <id>` repeatedly to select specific packages without an interactive prompt. Add `--dry-run` to preview changes without writing settings or running an install. Use `--check` in CI to exit with a non-zero status when settings are incomplete. Add `--json` to `--list-packages`, `--dry-run`, or `--check` for machine-readable output. Use `--output <path>` together with `--json` to write the result to a file. Run `npx pi-rakit --help` to see all options.

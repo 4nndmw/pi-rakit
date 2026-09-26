@@ -1,32 +1,32 @@
 # Doctor
 
-Pi Rakit Doctor menjalankan pemeriksaan kesehatan Pi tanpa mengubah settings, package, atau environment variable.
+Pi Rakit Doctor runs health checks on Pi without modifying settings, packages, or environment variables.
 
-## Instalasi
+## Installation
 
-Pilih **Doctor** saat menjalankan installer:
+Select **Doctor** when running the installer:
 
 ```bash
 npx pi-rakit@latest
 ```
 
-Atau instal langsung:
+Or install it directly:
 
 ```bash
 pi install npm:pi-rakit-doctor
 ```
 
-Mulai atau reload Pi setelah instalasi.
+Restart or reload Pi after installation.
 
-## Penggunaan
+## Usage
 
-Jalankan dari dalam Pi:
+Run it from inside Pi:
 
 ```text
 /doctor
 ```
 
-Doctor menampilkan setiap pemeriksaan sebagai `PASS`, `WARN`, atau `FAIL`, lalu memberikan ringkasan. Contoh:
+Doctor shows each check as `PASS`, `WARN`, or `FAIL`, then prints a summary. Example:
 
 ```text
 Pi Rakit Doctor
@@ -36,60 +36,60 @@ Pi Rakit Doctor
 Summary: 2 passed, 1 warning(s), 0 failed.
 ```
 
-## Pemeriksaan
+## Checks
 
-| Pemeriksaan | Hasil yang diperiksa |
+| Check | What it inspects |
 | --- | --- |
-| Node.js | Versi utama adalah 20 atau lebih baru |
-| Pi CLI | Perintah `pi --version` tersedia dan berhasil |
-| Settings JSON | File dapat dibaca, berisi JSON valid, dan root-nya berupa object |
-| Package settings | `packages` berupa array dan tidak berisi source duplikat |
-| Environment | Variable yang direferensikan dalam settings tersedia |
+| Node.js | The major version is 20 or newer |
+| Pi CLI | The `pi --version` command is available and succeeds |
+| Settings JSON | The file is readable, contains valid JSON, and its root is an object |
+| Package settings | `packages` is an array and contains no duplicate sources |
+| Environment | Variables referenced in settings are available |
 
-Doctor memeriksa settings global dan lokal yang ada:
+Doctor checks the global and local settings that exist:
 
 - Global: `~/.pi/agent/settings.json`
 - Project: `<project>/.pi/settings.json`
 
-Jika kedua file tidak ditemukan, Doctor memberikan `WARN`, bukan membuat file baru.
+If neither file exists, Doctor returns a `WARN` instead of creating a new file.
 
-## Arti Status
+## Status Meanings
 
-- `PASS`: pemeriksaan berhasil dan tidak memerlukan tindakan.
-- `WARN`: konfigurasi masih dapat digunakan, tetapi ada kondisi yang perlu ditinjau, seperti package duplikat atau environment variable yang belum tersedia.
-- `FAIL`: persyaratan utama tidak terpenuhi atau settings tidak valid.
+- `PASS`: the check succeeded and requires no action.
+- `WARN`: the configuration is still usable, but something should be reviewed, such as duplicate packages or a missing environment variable.
+- `FAIL`: a core requirement is not met or the settings are invalid.
 
-Severity notifikasi mengikuti hasil terburuk: `FAIL` menghasilkan notifikasi error, `WARN` menghasilkan warning, dan seluruh hasil `PASS` menghasilkan info.
+The notification severity follows the worst result: `FAIL` produces an error notification, `WARN` produces a warning, and all `PASS` results produce an info notification.
 
-## Pemecahan Masalah
+## Troubleshooting
 
-### Pi CLI tidak tersedia
+### Pi CLI is not available
 
-Pastikan Pi telah terinstal dan dapat ditemukan dari shell yang digunakan untuk memulai Pi:
+Make sure Pi is installed and discoverable from the shell used to start Pi:
 
 ```bash
 pi --version
 ```
 
-### Settings JSON tidak valid
+### Invalid settings JSON
 
-Buka path yang disebutkan dalam laporan dan perbaiki syntax JSON. Doctor tidak memperbaiki atau menulis ulang file tersebut.
+Open the path named in the report and fix the JSON syntax. Doctor does not repair or rewrite the file.
 
-### Package source duplikat
+### Duplicate package source
 
-Hapus entri yang sama dari array `packages` pada file settings yang disebutkan. Simpan satu salinan untuk setiap source.
+Remove the duplicate entry from the `packages` array in the reported settings file. Keep one copy of each source.
 
-### Environment variable hilang
+### Missing environment variable
 
-Doctor mengenali referensi seperti `$OPENAI_API_KEY` dan `${OPENAI_API_KEY}` di seluruh nilai settings. Atur variable sebelum memulai Pi, misalnya:
+Doctor recognizes references such as `$OPENAI_API_KEY` and `${OPENAI_API_KEY}` across all settings values. Set the variable before starting Pi, for example:
 
 ```bash
 export OPENAI_API_KEY="your-key"
 pi
 ```
 
-Jangan menyimpan credential langsung di repository. Setelah memperbaiki masalah, restart atau reload Pi jika diperlukan lalu jalankan `/doctor` kembali.
+Do not store credentials directly in the repository. After fixing the issue, restart or reload Pi if needed and run `/doctor` again.
 
-## Batasan
+## Limitations
 
-Doctor hanya memeriksa struktur dan referensi konfigurasi dasar. Hasil `PASS` tidak menjamin endpoint provider dapat dijangkau, credential diterima oleh layanan eksternal, atau model tersedia.
+Doctor only inspects the structure and basic configuration references. A `PASS` result does not guarantee that a provider endpoint is reachable, that credentials are accepted by external services, or that a model is available.

@@ -1,7 +1,7 @@
 {
 	"name": "pi-rakit",
 	"version": "0.1.22",
-	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
+	"description": "Interactive installer for assembling a set of Pi extensions",
 	"type": "module",
 	"private": false,
 	"publishConfig": {
