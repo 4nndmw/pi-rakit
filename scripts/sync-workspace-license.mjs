@@ -8,7 +8,6 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(root, "LICENSE");
 const workspacePaths = [
 	"apps/installer",
-	"packages/custom-provider",
 	"packages/doctor",
 	"packages/worktree",
 	"packages/git",

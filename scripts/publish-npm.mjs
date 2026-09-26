@@ -7,7 +7,6 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLISH_WORKSPACES = [
-	"packages/custom-provider",
 	"packages/doctor",
 	"packages/worktree",
 	"packages/git",

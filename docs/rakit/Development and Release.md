@@ -100,7 +100,6 @@ The manual [`publish.yml`](../../.github/workflows/publish.yml) workflow publish
 Configure the same publisher for:
 
 - `pi-rakit`
-- `pi-rakit-custom-provider`
 - `pi-rakit-doctor`
 - `pi-rakit-worktree`
 - `pi-rakit-git`

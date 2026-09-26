@@ -43,19 +43,6 @@
 			}
 		},
 		{
-			"id": "custom-provider",
-			"label": "Custom Provider",
-			"description": "Interactive multi-provider manager for local and hosted OpenAI-compatible models.",
-			"category": "Provider",
-			"enabledByDefault": false,
-			"tags": ["provider", "openai-compatible", "local-model"],
-			"source": {
-				"mode": "workspace",
-				"path": "packages/custom-provider",
-				"npm": "pi-rakit-custom-provider"
-			}
-		},
-		{
 			"id": "setup-providers",
 			"label": "Setup Providers",
 			"description": "Overlay wizard to configure custom providers and models.",
