@@ -20,7 +20,6 @@ Pi Rakit is an interactive CLI for selecting and adding a collection of extensio
 | Package | Purpose |
 | --- | --- |
 | [`pi-rakit`](https://www.npmjs.com/package/pi-rakit) | Interactive installer CLI |
-| [`pi-rakit-hello`](https://www.npmjs.com/package/pi-rakit-hello) | Example extension providing `/hello` |
 | [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider) | Configurable OpenAI-compatible provider |
 | [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor) | Runtime and settings diagnostics through `/doctor` |
 | [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree) | Safe Git worktree management through `/worktree` |

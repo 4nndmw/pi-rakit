@@ -24,7 +24,6 @@ const expectedSources = [
 	onboardingSource,
 	"npm:pi-rakit-plan-mode",
 	"npm:pi-rakit-ui",
-	"npm:pi-rakit-hello",
 	"npm:pi-rakit-custom-provider",
 	"npm:pi-rakit-doctor",
 	"npm:pi-rakit-worktree",
@@ -81,7 +80,7 @@ test("CLI lists package ids without requiring a target directory", () => {
 		0,
 		`CLI failed:\n${result.stdout}${result.stderr}`,
 	);
-	assert.match(result.stdout, /^hello-pi\tHello Pi\tnpm:pi-rakit-hello$/m);
+	assert.match(result.stdout, /^plan-mode\tPlan Mode\tnpm:pi-rakit-plan-mode$/m);
 	assert.match(
 		result.stdout,
 		/^ponytail\tPonytail\tnpm:@dietrichgebert\/ponytail@4\.9\.0$/m,

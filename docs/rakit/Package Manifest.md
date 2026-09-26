@@ -9,16 +9,16 @@ The root `manifest.json` defines the packages available in Pi Rakit. The release
   "version": 1,
   "packages": [
     {
-      "id": "hello-pi",
-      "label": "Hello Pi",
-      "description": "Example extension that adds a /hello command.",
-      "category": "Starter",
-      "enabledByDefault": true,
-      "tags": ["example", "command"],
+      "id": "doctor",
+      "label": "Doctor",
+      "description": "Read-only health checks for Pi runtime, settings, packages, and environment.",
+      "category": "Diagnostics",
+      "enabledByDefault": false,
+      "tags": ["diagnostics", "health-check", "command"],
       "source": {
         "mode": "workspace",
-        "path": "packages/hello-pi",
-        "npm": "pi-rakit-hello"
+        "path": "packages/doctor",
+        "npm": "pi-rakit-doctor"
       }
     }
   ]

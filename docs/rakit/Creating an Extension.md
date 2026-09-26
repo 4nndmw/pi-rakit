@@ -1,9 +1,9 @@
 # Creating an Extension
 
-Pi Rakit includes `pi-rakit-hello` as a minimal extension example. Its source is located at:
+A minimal extension package looks like this:
 
 ```text
-packages/hello-pi/
+packages/my-extension/
 ├── extensions/
 │   └── index.js
 ├── package.json
@@ -52,7 +52,7 @@ Use a unique npm package name. Keep the `files` list narrow so source unrelated 
 
 ## Add the Extension to Pi Rakit
 
-1. Copy `packages/hello-pi` to a new workspace directory.
+1. Copy an existing package (for example `packages/doctor`) to a new workspace directory.
 2. Update its package name, description, README, and implementation.
 3. Add a workspace entry to the root `manifest.json`:
 

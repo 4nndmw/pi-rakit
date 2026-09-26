@@ -43,19 +43,6 @@
 			}
 		},
 		{
-			"id": "hello-pi",
-			"label": "Hello Pi",
-			"description": "Example extension that adds a /hello command.",
-			"category": "Starter",
-			"enabledByDefault": true,
-			"tags": ["example", "command"],
-			"source": {
-				"mode": "workspace",
-				"path": "packages/hello-pi",
-				"npm": "pi-rakit-hello"
-			}
-		},
-		{
 			"id": "custom-provider",
 			"label": "Custom Provider",
 			"description": "Interactive multi-provider manager for local and hosted OpenAI-compatible models.",

@@ -41,7 +41,7 @@ A generated configuration may look like this:
 ```json
 {
   "packages": [
-    "npm:pi-rakit-hello",
+    "npm:pi-rakit-plan-mode",
     "npm:pi-mcp-adapter"
   ]
 }
@@ -68,19 +68,3 @@ npx pi-rakit@latest --local --select-all --yes
 ```
 
 This is useful for setup scripts and smoke tests. See [[CLI Reference]] for every available option.
-
-## Try the Example Extension
-
-After adding `pi-rakit-hello`, start Pi and run:
-
-```text
-/hello
-```
-
-You can include a name:
-
-```text
-/hello Anand
-```
-
-The extension displays a greeting in the Pi interface.

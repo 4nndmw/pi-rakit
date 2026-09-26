@@ -7,7 +7,7 @@ pi-rakit/
 ├── apps/installer/          # Published pi-rakit CLI
 │   ├── src/                 # CLI implementation
 │   └── test/                # Installer unit tests
-├── packages/hello-pi/       # Example Pi extension
+├── packages/                # Extension workspaces
 ├── scripts/                 # Manifest and publishing scripts
 ├── docs/rakit/              # Project documentation
 ├── manifest.json            # Source package catalog
@@ -72,7 +72,7 @@ This does not run `pi install` and does not modify the repository settings.
 npm package versions are immutable. Increment every changed workspace before publishing:
 
 ```bash
-npm version patch --workspace packages/hello-pi --no-git-tag-version
+npm version patch --workspace packages/doctor --no-git-tag-version
 npm version patch --workspace apps/installer --no-git-tag-version
 npm install --package-lock-only --ignore-scripts
 ```
@@ -100,7 +100,6 @@ The manual [`publish.yml`](../../.github/workflows/publish.yml) workflow publish
 Configure the same publisher for:
 
 - `pi-rakit`
-- `pi-rakit-hello`
 - `pi-rakit-custom-provider`
 - `pi-rakit-doctor`
 - `pi-rakit-worktree`
@@ -128,7 +127,6 @@ Confirm that the registry version and `latest` tag match the source version, the
 
 ```bash
 npm view pi-rakit version dist-tags.latest
-npm view pi-rakit-hello version dist-tags.latest
 npx --yes pi-rakit@latest --help
 ```
 

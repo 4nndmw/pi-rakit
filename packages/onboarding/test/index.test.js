@@ -89,7 +89,7 @@ test("saves project choices through the selector and reloads Pi", async () => {
 		});
 
 		assert.match(renderedLines[0], /Pi Rakit Onboarding/);
-		assert.ok(renderedLines.some((line) => line.includes("Hello Pi")));
+		assert.ok(renderedLines.some((line) => line.includes("Plan Mode")));
 		assert.deepEqual(
 			JSON.parse(
 				readFileSync(path.join(root, ".pi", "settings.json"), "utf8"),
