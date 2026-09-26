@@ -4,7 +4,7 @@ All notable changes to published Pi Rakit packages are recorded here. This monor
 
 Dates use `YYYY-MM-DD`. Package links point to npm, where every published version remains available.
 
-## [@anandamw/pi-rakit](https://www.npmjs.com/package/@anandamw/pi-rakit)
+## [pi-rakit](https://www.npmjs.com/package/pi-rakit)
 
 ### 0.1.20 - 2026-09-05
 
@@ -100,27 +100,27 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Initial npm release. Detailed release notes are not present in the repository history.
 
-## [@anandamw/ui](https://www.npmjs.com/package/@anandamw/ui)
+## [pi-rakit-ui](https://www.npmjs.com/package/pi-rakit-ui)
 
 ### 0.1.0 - 2026-09-05
 
 - Added the bundled `rakit` theme and global branded header, footer, editor, and working indicator.
 - Added `/rakit-ui [on|off|theme]`, narrow-terminal rendering, diagnostic preservation, and clean default restoration.
 
-## [@anandamw/plan-mode](https://www.npmjs.com/package/@anandamw/plan-mode)
+## [pi-rakit-plan-mode](https://www.npmjs.com/package/pi-rakit-plan-mode)
 
 ### 0.1.0 - 2026-09-05
 
 - Added `/plan`, `Ctrl+Alt+P`, and `--plan` activation for read-only exploration.
 - Added conservative tool and shell guards, numbered plan extraction, refinement, tracked execution, `/todos`, and session persistence.
 
-## [@anandamw/onboarding](https://www.npmjs.com/package/@anandamw/onboarding)
+## [pi-rakit-onboarding](https://www.npmjs.com/package/pi-rakit-onboarding)
 
 ### 0.1.0 - 2026-09-04
 
 - Added `/onboarding` with global/project scope selection, an interactive package multi-select, settings-preserving reconciliation, and automatic reload.
 
-## [@anandamw/hello-pi](https://www.npmjs.com/package/@anandamw/hello-pi)
+## [pi-rakit-hello](https://www.npmjs.com/package/pi-rakit-hello)
 
 ### 0.1.1 - 2026-09-01
 
@@ -130,7 +130,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Initial example extension with the `/hello` command.
 
-## [@anandamw/custom-provider](https://www.npmjs.com/package/@anandamw/custom-provider)
+## [pi-rakit-custom-provider](https://www.npmjs.com/package/pi-rakit-custom-provider)
 
 ### 0.1.7 - 2026-09-04
 
@@ -154,7 +154,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial configurable OpenAI-compatible provider.
 - Added environment-based model, endpoint, token-limit, reasoning, image, and API-key configuration.
 
-## [@anandamw/doctor](https://www.npmjs.com/package/@anandamw/doctor)
+## [pi-rakit-doctor](https://www.npmjs.com/package/pi-rakit-doctor)
 
 ### 0.1.2 - 2026-09-01
 
@@ -169,7 +169,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial read-only `/doctor` diagnostics command.
 - Added checks for Node.js, the Pi CLI, settings JSON, duplicate package sources, and referenced environment variables.
 
-## [@anandamw/biome](https://www.npmjs.com/package/@anandamw/biome)
+## [pi-rakit-biome](https://www.npmjs.com/package/pi-rakit-biome)
 
 ### 0.1.0 - 2026-09-01
 
@@ -177,7 +177,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Added confirmation-gated `/biome format` with safe path-only targets.
 - Pinned `@biomejs/biome` to version 2.5.11 for reproducible execution.
 
-## [@anandamw/git](https://www.npmjs.com/package/@anandamw/git)
+## [pi-rakit-git](https://www.npmjs.com/package/pi-rakit-git)
 
 ### 0.1.1 - 2026-09-01
 
@@ -189,7 +189,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Added confirmation-gated `/git commit <message>` for already-staged changes.
 - Excluded staging, push, reset, clean, force, and branch-deletion operations.
 
-## [@anandamw/worktree](https://www.npmjs.com/package/@anandamw/worktree)
+## [pi-rakit-worktree](https://www.npmjs.com/package/pi-rakit-worktree)
 
 ### 0.1.2 - 2026-09-01
 
@@ -204,31 +204,31 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 - Initial `/worktree list|create|remove` commands.
 - Added sibling-directory worktrees, prefixed branches, clean-tree checks, protected branch names, and non-forced removal.
 
-## [@anandamw/token-speed](https://www.npmjs.com/package/@anandamw/token-speed)
+## [pi-rakit-token-speed](https://www.npmjs.com/package/pi-rakit-token-speed)
 
 ### 0.1.0 - 2026-09-01
 
 - Initial release with estimated live and provider-usage-based final token streaming speed in the Pi status bar.
 
-## [@anandamw/session-usage](https://www.npmjs.com/package/@anandamw/session-usage)
+## [pi-rakit-session-usage](https://www.npmjs.com/package/pi-rakit-session-usage)
 
 ### 0.1.0 - 2026-09-01
 
 - Added `/usage` and status-bar totals for current-session and project-history token usage.
 
-## [@anandamw/session-stats](https://www.npmjs.com/package/@anandamw/session-stats)
+## [pi-rakit-session-stats](https://www.npmjs.com/package/pi-rakit-session-stats)
 
 ### 0.1.0 - 2026-09-01
 
 - Added elapsed time, prompt, assistant-turn, and tool-call tracking with `/session-stats`.
 
-## [@anandamw/session-delete](https://www.npmjs.com/package/@anandamw/session-delete)
+## [pi-rakit-session-delete](https://www.npmjs.com/package/pi-rakit-session-delete)
 
 ### 0.1.0 - 2026-09-01
 
 - Added interactive, confirmation-gated deletion for inactive project sessions.
 
-## [@anandamw/compact-tools](https://www.npmjs.com/package/@anandamw/compact-tools)
+## [pi-rakit-compact-tools](https://www.npmjs.com/package/pi-rakit-compact-tools)
 
 ### 0.1.1 - 2026-09-03
 
@@ -239,7 +239,7 @@ Dates use `YYYY-MM-DD`. Package links point to npm, where every published versio
 
 - Added compact interactive renderers for Pi's built-in file, search, and shell tools.
 
-## [@anandamw/auto-title](https://www.npmjs.com/package/@anandamw/auto-title)
+## [pi-rakit-auto-title](https://www.npmjs.com/package/pi-rakit-auto-title)
 
 ### 0.1.0 - 2026-09-01
 

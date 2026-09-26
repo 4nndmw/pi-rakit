@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import test from "node:test";
 import {
 	createWorktree,
@@ -44,14 +45,14 @@ test("creates a prefixed branch in a sibling directory", () => {
 	assert.deepEqual(created, {
 		name: "task-1",
 		branch: "worktree/task-1",
-		path: "/projects/repo-task-1",
+		path: path.join("/projects", "repo-task-1"),
 	});
 	assert.deepEqual(runner.calls.at(-1).args, [
 		"worktree",
 		"add",
 		"-b",
 		"worktree/task-1",
-		"/projects/repo-task-1",
+		path.join("/projects", "repo-task-1"),
 	]);
 });
 

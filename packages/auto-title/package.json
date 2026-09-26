@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/auto-title",
+	"name": "pi-rakit-auto-title",
 	"version": "0.1.0",
 	"description": "Automatically give Pi sessions useful resume titles",
 	"type": "module",

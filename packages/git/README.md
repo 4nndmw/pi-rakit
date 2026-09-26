@@ -12,10 +12,10 @@ A focused Pi extension for inspecting Git state and committing changes that you 
 ## Install
 
 ```bash
-pi install npm:@anandamw/git
+pi install npm:pi-rakit-git
 ```
 
-Or run `npx @anandamw/pi-rakit@latest --install` and select **Git**. Start or reload Pi after installation.
+Or run `npx pi-rakit@latest --install` and select **Git**. Start or reload Pi after installation.
 
 ## Commands
 

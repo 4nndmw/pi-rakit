@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/pi-rakit",
+	"name": "pi-rakit",
 	"version": "0.1.22",
 	"description": "Installer interaktif untuk merakit kumpulan ekstensi Pi",
 	"type": "module",

@@ -17,5 +17,5 @@ Defaults to `README.md` if no path given.
 ## Install
 
 ```bash
-pi install npm:@anandamw/markdown-preview
+pi install npm:pi-rakit-markdown-preview
 ```

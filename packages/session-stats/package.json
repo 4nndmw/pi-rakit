@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/session-stats",
+	"name": "pi-rakit-session-stats",
 	"version": "0.1.0",
 	"description": "Track Pi session time, prompts, turns, and tool calls",
 	"type": "module",

@@ -7,7 +7,7 @@ Pi Rakit Git provides a deliberately small `/git` command for common repository 
 Select **Git** in Pi Rakit, or install it directly:
 
 ```bash
-pi install npm:@anandamw/git
+pi install npm:pi-rakit-git
 ```
 
 Restart Pi after installation.

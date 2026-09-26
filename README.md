@@ -14,23 +14,23 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 
 ## Packages
 
-- [`@anandamw/pi-rakit`](https://www.npmjs.com/package/@anandamw/pi-rakit): the main interactive CLI installer
-- [`@anandamw/hello-pi`](https://www.npmjs.com/package/@anandamw/hello-pi): an example extension that provides the `/hello` command
-- [`@anandamw/custom-provider`](https://www.npmjs.com/package/@anandamw/custom-provider): unified `/rakit` command to switch providers, manage custom providers, and manage Pi-native `models.json` providers and models
-- [`@anandamw/markdown-preview`](https://www.npmjs.com/package/@anandamw/markdown-preview): render any markdown file in a scrollable TUI overlay with `/md <file>`
-- [`@anandamw/doctor`](https://www.npmjs.com/package/@anandamw/doctor): read-only health checks through the `/doctor` command
-- [`@anandamw/worktree`](https://www.npmjs.com/package/@anandamw/worktree): safe Git worktree management through the `/worktree` command
-- [`@anandamw/git`](https://www.npmjs.com/package/@anandamw/git): focused status, branch, and confirmation-gated commit commands through `/git`
-- [`@anandamw/biome`](https://www.npmjs.com/package/@anandamw/biome): safe checks, linting, and confirmation-gated formatting through `/biome`
-- [`@anandamw/token-speed`](https://www.npmjs.com/package/@anandamw/token-speed): live token streaming speed in the Pi status bar
-- [`@anandamw/session-usage`](https://www.npmjs.com/package/@anandamw/session-usage): current-session and project-history token usage
-- [`@anandamw/session-stats`](https://www.npmjs.com/package/@anandamw/session-stats): elapsed time, prompt, turn, and tool-call tracking
-- [`@anandamw/session-delete`](https://www.npmjs.com/package/@anandamw/session-delete): interactive, confirmation-gated deletion of inactive sessions
-- [`@anandamw/compact-tools`](https://www.npmjs.com/package/@anandamw/compact-tools): compact renderers for built-in tool output
-- [`@anandamw/auto-title`](https://www.npmjs.com/package/@anandamw/auto-title): automatic local session titles for easier `/resume` browsing
-- [`@anandamw/onboarding`](https://www.npmjs.com/package/@anandamw/onboarding): reopen package selection through `/onboarding`
-- [`@anandamw/plan-mode`](https://www.npmjs.com/package/@anandamw/plan-mode): read-only exploration, structured plans, and tracked execution
-- [`@anandamw/ui`](https://www.npmjs.com/package/@anandamw/ui): cohesive global theme, header, footer, editor, and working indicator
+- [`pi-rakit`](https://www.npmjs.com/package/pi-rakit): the main interactive CLI installer
+- [`pi-rakit-hello`](https://www.npmjs.com/package/pi-rakit-hello): an example extension that provides the `/hello` command
+- [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider): unified `/rakit` command to switch providers, manage custom providers, and manage Pi-native `models.json` providers and models
+- [`pi-rakit-markdown-preview`](https://www.npmjs.com/package/pi-rakit-markdown-preview): render any markdown file in a scrollable TUI overlay with `/md <file>`
+- [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor): read-only health checks through the `/doctor` command
+- [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree): safe Git worktree management through the `/worktree` command
+- [`pi-rakit-git`](https://www.npmjs.com/package/pi-rakit-git): focused status, branch, and confirmation-gated commit commands through `/git`
+- [`pi-rakit-biome`](https://www.npmjs.com/package/pi-rakit-biome): safe checks, linting, and confirmation-gated formatting through `/biome`
+- [`pi-rakit-token-speed`](https://www.npmjs.com/package/pi-rakit-token-speed): live token streaming speed in the Pi status bar
+- [`pi-rakit-session-usage`](https://www.npmjs.com/package/pi-rakit-session-usage): current-session and project-history token usage
+- [`pi-rakit-session-stats`](https://www.npmjs.com/package/pi-rakit-session-stats): elapsed time, prompt, turn, and tool-call tracking
+- [`pi-rakit-session-delete`](https://www.npmjs.com/package/pi-rakit-session-delete): interactive, confirmation-gated deletion of inactive sessions
+- [`pi-rakit-compact-tools`](https://www.npmjs.com/package/pi-rakit-compact-tools): compact renderers for built-in tool output
+- [`pi-rakit-auto-title`](https://www.npmjs.com/package/pi-rakit-auto-title): automatic local session titles for easier `/resume` browsing
+- [`pi-rakit-onboarding`](https://www.npmjs.com/package/pi-rakit-onboarding): reopen package selection through `/onboarding`
+- [`pi-rakit-plan-mode`](https://www.npmjs.com/package/pi-rakit-plan-mode): read-only exploration, structured plans, and tracked execution
+- [`pi-rakit-ui`](https://www.npmjs.com/package/pi-rakit-ui): cohesive global theme, header, footer, editor, and working indicator
 
 The installer also provides optional third-party packages:
 
@@ -42,13 +42,13 @@ The installer also provides optional third-party packages:
 Run the interactive installer:
 
 ```bash
-npx @anandamw/pi-rakit@latest
+npx pi-rakit@latest
 ```
 
 Install packages only for the current project:
 
 ```bash
-npx @anandamw/pi-rakit@latest --local
+npx pi-rakit@latest --local
 ```
 
 By default, the CLI only updates the Pi settings. Add `--install` to also invoke `pi install` for each selected package. The installer always adds the hidden Onboarding package so you can later run `/onboarding`, choose global or project scope, and revise the selection without leaving Pi.
@@ -58,7 +58,7 @@ By default, the CLI only updates the Pi settings. Add `--install` to also invoke
 Install Custom Provider directly to connect Pi to an OpenAI-compatible local server or hosted gateway:
 
 ```bash
-pi install npm:@anandamw/custom-provider
+pi install npm:pi-rakit-custom-provider
 ```
 
 Run `/rakit` inside Pi to open the unified management menu:
@@ -77,7 +77,7 @@ The defaults use Ollama at `http://localhost:11434/v1` with model `llama3.2`. Co
 Install Markdown Preview directly to render any markdown file as a scrollable overlay:
 
 ```bash
-pi install npm:@anandamw/markdown-preview
+pi install npm:pi-rakit-markdown-preview
 ```
 
 ```text
@@ -91,7 +91,7 @@ Controls: `↑`/`↓` to scroll, `q` or `Esc` to close.
 Install Doctor directly and run a read-only health check inside Pi:
 
 ```bash
-pi install npm:@anandamw/doctor
+pi install npm:pi-rakit-doctor
 ```
 
 ```text
@@ -105,7 +105,7 @@ Doctor checks the runtime, global and project settings, duplicate package source
 Install Worktree directly when you do not need the interactive installer:
 
 ```bash
-pi install npm:@anandamw/worktree
+pi install npm:pi-rakit-worktree
 ```
 
 Then start or reload Pi and run:
@@ -123,7 +123,7 @@ Creating `issue-123` creates branch `worktree/issue-123` in the sibling director
 Install Git directly for focused repository inspection and staged commits:
 
 ```bash
-pi install npm:@anandamw/git
+pi install npm:pi-rakit-git
 ```
 
 ```text
@@ -139,7 +139,7 @@ The commit command requires confirmation and commits only changes already staged
 Install Biome directly for project checks, linting, and formatting:
 
 ```bash
-pi install npm:@anandamw/biome
+pi install npm:pi-rakit-biome
 ```
 
 ```text
@@ -155,7 +155,7 @@ Check and lint are read-only. Format writes files only after explicit confirmati
 Install Token Speed directly to display live generation throughput in Pi's footer:
 
 ```bash
-pi install npm:@anandamw/token-speed
+pi install npm:pi-rakit-token-speed
 ```
 
 The status shows an updating estimate while content streams and a final rate based on provider-reported output token usage when the response finishes.
@@ -165,7 +165,7 @@ The status shows an updating estimate while content streams and a final rate bas
 Install Plan Mode directly for read-only analysis and structured execution:
 
 ```bash
-pi install npm:@anandamw/plan-mode
+pi install npm:pi-rakit-plan-mode
 ```
 
 Run `/plan` or press `Ctrl+Alt+P` to toggle it. Plan mode blocks mutation tools and non-allowlisted shell commands. Generated numbered plans can be refined or executed with persistent checklist progress. See the [complete Plan Mode guide](docs/rakit/Plan%20Mode.md).
@@ -175,7 +175,7 @@ Run `/plan` or press `Ctrl+Alt+P` to toggle it. Plan mode blocks mutation tools 
 Install the global visual system directly:
 
 ```bash
-pi install npm:@anandamw/ui
+pi install npm:pi-rakit-ui
 ```
 
 Rakit UI applies the bundled `rakit` theme plus a compact header, diagnostic footer, framed editor, and working indicator. Use `/rakit-ui [on|off|theme]` for runtime control. Built-in transcript and picker layouts stay native Pi components and inherit the theme. See the [complete Rakit UI guide](docs/rakit/Rakit%20UI.md).
@@ -185,14 +185,14 @@ Rakit UI applies the bundled `rakit` theme plus a compact header, diagnostic foo
 Install any utility independently:
 
 ```bash
-pi install npm:@anandamw/session-usage
-pi install npm:@anandamw/session-stats
-pi install npm:@anandamw/session-delete
-pi install npm:@anandamw/compact-tools
-pi install npm:@anandamw/auto-title
-pi install npm:@anandamw/onboarding
-pi install npm:@anandamw/plan-mode
-pi install npm:@anandamw/ui
+pi install npm:pi-rakit-session-usage
+pi install npm:pi-rakit-session-stats
+pi install npm:pi-rakit-session-delete
+pi install npm:pi-rakit-compact-tools
+pi install npm:pi-rakit-auto-title
+pi install npm:pi-rakit-onboarding
+pi install npm:pi-rakit-plan-mode
+pi install npm:pi-rakit-ui
 ```
 
 Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request. Run `/onboarding` to update only Pi Rakit-managed package entries while preserving unrelated settings and packages.
@@ -202,48 +202,48 @@ Use `/usage` for current and project token totals, `/session-stats` for elapsed/
 Remove every package that Pi Rakit installed:
 
 ```bash
-pi remove npm:@anandamw/pi-rakit
-pi remove npm:@anandamw/hello-pi
-pi remove npm:@anandamw/custom-provider
-pi remove npm:@anandamw/doctor
-pi remove npm:@anandamw/worktree
-pi remove npm:@anandamw/git
-pi remove npm:@anandamw/biome
-pi remove npm:@anandamw/token-speed
-pi remove npm:@anandamw/session-usage
-pi remove npm:@anandamw/session-stats
-pi remove npm:@anandamw/session-delete
-pi remove npm:@anandamw/compact-tools
-pi remove npm:@anandamw/auto-title
-pi remove npm:@anandamw/onboarding
-pi remove npm:@anandamw/plan-mode
-pi remove npm:@anandamw/ui
-pi remove npm:@anandamw/playwright-browser
-pi remove npm:@anandamw/markdown-preview
+pi remove npm:pi-rakit
+pi remove npm:pi-rakit-hello
+pi remove npm:pi-rakit-custom-provider
+pi remove npm:pi-rakit-doctor
+pi remove npm:pi-rakit-worktree
+pi remove npm:pi-rakit-git
+pi remove npm:pi-rakit-biome
+pi remove npm:pi-rakit-token-speed
+pi remove npm:pi-rakit-session-usage
+pi remove npm:pi-rakit-session-stats
+pi remove npm:pi-rakit-session-delete
+pi remove npm:pi-rakit-compact-tools
+pi remove npm:pi-rakit-auto-title
+pi remove npm:pi-rakit-onboarding
+pi remove npm:pi-rakit-plan-mode
+pi remove npm:pi-rakit-ui
+pi remove npm:pi-rakit-playwright-browser
+pi remove npm:pi-rakit-markdown-preview
 ```
 
 Or uninstall in one line:
 
 ```bash
 pi remove \
-  npm:@anandamw/pi-rakit \
-  npm:@anandamw/hello-pi \
-  npm:@anandamw/custom-provider \
-  npm:@anandamw/doctor \
-  npm:@anandamw/worktree \
-  npm:@anandamw/git \
-  npm:@anandamw/biome \
-  npm:@anandamw/token-speed \
-  npm:@anandamw/session-usage \
-  npm:@anandamw/session-stats \
-  npm:@anandamw/session-delete \
-  npm:@anandamw/compact-tools \
-  npm:@anandamw/auto-title \
-  npm:@anandamw/onboarding \
-  npm:@anandamw/plan-mode \
-  npm:@anandamw/ui \
-  npm:@anandamw/playwright-browser \
-  npm:@anandamw/markdown-preview
+  npm:pi-rakit \
+  npm:pi-rakit-hello \
+  npm:pi-rakit-custom-provider \
+  npm:pi-rakit-doctor \
+  npm:pi-rakit-worktree \
+  npm:pi-rakit-git \
+  npm:pi-rakit-biome \
+  npm:pi-rakit-token-speed \
+  npm:pi-rakit-session-usage \
+  npm:pi-rakit-session-stats \
+  npm:pi-rakit-session-delete \
+  npm:pi-rakit-compact-tools \
+  npm:pi-rakit-auto-title \
+  npm:pi-rakit-onboarding \
+  npm:pi-rakit-plan-mode \
+  npm:pi-rakit-ui \
+  npm:pi-rakit-playwright-browser \
+  npm:pi-rakit-markdown-preview
 ```
 
 Third-party packages installed through the installer (Ponytail, Caveman) must be removed separately:

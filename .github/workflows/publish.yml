@@ -24,6 +24,7 @@ on:
           - packages/plan-mode
           - packages/ui
           - packages/playwright-browser
+          - packages/markdown-preview
           - apps/installer
 
 permissions:

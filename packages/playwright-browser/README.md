@@ -5,7 +5,7 @@ A Pi skill for deterministic browser automation with Playwright. It can navigate
 ## Install
 
 ```bash
-pi install npm:@anandamw/playwright-browser
+pi install npm:pi-rakit-playwright-browser
 npx playwright install chromium
 ```
 

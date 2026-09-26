@@ -7,13 +7,13 @@ Pi Rakit Doctor menjalankan pemeriksaan kesehatan Pi tanpa mengubah settings, pa
 Pilih **Doctor** saat menjalankan installer:
 
 ```bash
-npx @anandamw/pi-rakit@latest
+npx pi-rakit@latest
 ```
 
 Atau instal langsung:
 
 ```bash
-pi install npm:@anandamw/doctor
+pi install npm:pi-rakit-doctor
 ```
 
 Mulai atau reload Pi setelah instalasi.

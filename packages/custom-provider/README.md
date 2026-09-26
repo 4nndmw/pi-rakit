@@ -1,11 +1,11 @@
-# @anandamw/custom-provider
+# pi-rakit-custom-provider
 
 A Pi extension for managing providers and models through a unified `/rakit` command. Supports OpenAI-compatible local servers (Ollama, llama.cpp, vLLM), hosted gateways, and Pi-native `models.json` providers.
 
 ## Install
 
 ```bash
-pi install npm:@anandamw/custom-provider
+pi install npm:pi-rakit-custom-provider
 ```
 
 Or select **Custom Provider** in the Pi Rakit installer.

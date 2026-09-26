@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/biome",
+	"name": "pi-rakit-biome",
 	"version": "0.1.0",
 	"description": "Safe Biome check, lint, and confirmation-gated formatting commands for Pi",
 	"type": "module",

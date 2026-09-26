@@ -5,7 +5,7 @@ Read-only exploration, structured planning, and tracked plan execution for [Pi](
 ## Install
 
 ```bash
-pi install npm:@anandamw/plan-mode
+pi install npm:pi-rakit-plan-mode
 ```
 
 Reload Pi, then toggle planning mode:

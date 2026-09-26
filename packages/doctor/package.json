@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/doctor",
+	"name": "pi-rakit-doctor",
 	"version": "0.1.2",
 	"description": "Read-only health checks for Pi installations and project settings",
 	"type": "module",

@@ -13,7 +13,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/onboarding",
-				"npm": "@anandamw/onboarding"
+				"npm": "pi-rakit-onboarding"
 			}
 		},
 		{
@@ -26,7 +26,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/plan-mode",
-				"npm": "@anandamw/plan-mode"
+				"npm": "pi-rakit-plan-mode"
 			}
 		},
 		{
@@ -39,7 +39,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/ui",
-				"npm": "@anandamw/ui"
+				"npm": "pi-rakit-ui"
 			}
 		},
 		{
@@ -52,7 +52,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/hello-pi",
-				"npm": "@anandamw/hello-pi"
+				"npm": "pi-rakit-hello"
 			}
 		},
 		{
@@ -65,7 +65,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/custom-provider",
-				"npm": "@anandamw/custom-provider"
+				"npm": "pi-rakit-custom-provider"
 			}
 		},
 		{
@@ -78,7 +78,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/doctor",
-				"npm": "@anandamw/doctor"
+				"npm": "pi-rakit-doctor"
 			}
 		},
 		{
@@ -91,7 +91,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/worktree",
-				"npm": "@anandamw/worktree"
+				"npm": "pi-rakit-worktree"
 			}
 		},
 		{
@@ -104,7 +104,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/git",
-				"npm": "@anandamw/git"
+				"npm": "pi-rakit-git"
 			}
 		},
 		{
@@ -117,7 +117,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/biome",
-				"npm": "@anandamw/biome"
+				"npm": "pi-rakit-biome"
 			}
 		},
 		{
@@ -130,7 +130,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/token-speed",
-				"npm": "@anandamw/token-speed"
+				"npm": "pi-rakit-token-speed"
 			}
 		},
 		{
@@ -143,7 +143,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-usage",
-				"npm": "@anandamw/session-usage"
+				"npm": "pi-rakit-session-usage"
 			}
 		},
 		{
@@ -156,7 +156,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-stats",
-				"npm": "@anandamw/session-stats"
+				"npm": "pi-rakit-session-stats"
 			}
 		},
 		{
@@ -169,7 +169,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/session-delete",
-				"npm": "@anandamw/session-delete"
+				"npm": "pi-rakit-session-delete"
 			}
 		},
 		{
@@ -182,7 +182,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/compact-tools",
-				"npm": "@anandamw/compact-tools"
+				"npm": "pi-rakit-compact-tools"
 			}
 		},
 		{
@@ -195,7 +195,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/auto-title",
-				"npm": "@anandamw/auto-title"
+				"npm": "pi-rakit-auto-title"
 			}
 		},
 		{
@@ -208,7 +208,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/playwright-browser",
-				"npm": "@anandamw/playwright-browser"
+				"npm": "pi-rakit-playwright-browser"
 			}
 		},
 		{

@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/compact-tools",
+	"name": "pi-rakit-compact-tools",
 	"version": "0.1.1",
 	"description": "Make built-in tool output compact and easier to scan in Pi",
 	"type": "module",

@@ -13,7 +13,7 @@ import customProvider, {
 } from "../extensions/index.js";
 
 process.env.PI_RAKIT_SETTINGS_PATH = path.join(
-  mkdtempSync(path.join(tmpdir(), "@anandamw-custom-provider-")),
+  mkdtempSync(path.join(tmpdir(), "pi-rakit-custom-provider-")),
   "settings.json",
 );
 
@@ -170,10 +170,10 @@ test("registers the provider with Pi", () => {
 
   assert.equal(providerCall.providerId, "rakit-openai");
   assert.equal(providerCall.config.models[0].id, "llama3.2");
-  assert.equal(commandCall.command, "provider");
+  assert.equal(commandCall.command, "rakit");
   assert.equal(
     commandCall.config.description,
-    "Choose and manage providers and models",
+    "Manage Pi Rakit providers and models",
   );
 });
 
@@ -221,6 +221,7 @@ test("/provider configures and selects a custom provider", async () => {
   const selectValues = [
     "Add custom provider",
     "custom-model",
+    "text",
     "custom-model",
   ];
   const notifications = [];

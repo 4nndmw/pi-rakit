@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/markdown-preview",
+	"name": "pi-rakit-markdown-preview",
 	"version": "0.1.0",
 	"description": "Preview markdown files in Pi TUI overlay",
 	"type": "module",

@@ -24,7 +24,7 @@ function printHelp() {
 	console.log(`Pi Rakit
 
 Usage:
-  npx @anandamw/pi-rakit [options]
+  npx pi-rakit [options]
 
 Options:
   --cwd <path>       Target project directory
@@ -306,7 +306,7 @@ function checkForUpdates(packageRoot) {
 	if (!latest || latest === current) return;
 	console.log(
 		`  Update available: ${pkg.name} ${current} → ${latest}
-  Run: npx @anandamw/pi-rakit@latest`,
+  Run: npx pi-rakit@latest`,
 	);
 }
 

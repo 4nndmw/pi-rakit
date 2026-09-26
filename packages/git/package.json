@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/git",
+	"name": "pi-rakit-git",
 	"version": "0.1.1",
 	"description": "Focused and confirmation-gated Git commands for Pi",
 	"type": "module",

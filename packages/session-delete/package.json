@@ -1,5 +1,5 @@
 {
-	"name": "@anandamw/session-delete",
+	"name": "pi-rakit-session-delete",
 	"version": "0.1.0",
 	"description": "Interactively delete saved Pi sessions with confirmation",
 	"type": "module",

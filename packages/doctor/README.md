@@ -5,7 +5,7 @@ A read-only health check extension for [Pi](https://pi.dev/). It checks the Node
 ## Install
 
 ```bash
-pi install npm:@anandamw/doctor
+pi install npm:pi-rakit-doctor
 ```
 
 Or select **Doctor** in the Pi Rakit installer.

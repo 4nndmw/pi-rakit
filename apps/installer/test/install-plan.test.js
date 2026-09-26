@@ -25,7 +25,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/plan-mode",
-				npm: "@anandamw/plan-mode",
+				npm: "pi-rakit-plan-mode",
 			},
 		},
 		{
@@ -34,7 +34,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/ui",
-				npm: "@anandamw/ui",
+				npm: "pi-rakit-ui",
 			},
 		},
 		{
@@ -43,7 +43,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/doctor",
-				npm: "@anandamw/doctor",
+				npm: "pi-rakit-doctor",
 			},
 		},
 		{
@@ -52,7 +52,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/worktree",
-				npm: "@anandamw/worktree",
+				npm: "pi-rakit-worktree",
 			},
 		},
 		{
@@ -61,7 +61,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/git",
-				npm: "@anandamw/git",
+				npm: "pi-rakit-git",
 			},
 		},
 		{
@@ -70,7 +70,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/biome",
-				npm: "@anandamw/biome",
+				npm: "pi-rakit-biome",
 			},
 		},
 		{
@@ -79,7 +79,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: "packages/token-speed",
-				npm: "@anandamw/token-speed",
+				npm: "pi-rakit-token-speed",
 			},
 		},
 		...[
@@ -94,7 +94,7 @@ const manifest = {
 			source: {
 				mode: "workspace",
 				path: `packages/${id}`,
-				npm: `@anandamw/${id}`,
+				npm: `pi-rakit-${id}`,
 			},
 		})),
 		{
@@ -129,14 +129,14 @@ test("always includes mandatory hidden packages once", () => {
 				source: {
 					mode: "workspace",
 					path: "packages/onboarding",
-					npm: "@anandamw/onboarding",
+					npm: "pi-rakit-onboarding",
 				},
 			},
 		],
 	};
 	const emptyPlan = buildInstallPlan([], mandatoryManifest, options);
 	assert.deepEqual(emptyPlan.ids, ["onboarding"]);
-	assert.deepEqual(emptyPlan.packageSources, ["npm:@anandamw/onboarding"]);
+	assert.deepEqual(emptyPlan.packageSources, ["npm:pi-rakit-onboarding"]);
 	assert.deepEqual(
 		buildInstallPlan(["onboarding"], mandatoryManifest, options).ids,
 		["onboarding"],
@@ -154,7 +154,7 @@ test("expands requirements before selected packages", () => {
 
 test("resolves Plan Mode for npm and development mode", () => {
 	const published = buildInstallPlan(["plan-mode"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@anandamw/plan-mode"]);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-plan-mode"]);
 	const development = buildInstallPlan(["plan-mode"], manifest, {
 		...options,
 		devMode: true,
@@ -164,7 +164,7 @@ test("resolves Plan Mode for npm and development mode", () => {
 
 test("resolves Rakit UI for npm and development mode", () => {
 	const published = buildInstallPlan(["ui"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@anandamw/ui"]);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-ui"]);
 	const development = buildInstallPlan(["ui"], manifest, {
 		...options,
 		devMode: true,
@@ -174,12 +174,12 @@ test("resolves Rakit UI for npm and development mode", () => {
 
 test("uses the Doctor npm package outside development mode", () => {
 	const plan = buildInstallPlan(["doctor"], manifest, options);
-	assert.deepEqual(plan.packageSources, ["npm:@anandamw/doctor"]);
+	assert.deepEqual(plan.packageSources, ["npm:pi-rakit-doctor"]);
 });
 
 test("uses the Worktree npm package outside development mode", () => {
 	const plan = buildInstallPlan(["worktree"], manifest, options);
-	assert.deepEqual(plan.packageSources, ["npm:@anandamw/worktree"]);
+	assert.deepEqual(plan.packageSources, ["npm:pi-rakit-worktree"]);
 });
 
 test("uses the Worktree workspace path in development mode", () => {
@@ -192,7 +192,7 @@ test("uses the Worktree workspace path in development mode", () => {
 
 test("resolves the Git package for npm and development mode", () => {
 	const published = buildInstallPlan(["git"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@anandamw/git"]);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-git"]);
 	const development = buildInstallPlan(["git"], manifest, {
 		...options,
 		devMode: true,
@@ -202,7 +202,7 @@ test("resolves the Git package for npm and development mode", () => {
 
 test("resolves the Biome package for npm and development mode", () => {
 	const published = buildInstallPlan(["biome"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@anandamw/biome"]);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-biome"]);
 	const development = buildInstallPlan(["biome"], manifest, {
 		...options,
 		devMode: true,
@@ -212,7 +212,7 @@ test("resolves the Biome package for npm and development mode", () => {
 
 test("resolves Token Speed for npm and development mode", () => {
 	const published = buildInstallPlan(["token-speed"], manifest, options);
-	assert.deepEqual(published.packageSources, ["npm:@anandamw/token-speed"]);
+	assert.deepEqual(published.packageSources, ["npm:pi-rakit-token-speed"]);
 	const development = buildInstallPlan(["token-speed"], manifest, {
 		...options,
 		devMode: true,
@@ -229,7 +229,7 @@ test("resolves session utilities for npm and development mode", () => {
 		"auto-title",
 	]) {
 		const published = buildInstallPlan([id], manifest, options);
-		assert.deepEqual(published.packageSources, [`npm:@anandamw/${id}`]);
+		assert.deepEqual(published.packageSources, [`npm:pi-rakit-${id}`]);
 		const development = buildInstallPlan([id], manifest, {
 			...options,
 			devMode: true,
