@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit",
-	"version": "0.1.22",
+	"version": "0.1.23",
 	"description": "Interactive installer for assembling a set of Pi extensions",
 	"type": "module",
 	"private": false,
