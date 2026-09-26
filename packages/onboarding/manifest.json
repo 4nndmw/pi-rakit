@@ -56,6 +56,19 @@
 			}
 		},
 		{
+			"id": "setup-providers",
+			"label": "Setup Providers",
+			"description": "Overlay wizard to configure custom providers and models.",
+			"category": "Provider",
+			"enabledByDefault": false,
+			"tags": ["provider", "models", "wizard", "overlay"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/setup-providers",
+				"npm": "pi-rakit-setup-providers"
+			}
+		},
+		{
 			"id": "doctor",
 			"label": "Doctor",
 			"description": "Read-only health checks for Pi runtime, settings, packages, and environment.",

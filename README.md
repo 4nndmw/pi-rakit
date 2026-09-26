@@ -16,6 +16,7 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 
 - [`pi-rakit`](https://www.npmjs.com/package/pi-rakit): the main interactive CLI installer
 - [`pi-rakit-custom-provider`](https://www.npmjs.com/package/pi-rakit-custom-provider): unified `/custom-provider` command to switch providers, manage custom providers, and manage Pi-native `models.json` providers and models
+- [`pi-rakit-setup-providers`](https://www.npmjs.com/package/pi-rakit-setup-providers): overlay wizard to configure custom providers and models in `models.json`
 - [`pi-rakit-markdown-preview`](https://www.npmjs.com/package/pi-rakit-markdown-preview): render any markdown file in a scrollable TUI overlay with `/md <file>`
 - [`pi-rakit-doctor`](https://www.npmjs.com/package/pi-rakit-doctor): read-only health checks through the `/doctor` command
 - [`pi-rakit-worktree`](https://www.npmjs.com/package/pi-rakit-worktree): safe Git worktree management through the `/worktree` command

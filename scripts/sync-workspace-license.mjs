@@ -23,6 +23,7 @@ const workspacePaths = [
 	"packages/plan-mode",
 	"packages/ui",
 	"packages/playwright-browser",
+	"packages/setup-providers",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);

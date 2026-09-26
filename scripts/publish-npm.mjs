@@ -23,6 +23,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/ui",
 	"packages/playwright-browser",
 	"packages/markdown-preview",
+	"packages/setup-providers",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");
