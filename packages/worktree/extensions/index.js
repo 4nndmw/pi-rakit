@@ -4,12 +4,22 @@ import path from "node:path";
 const PROTECTED_BRANCHES = new Set(["main", "master"]);
 const NAME_PATTERN = /^[a-z0-9][a-z0-9._-]*$/i;
 
+function quoteArg(value) {
+	const text = String(value);
+	if (text === "") return '""';
+	if (!/[\s"&|<>^()]/.test(text)) return text;
+	return `"${text.replace(/"/g, '""')}"`;
+}
+
+function runSync(command, args, options = {}) {
+	if (process.platform === "win32") {
+		return spawnSync([command, ...args.map(quoteArg)].join(" "), { ...options, shell: true });
+	}
+	return spawnSync(command, args, options);
+}
+
 function defaultRunGit(args, cwd) {
-	return spawnSync("git", args, {
-		cwd,
-		encoding: "utf8",
-		shell: process.platform === "win32",
-	});
+	return runSync("git", args, { cwd, encoding: "utf8" });
 }
 
 function git(runGit, args, cwd, options = {}) {

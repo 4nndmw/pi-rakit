@@ -163,16 +163,26 @@ function emitOutput(content, outputPath) {
 	writeFileSync(outputPath, `${content}\n`);
 }
 
+function quoteArg(value) {
+	const text = String(value);
+	if (text === "") return '""';
+	if (!/[\s"&|<>^()]/.test(text)) return text;
+	return `"${text.replace(/"/g, '""')}"`;
+}
+
+function runSync(command, args, options = {}) {
+	if (process.platform === "win32") {
+		return spawnSync([command, ...args.map(quoteArg)].join(" "), { ...options, shell: true });
+	}
+	return spawnSync(command, args, options);
+}
+
 function runPiInstall(cwd, packageSources, global) {
 	for (const source of packageSources) {
 		const args = ["install", source];
 		if (!global) args.push("-l");
 
-		const result = spawnSync("pi", args, {
-			cwd,
-			stdio: "inherit",
-			shell: process.platform === "win32",
-		});
+		const result = runSync("pi", args, { cwd, stdio: "inherit" });
 		if (result.status !== 0) throw new Error(`pi install failed for ${source}`);
 	}
 }
@@ -294,9 +304,8 @@ function checkForUpdates(packageRoot) {
 	const current = pkg.version;
 	let latest;
 	try {
-		const result = spawnSync("npm", ["view", pkg.name, "version", "--json"], {
+		const result = runSync("npm", ["view", pkg.name, "version", "--json"], {
 			encoding: "utf8",
-			shell: process.platform === "win32",
 			timeout: 5000,
 		});
 		latest = result.status === 0 ? JSON.parse(result.stdout.trim()) : null;

@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-worktree",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Safe Git worktree management commands for Pi",
 	"type": "module",
 	"private": false,

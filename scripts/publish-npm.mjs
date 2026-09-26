@@ -40,12 +40,22 @@ if (requestedWorkspace && !PUBLISH_WORKSPACES.includes(requestedWorkspace)) {
 }
 const workspaces = requestedWorkspace ? [requestedWorkspace] : PUBLISH_WORKSPACES;
 
+function quoteArg(value) {
+	const text = String(value);
+	if (text === "") return '""';
+	if (!/[\s"&|<>^()]/.test(text)) return text;
+	return `"${text.replace(/"/g, '""')}"`;
+}
+
+function spawnPortable(command, args, options = {}) {
+	if (process.platform === "win32" && command !== process.execPath) {
+		return spawnSync([command, ...args.map(quoteArg)].join(" "), { ...options, shell: true });
+	}
+	return spawnSync(command, args, options);
+}
+
 function run(command, args, cwd = root) {
-	const result = spawnSync(command, args, {
-		cwd,
-		stdio: "inherit",
-		shell: process.platform === "win32" && command !== process.execPath,
-	});
+	const result = spawnPortable(command, args, { cwd, stdio: "inherit" });
 	if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
@@ -53,10 +63,9 @@ function isPublished(workspace) {
 	const workspaceRoot = path.join(root, workspace);
 	const manifest = JSON.parse(readFileSync(path.join(workspaceRoot, "package.json"), "utf8"));
 	const spec = `${manifest.name}@${manifest.version}`;
-	const result = spawnSync("npm", ["view", spec, "version", "--json"], {
+	const result = spawnPortable("npm", ["view", spec, "version", "--json"], {
 		cwd: workspaceRoot,
 		encoding: "utf8",
-		shell: process.platform === "win32",
 	});
 	if (result.status === 0) return { published: true, spec };
 	if (/\bE404\b|Not Found/i.test(`${result.stdout}\n${result.stderr}`)) return { published: false, spec };

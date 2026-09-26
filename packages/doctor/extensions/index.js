@@ -131,11 +131,22 @@ function inspectSettingsFile(settingsPath, env) {
   }
 }
 
+function quoteArg(value) {
+  const text = String(value);
+  if (text === "") return '""';
+  if (!/[\s"&|<>^()]/.test(text)) return text;
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function runSync(command, args, options = {}) {
+  if (process.platform === "win32") {
+    return spawnSync([command, ...args.map(quoteArg)].join(" "), { ...options, shell: true });
+  }
+  return spawnSync(command, args, options);
+}
+
 function defaultRunPi() {
-  return spawnSync("pi", ["--version"], {
-    encoding: "utf8",
-    shell: process.platform === "win32",
-  });
+  return runSync("pi", ["--version"], { encoding: "utf8" });
 }
 
 export function runDiagnostics(options = {}) {
