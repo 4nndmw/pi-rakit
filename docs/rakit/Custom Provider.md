@@ -62,7 +62,7 @@ After the URL and API key are provided, the command calls the OpenAI-compatible 
 
 The custom provider is registered and selected immediately for the current Pi session. The configuration is saved to `~/.pi/agent/settings.json`, so it persists after Pi restarts. The API key is entered through Pi's input dialog and is not displayed by the command.
 
-To manage the configuration, select **Manage custom providers** in `/custom-provider`. It provides CRUD operations for providers and models: add, edit, and delete providers, as well as add, edit, and delete models. Adding a model also runs automatic discovery. Built-in providers such as ChatGPT, Claude, Gemini, and others only appear when they are available in the Pi configuration.
+To manage the configuration, select **Manage custom providers** in `/custom-provider`. It provides CRUD operations for providers and models: add, edit, and delete providers, as well as add, edit, and delete models. Adding a model also runs automatic discovery. Editing opens a field menu so each field can be changed on its own; the current value is shown as a placeholder and pressing Enter keeps it. Built-in providers such as ChatGPT, Claude, Gemini, and others only appear when they are available in the Pi configuration.
 
 The configuration is read when the extension loads. After changing environment variables, restart or reload Pi.
 

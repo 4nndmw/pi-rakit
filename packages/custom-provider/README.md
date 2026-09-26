@@ -49,7 +49,9 @@ After saving, the provider is registered and the model is selected for the curre
 
 ### Manage custom providers
 
-Add, edit, or delete custom providers and their models. Each provider supports multiple models. Editing a model re-prompts all fields with current values as defaults.
+Add, edit, or delete custom providers and their models. Each provider supports multiple models.
+
+Editing a provider or model opens a **field menu** so you can change one field at a time (Provider ID, name, API URL, API key, model ID, context window, max tokens, reasoning, input type). Each prompt shows the current value as a placeholder: press **Enter** to keep it, or type a new value to replace it. Press **Esc** to cancel the dialog.
 
 ### Manage models.json
 
@@ -60,6 +62,8 @@ Manage Pi-native providers defined in `~/.pi/agent/models.json`.
 ```
 
 Inside a provider, select a model to **Edit** or **Delete** it, or choose **+ Add new model**.
+
+Editing opens the same field menu used for custom providers. Every field is pre-filled with the current value as a placeholder, so pressing **Enter** keeps it unchanged.
 
 When adding or editing a model, fields are:
 

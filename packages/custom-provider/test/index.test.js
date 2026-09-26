@@ -357,3 +357,148 @@ test("saveCustomProviderConfig persists config and loadCustomProviderConfig read
   assert.deepEqual(loaded, testConfig);
   rmSync(getSettingsPath(), { recursive: true, force: true });
 });
+
+test("editing a provider keeps the current value when a field is submitted empty", async () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+  saveCustomProviderConfig({
+    providerId: "rakit-custom",
+    name: "My Server",
+    baseUrl: "https://api.example.com/v1",
+    apiKey: "secret",
+    api: "openai-completions",
+    models: [
+      {
+        id: "custom-model",
+        name: "Custom Model",
+        reasoning: false,
+        input: ["text"],
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        contextWindow: 128000,
+        maxTokens: 8192,
+      },
+    ],
+  });
+
+  let commandConfig;
+  const registered = [];
+  customProvider({
+    registerProvider(providerId, config) {
+      registered.push({ providerId, config });
+    },
+    registerCommand(_command, config) {
+      commandConfig = config;
+    },
+    async setModel() {
+      return true;
+    },
+  });
+
+  const selectValues = [
+    "Manage custom providers",
+    "My Server",
+    "Edit provider",
+    "Name: My Server",
+    "Back",
+    "Back",
+    "Exit",
+  ];
+  const inputValues = [""];
+
+  await commandConfig.handler("", {
+    hasUI: true,
+    ui: {
+      async select() {
+        return selectValues.shift();
+      },
+      async input() {
+        return inputValues.shift();
+      },
+      notify() {},
+    },
+    modelRegistry: {
+      find(providerId, modelId) {
+        return { provider: providerId, id: modelId };
+      },
+    },
+  });
+
+  const latest = registered.at(-1);
+  assert.equal(latest.providerId, "rakit-custom");
+  assert.equal(latest.config.name, "My Server");
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+});
+
+test("editing a model updates only the selected field", async () => {
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+  saveCustomProviderConfig({
+    providerId: "rakit-custom",
+    name: "My Server",
+    baseUrl: "https://api.example.com/v1",
+    apiKey: "secret",
+    api: "openai-completions",
+    models: [
+      {
+        id: "custom-model",
+        name: "Custom Model",
+        reasoning: false,
+        input: ["text"],
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        contextWindow: 128000,
+        maxTokens: 8192,
+      },
+    ],
+  });
+
+  let commandConfig;
+  const registered = [];
+  customProvider({
+    registerProvider(providerId, config) {
+      registered.push({ providerId, config });
+    },
+    registerCommand(_command, config) {
+      commandConfig = config;
+    },
+    async setModel() {
+      return true;
+    },
+  });
+
+  const selectValues = [
+    "Manage custom providers",
+    "My Server",
+    "Manage models",
+    "custom-model",
+    "Edit model",
+    "Context window: 128000",
+    "Back",
+    "Back",
+    "Back",
+    "Exit",
+  ];
+  const inputValues = ["65536"];
+
+  await commandConfig.handler("", {
+    hasUI: true,
+    ui: {
+      async select() {
+        return selectValues.shift();
+      },
+      async input() {
+        return inputValues.shift();
+      },
+      notify() {},
+    },
+    modelRegistry: {
+      find(providerId, modelId) {
+        return { provider: providerId, id: modelId };
+      },
+    },
+  });
+
+  const latest = registered.at(-1);
+  assert.equal(latest.config.models[0].id, "custom-model");
+  assert.equal(latest.config.models[0].name, "Custom Model");
+  assert.equal(latest.config.models[0].contextWindow, 65536);
+  assert.equal(latest.config.models[0].maxTokens, 8192);
+  rmSync(getSettingsPath(), { recursive: true, force: true });
+});

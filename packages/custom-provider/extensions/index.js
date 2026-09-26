@@ -234,8 +234,8 @@ export function buildCustomProviderRegistration({
           model.name || model.id || model.modelId,
           "Model name",
         ),
-        reasoning: false,
-        input: ["text"],
+        reasoning: model.reasoning === true,
+        input: readInputType(model.input),
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
         contextWindow: readPositiveInteger(
           model.contextWindow,
@@ -332,29 +332,69 @@ async function selectAvailableProvider(pi, ctx, providerId) {
   );
 }
 
+// Ask for a text value. The current value is shown as a placeholder so the
+// user can press Enter to keep it, or Esc to cancel. Returns { ok: false }
+// only when the dialog is cancelled.
+async function askField(ctx, label, current) {
+  const shown = current === undefined || current === null ? "" : String(current);
+  const result = await ctx.ui.input(label, shown);
+  if (result === undefined) return { ok: false };
+  const value = result.trim();
+  return { ok: true, value: value === "" ? current : value };
+}
+
+function readInputType(input) {
+  return Array.isArray(input) && input.includes("image")
+    ? ["text", "image"]
+    : ["text"];
+}
+
+async function promptInputType(ctx, current) {
+  const currentType = readInputType(current).includes("image")
+    ? "text + image"
+    : "text";
+  const selected = await ctx.ui.select(`Input type (current: ${currentType})`, [
+    "text",
+    "text + image",
+  ]);
+  if (!selected) return undefined;
+  return selected === "text + image" ? ["text", "image"] : ["text"];
+}
+
 async function promptModel(ctx, model = {}, fixedIdentity) {
-  const id =
-    fixedIdentity?.id ||
-    (await ctx.ui.input("Model ID", model.id || "model-id"));
-  if (!id) return null;
-  const name =
-    fixedIdentity?.name ||
-    (await ctx.ui.input("Model name", model.name || id));
-  if (!name) return null;
-  const contextWindow = await ctx.ui.input(
+  let id = fixedIdentity?.id;
+  if (!id) {
+    const field = await askField(ctx, "Model ID", model.id || "model-id");
+    if (!field.ok || !field.value) return null;
+    id = field.value;
+  }
+  let name = fixedIdentity?.name;
+  if (!name) {
+    const field = await askField(ctx, "Model name", model.name || id);
+    if (!field.ok || !field.value) return null;
+    name = field.value;
+  }
+  const contextField = await askField(
+    ctx,
     "Context window",
-    String(model.contextWindow || DEFAULTS.contextWindow),
+    model.contextWindow || DEFAULTS.contextWindow,
   );
-  if (!contextWindow) return null;
-  const maxTokens = await ctx.ui.input(
+  if (!contextField.ok || !contextField.value) return null;
+  const maxTokensField = await askField(
+    ctx,
     "Max tokens",
-    String(model.maxTokens || DEFAULTS.maxTokens),
+    model.maxTokens || DEFAULTS.maxTokens,
   );
-  if (!maxTokens) return null;
-  const inputType = await ctx.ui.select("Input type", ["text", "text + image"]);
-  if (!inputType) return null;
-  const input = inputType === "text + image" ? ["text", "image"] : ["text"];
-  return { id, name, contextWindow, maxTokens, input };
+  if (!maxTokensField.ok || !maxTokensField.value) return null;
+  const input = await promptInputType(ctx, model.input);
+  if (!input) return null;
+  return {
+    id,
+    name,
+    contextWindow: contextField.value,
+    maxTokens: maxTokensField.value,
+    input,
+  };
 }
 
 async function discoverAndPromptModel(ctx, baseUrl, apiKey, current, options) {
@@ -427,6 +467,104 @@ async function promptProvider(ctx, current = {}, options = {}) {
   return { ...registration.config, providerId: registration.providerId };
 }
 
+// Edit only the fields the user picks. Each prompt shows the current value as a
+// placeholder, so pressing Enter keeps it without retyping.
+async function editProvider(ctx, provider) {
+  while (true) {
+    const field = await ctx.ui.select(`Edit provider "${provider.name}"`, [
+      `Provider ID: ${provider.providerId}`,
+      `Name: ${provider.name}`,
+      `API URL: ${provider.baseUrl}`,
+      "API key",
+      "Back",
+    ]);
+    if (!field || field === "Back") return provider;
+
+    if (field.startsWith("Provider ID")) {
+      const result = await askField(ctx, "Provider ID", provider.providerId);
+      if (!result.ok) return provider;
+      if (result.value) provider.providerId = result.value;
+    } else if (field.startsWith("Name")) {
+      const result = await askField(ctx, "Provider name", provider.name);
+      if (!result.ok) return provider;
+      if (result.value) provider.name = result.value;
+    } else if (field.startsWith("API URL")) {
+      const result = await askField(ctx, "API URL", provider.baseUrl);
+      if (!result.ok) return provider;
+      if (result.value) provider.baseUrl = result.value;
+    } else if (field === "API key") {
+      const result = await askField(ctx, "API key", provider.apiKey);
+      if (!result.ok) return provider;
+      if (result.value) provider.apiKey = result.value;
+    }
+  }
+}
+
+// Field-by-field model editing. `allowReasoning` is on for Pi-native
+// models.json entries; `existingIds` guards against duplicate IDs.
+async function editModel(ctx, model, { allowReasoning = false, existingIds } = {}) {
+  while (true) {
+    const inputType = readInputType(model.input).includes("image")
+      ? "text + image"
+      : "text";
+    const reasoning = model.reasoning === true;
+    const field = await ctx.ui.select(`Edit model "${model.id}"`, [
+      `Model ID: ${model.id}`,
+      `Name: ${model.name}`,
+      `Context window: ${model.contextWindow}`,
+      `Max tokens: ${model.maxTokens}`,
+      ...(allowReasoning ? [`Reasoning: ${reasoning}`] : []),
+      `Input type: ${inputType}`,
+      "Back",
+    ]);
+    if (!field || field === "Back") return model;
+
+    if (field.startsWith("Model ID")) {
+      const result = await askField(ctx, "Model ID", model.id);
+      if (!result.ok) return model;
+      if (result.value && result.value !== model.id) {
+        if (existingIds && existingIds.has(result.value)) {
+          ctx.ui.notify(`Model "${result.value}" already exists.`, "error");
+        } else {
+          model.id = result.value;
+        }
+      }
+    } else if (field.startsWith("Name")) {
+      const result = await askField(ctx, "Model name", model.name);
+      if (!result.ok) return model;
+      if (result.value) model.name = result.value;
+    } else if (field.startsWith("Context window")) {
+      const result = await askField(ctx, "Context window", model.contextWindow);
+      if (!result.ok) return model;
+      const parsed = Number(result.value);
+      if (!Number.isSafeInteger(parsed) || parsed <= 0) {
+        ctx.ui.notify("Context window must be a positive integer.", "error");
+      } else {
+        model.contextWindow = parsed;
+      }
+    } else if (field.startsWith("Max tokens")) {
+      const result = await askField(ctx, "Max tokens", model.maxTokens);
+      if (!result.ok) return model;
+      const parsed = Number(result.value);
+      if (!Number.isSafeInteger(parsed) || parsed <= 0) {
+        ctx.ui.notify("Max tokens must be a positive integer.", "error");
+      } else {
+        model.maxTokens = parsed;
+      }
+    } else if (field.startsWith("Reasoning")) {
+      const selected = await ctx.ui.select(`Reasoning (current: ${reasoning})`, [
+        "true",
+        "false",
+      ]);
+      if (selected === "true") model.reasoning = true;
+      else if (selected === "false") model.reasoning = false;
+    } else if (field.startsWith("Input type")) {
+      const next = await promptInputType(ctx, model.input);
+      if (next) model.input = next;
+    }
+  }
+}
+
 async function selectCustomModel(pi, ctx, provider) {
   const providerId = provider.providerId || DEFAULTS.customProviderId;
   const modelId = await ctx.ui.select(
@@ -479,8 +617,9 @@ async function manageModels(pi, ctx, configs, provider, options) {
         "Back",
       ]);
       if (action === "Edit model") {
-        const model = await promptModel(ctx, provider.models[modelIndex]);
-        if (model) provider.models[modelIndex] = model;
+        await editModel(ctx, provider.models[modelIndex], {
+          existingIds: new Set(provider.models.map((model) => model.id)),
+        });
       } else if (action === "Delete model") {
         provider.models.splice(modelIndex, 1);
       }
@@ -526,14 +665,13 @@ async function manageProviders(pi, ctx, configs, options) {
         "Back",
       ]);
       if (action === "Edit provider") {
-        const updated = await promptProvider(ctx, provider, options);
-        if (updated) {
-          configs[providerIndex] = updated;
-          pi.registerProvider(
-            updated.providerId || DEFAULTS.customProviderId,
-            updated,
-          );
-        }
+        await editProvider(ctx, provider);
+        const normalized = normalizeCustomProvider(provider);
+        Object.assign(provider, normalized);
+        pi.registerProvider(
+          normalized.providerId || DEFAULTS.customProviderId,
+          normalized,
+        );
       } else if (action === "Manage models") {
         await manageModels(pi, ctx, configs, provider, options);
       } else if (action === "Delete provider") {
@@ -680,45 +818,12 @@ async function manageModelsJSON(pi, ctx) {
 
       if (modelAction === "Edit") {
         const cur = models[modelIdx];
-        const newId = await ctx.ui.input("Model ID", cur.id);
-        if (!newId) continue;
-        const newName = await ctx.ui.input("Model name", cur.name || cur.id);
-        if (!newName) continue;
-        const newCtx = await ctx.ui.input("Context window", String(cur.contextWindow ?? 68000));
-        if (!newCtx) continue;
-        const newMax = await ctx.ui.input("Max tokens", String(cur.maxTokens ?? 16384));
-        if (!newMax) continue;
-        const newReasoning = await ctx.ui.input("Reasoning (true/false)", String(cur.reasoning ?? false));
-        if (!newReasoning) continue;
-        const curInputType = Array.isArray(cur.input) && cur.input.includes("image") ? "text + image" : "text";
-        const newInputType = await ctx.ui.select("Input type", ["text", "text + image"]);
-        if (!newInputType) continue;
-        const contextWindow = Number(newCtx);
-        const maxTokens = Number(newMax);
-        if (!Number.isSafeInteger(contextWindow) || contextWindow <= 0) {
-          ctx.ui.notify("Context window must be a positive integer.", "error");
-          continue;
-        }
-        if (!Number.isSafeInteger(maxTokens) || maxTokens <= 0) {
-          ctx.ui.notify("Max tokens must be a positive integer.", "error");
-          continue;
-        }
-        // check duplicate id only if id changed
-        if (newId !== cur.id && models.some((m) => m.id === newId)) {
-          ctx.ui.notify(`Model "${newId}" already exists.`, "error");
-          continue;
-        }
-        models[modelIdx] = {
-          ...cur,
-          id: newId,
-          name: newName,
-          reasoning: newReasoning === "true",
-          input: newInputType === "text + image" ? ["text", "image"] : ["text"],
-          contextWindow,
-          maxTokens,
-        };
+        await editModel(ctx, cur, {
+          allowReasoning: true,
+          existingIds: new Set(models.map((m) => m.id)),
+        });
         writeModels(data);
-        ctx.ui.notify(`Updated model "${newId}". Reload Pi to apply.`, "info");
+        ctx.ui.notify(`Updated model "${cur.id}". Reload Pi to apply.`, "info");
       }
     }
   }
