@@ -21,4 +21,4 @@ The footer preserves model, branch, context, token, cost, working-directory, and
 
 ## Compatibility
 
-Requires Node.js 20+ and Pi `0.84.4`. Extensions loaded later can replace the same global UI surfaces; package load order determines the active implementation.
+Requires Node.js 20+ and Pi `0.87.1`. Extensions loaded later can replace the same global UI surfaces; package load order determines the active implementation.

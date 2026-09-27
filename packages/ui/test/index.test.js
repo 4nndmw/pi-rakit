@@ -9,6 +9,7 @@ import rakitUiExtension, {
 	compactPath,
 	createFooter,
 	createHeader,
+	createRakitEditorClass,
 	fitSides,
 	formatMetric,
 } from "../extensions/index.js";
@@ -157,6 +158,22 @@ test("skips global surfaces outside TUI and handles commands", () => {
 			["Usage: /rakit-ui [on|off|theme]", "error"],
 		],
 	);
+});
+
+test("rakit editor injects the status label into the bottom border only", () => {
+	const RakitEditor = createRakitEditorClass({
+		isIdle: () => true,
+		ui: { theme: theme() },
+	});
+	const fake = Object.create(RakitEditor.prototype);
+	fake.borderColor = (text) => text;
+
+	const idleLine = RakitEditor.prototype.renderBottomBorder.call(fake, 20, 0);
+	assert.match(idleLine, /READY/);
+	assert.equal(visibleWidth(idleLine), 20);
+
+	const scrollLine = RakitEditor.prototype.renderBottomBorder.call(fake, 20, 3);
+	assert.doesNotMatch(scrollLine, /READY/);
 });
 
 test("bundled theme declares all documented color tokens", () => {

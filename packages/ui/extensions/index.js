@@ -102,16 +102,15 @@ export function createRakitEditorClass(ctx) {
 			super(tui, theme, keybindings, { paddingX: 1, embedWorkingStatus: true });
 		}
 
-		render(width) {
-			const lines = super.render(width);
-			if (width <= 0 || lines.length < 2) return lines;
-			const label = ctx.isIdle() ? " READY " : " WORKING ";
-			const colored = ctx.ui.theme.fg(ctx.isIdle() ? "success" : "accent", label);
+		renderBottomBorder(width, hiddenLineCount) {
+			const base = super.renderBottomBorder(width, hiddenLineCount);
+			if (width <= 0 || hiddenLineCount > 0) return base;
+			const idle = ctx.isIdle();
+			const label = idle ? " READY " : " WORKING ";
+			const colored = ctx.ui.theme.fg(idle ? "success" : "accent", label);
 			const labelWidth = visibleWidth(colored);
-			if (width >= labelWidth + 4) {
-				lines[lines.length - 1] = `${this.borderColor("──")}${colored}${this.borderColor("─".repeat(Math.max(0, width - labelWidth - 2)))}`;
-			}
-			return lines;
+			if (width < labelWidth + 4) return base;
+			return `${this.borderColor("──")}${colored}${this.borderColor("─".repeat(Math.max(0, width - labelWidth - 2)))}`;
 		}
 	};
 }
