@@ -25,6 +25,7 @@ const expectedSources = [
 	"npm:pi-rakit-plan-mode",
 	"npm:pi-rakit-ui",
 	"npm:pi-rakit-setup-providers",
+	"npm:pi-rakit-subagent",
 	"npm:pi-rakit-doctor",
 	"npm:pi-rakit-worktree",
 	"npm:pi-rakit-git",

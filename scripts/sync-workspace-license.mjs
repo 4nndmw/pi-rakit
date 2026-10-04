@@ -23,6 +23,7 @@ const workspacePaths = [
 	"packages/ui",
 	"packages/playwright-browser",
 	"packages/setup-providers",
+	"packages/subagent",
 ];
 const checkOnly = process.argv.includes("--check");
 const source = readFileSync(sourcePath);

@@ -56,6 +56,19 @@
 			}
 		},
 		{
+			"id": "subagent",
+			"label": "Sub-agent",
+			"description": "Delegate focused tasks to child agents for review, scouting, planning, and a second opinion.",
+			"category": "Workflow",
+			"enabledByDefault": false,
+			"tags": ["agent", "subagent", "delegation", "workflow"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/subagent",
+				"npm": "pi-rakit-subagent"
+			}
+		},
+		{
 			"id": "doctor",
 			"label": "Doctor",
 			"description": "Read-only health checks for Pi runtime, settings, packages, and environment.",
