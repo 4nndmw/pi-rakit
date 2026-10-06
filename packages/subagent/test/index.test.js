@@ -13,6 +13,7 @@ import subagentExtension, {
 	resolveAgent,
 	resolveDeliveryMode,
 	runWithConcurrency,
+	truncateText,
 } from "../extensions/index.js";
 
 test("lists the built-in agents", () => {
@@ -149,6 +150,12 @@ test("formats a background job delivery", () => {
 
 	const failed = { id: "job-2", agent: "scout", status: "failed", text: "", error: "boom" };
 	assert.match(formatJobDelivery(failed), /Error: boom/);
+});
+
+test("truncates long text with a hidden-line count", () => {
+	assert.deepEqual(truncateText("a\nb\nc", 5), { text: "a\nb\nc", hidden: 0 });
+	assert.deepEqual(truncateText("a\nb\nc\nd", 2), { text: "a\nb", hidden: 2 });
+	assert.deepEqual(truncateText("", 3), { text: "", hidden: 0 });
 });
 
 test("registers the subagent tools and commands", () => {

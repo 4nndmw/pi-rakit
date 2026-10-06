@@ -80,6 +80,12 @@ Set `"backgroundTriggerTurn": true` to let a `notify` message start a model turn
 While a job runs you can keep working and submit new requests; the result arrives
 when it is ready.
 
+## Display
+
+Tool calls and results render in the TUI with status icons (◆ running, ✓ done,
+⏳ background), the agent and model, and a short preview. Press `ctrl+e` on a
+result to expand the full output.
+
 ## Notes
 
 - Each child runs in an **in-memory session** in the current working directory.

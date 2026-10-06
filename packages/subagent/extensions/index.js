@@ -21,6 +21,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { createAgentSession, SessionManager } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
 
 const READ_ONLY_TOOLS = ["read", "grep", "find", "ls"];
@@ -303,6 +304,49 @@ async function runChild({
 	}
 }
 
+// ── rendering ────────────────────────────────────────────────────────
+
+function resultText(result) {
+	const block = result?.content?.find?.((item) => item?.type === "text");
+	return block?.text ?? "";
+}
+
+function firstLine(text) {
+	const line = String(text ?? "").split("\n").find((row) => row.trim()) ?? "";
+	return line.length > 96 ? `${line.slice(0, 95)}…` : line;
+}
+
+export function truncateText(text, maxLines) {
+	const lines = String(text ?? "").replace(/\s+$/, "").split("\n");
+	if (!Number.isFinite(maxLines) || maxLines <= 0 || lines.length <= maxLines) {
+		return { text: lines.join("\n"), hidden: 0 };
+	}
+	return { text: lines.slice(0, maxLines).join("\n"), hidden: lines.length - maxLines };
+}
+
+function preview(text, maxLines, theme) {
+	const value = String(text ?? "").trim();
+	if (!value) return theme.fg("dim", "\n  (no output)");
+	const { text: body, hidden } = truncateText(value, maxLines);
+	let out = `\n${theme.fg("text", body)}`;
+	if (hidden > 0) {
+		out += `\n${theme.fg("dim", `… ${hidden} more line${hidden === 1 ? "" : "s"} (ctrl+e to expand)`)}`;
+	}
+	return out;
+}
+
+function agentTitle(theme, agent, { done = false, background = false, model } = {}) {
+	const icon = background
+		? theme.fg("warning", "⏳ ")
+		: done
+			? theme.fg("success", "✓ ")
+			: theme.fg("accent", "◆ ");
+	let head = icon + theme.bold(theme.fg("toolTitle", String(agent ?? "general")));
+	if (model) head += theme.fg("dim", ` · ${model}`);
+	if (background) head += theme.fg("muted", " · background");
+	return head;
+}
+
 // ── tool schemas ─────────────────────────────────────────────────────
 
 const SubagentParameters = Type.Object({
@@ -405,6 +449,22 @@ export default function subagentExtension(pi) {
 				details: { agent: agent.id, model: result.model },
 			};
 		},
+		renderCall(args, theme) {
+			const background = args?.background === true;
+			const header = agentTitle(theme, args?.agent ?? "general", { background });
+			const task = firstLine(args?.task);
+			return new Text(`${header}${task ? `\n${theme.fg("dim", `  ${task}`)}` : ""}`, 0, 0);
+		},
+		renderResult(result, { expanded, isPartial }, theme, context) {
+			const details = result?.details ?? {};
+			const agent = details.agent ?? context?.args?.agent ?? "general";
+			const header = agentTitle(theme, agent, {
+				done: !isPartial,
+				background: details.background === true,
+				model: details.model,
+			});
+			return new Text(header + preview(resultText(result), expanded ? 60 : 6, theme), 0, 0);
+		},
 	});
 
 	pi.registerTool({
@@ -448,6 +508,25 @@ export default function subagentExtension(pi) {
 				.join("\n\n");
 			return { content: [{ type: "text", text }], details: { count: results.length } };
 		},
+		renderCall(args, theme) {
+			const tasks = Array.isArray(args?.tasks) ? args.tasks : [];
+			const header =
+				theme.fg("accent", "◆ ") +
+				theme.bold(theme.fg("toolTitle", "Sub-agents")) +
+				theme.fg("muted", ` ×${tasks.length}`);
+			const rows = tasks
+				.slice(0, 6)
+				.map((task) => theme.fg("dim", `  ${task.agent ?? "general"}: ${firstLine(task.task)}`));
+			if (tasks.length > 6) rows.push(theme.fg("dim", `  … ${tasks.length - 6} more`));
+			return new Text([header, ...rows].join("\n"), 0, 0);
+		},
+		renderResult(result, { expanded, isPartial }, theme) {
+			const count = result?.details?.count ?? 0;
+			const icon = isPartial ? theme.fg("accent", "◆ ") : theme.fg("success", "✓ ");
+			const header =
+				icon + theme.bold(theme.fg("toolTitle", "Sub-agents")) + theme.fg("muted", ` ×${count}`);
+			return new Text(header + preview(resultText(result), expanded ? 80 : 8, theme), 0, 0);
+		},
 	});
 
 	pi.registerTool({
@@ -462,6 +541,11 @@ export default function subagentExtension(pi) {
 				? list.map(formatJob).join("\n")
 				: "No background sub-agent jobs.";
 			return { content: [{ type: "text", text }], details: { count: list.length } };
+		},
+		renderResult(result, { expanded }, theme) {
+			const header =
+				theme.fg("accent", "◆ ") + theme.bold(theme.fg("toolTitle", "Sub-agent jobs"));
+			return new Text(header + preview(resultText(result), expanded ? 40 : 10, theme), 0, 0);
 		},
 	});
 
@@ -481,6 +565,13 @@ export default function subagentExtension(pi) {
 			}
 			const text = job.status === "failed" ? `Error: ${job.error}` : job.text;
 			return { content: [{ type: "text", text }], details: { id: job.id, status: job.status } };
+		},
+		renderResult(result, { expanded }, theme) {
+			const id = result?.details?.id ?? "";
+			const header =
+				theme.fg("accent", "◆ ") +
+				theme.bold(theme.fg("toolTitle", id ? `Sub-agent ${id}` : "Sub-agent result"));
+			return new Text(header + preview(resultText(result), expanded ? 60 : 10, theme), 0, 0);
 		},
 	});
 
