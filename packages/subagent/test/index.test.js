@@ -3,6 +3,7 @@ import test from "node:test";
 import subagentExtension, {
 	JobManager,
 	buildPrompt,
+	formatJobDelivery,
 	listAgents,
 	loadConfig,
 	mergeAgents,
@@ -10,6 +11,7 @@ import subagentExtension, {
 	parseCommand,
 	parseModelRef,
 	resolveAgent,
+	resolveDeliveryMode,
 	runWithConcurrency,
 } from "../extensions/index.js";
 
@@ -130,6 +132,23 @@ test("tracks background jobs", () => {
 	assert.equal(done.status, "done");
 	assert.equal(done.text, "ok");
 	assert.equal(manager.list().length, 1);
+});
+
+test("resolves the background delivery mode", () => {
+	assert.equal(resolveDeliveryMode({}), "notify");
+	assert.equal(resolveDeliveryMode({ backgroundDelivery: "followUp" }), "followUp");
+	assert.equal(resolveDeliveryMode({ backgroundDelivery: "user" }), "followUp");
+	assert.equal(resolveDeliveryMode({ backgroundDelivery: "off" }), "off");
+	assert.equal(resolveDeliveryMode({ backgroundDelivery: "nonsense" }), "notify");
+});
+
+test("formats a background job delivery", () => {
+	const done = { id: "job-1", agent: "reviewer", status: "done", text: "Looks good", error: null };
+	assert.match(formatJobDelivery(done), /job-1 \(reviewer\) done/);
+	assert.match(formatJobDelivery(done), /Looks good/);
+
+	const failed = { id: "job-2", agent: "scout", status: "failed", text: "", error: "boom" };
+	assert.match(formatJobDelivery(failed), /Error: boom/);
 });
 
 test("registers the subagent tools and commands", () => {

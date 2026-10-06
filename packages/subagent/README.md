@@ -66,6 +66,20 @@ another file):
 - `model` selects a specific `provider/model-id` for that role.
 - `defaultAgent` sets the fallback role; `concurrency` caps parallel children.
 
+## Background jobs
+
+Run `subagent` with `background: true` to start a job without blocking. When it
+finishes, the result is delivered automatically according to
+`backgroundDelivery` in `agents.json`:
+
+- `"notify"` (default) — show a custom message with the result.
+- `"followUp"` — inject the result as a user message so the model reacts.
+- `"off"` — fetch it manually with `subagent_result` / `/subagent-jobs`.
+
+Set `"backgroundTriggerTurn": true` to let a `notify` message start a model turn.
+While a job runs you can keep working and submit new requests; the result arrives
+when it is ready.
+
 ## Notes
 
 - Each child runs in an **in-memory session** in the current working directory.

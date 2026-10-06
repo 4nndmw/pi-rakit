@@ -206,6 +206,47 @@ export class JobManager {
 	}
 }
 
+// ── background delivery ──────────────────────────────────────────────
+
+// "notify" (default): show a custom message. "followUp": inject as a user
+// message so the model reacts. "off": do not deliver automatically.
+export function resolveDeliveryMode(config = {}) {
+	const mode = String(config.backgroundDelivery ?? "notify").trim().toLowerCase();
+	if (mode === "off") return "off";
+	if (mode === "followup" || mode === "follow-up" || mode === "user") return "followUp";
+	return "notify";
+}
+
+export function formatJobDelivery(job) {
+	const body = job.status === "failed" ? `Error: ${job.error}` : job.text || "(no output)";
+	return `Sub-agent ${job.id} (${job.agent}) ${job.status}.\n\n${body}`;
+}
+
+function deliverJob(pi, job, config) {
+	const mode = resolveDeliveryMode(config);
+	if (mode === "off") return;
+	const text = formatJobDelivery(job);
+	try {
+		if (mode === "followUp" && typeof pi.sendUserMessage === "function") {
+			pi.sendUserMessage(text, { deliverAs: "followUp" });
+			return;
+		}
+		if (typeof pi.sendMessage === "function") {
+			pi.sendMessage(
+				{
+					customType: "subagent",
+					content: text,
+					display: true,
+					details: { job: job.id, agent: job.agent, status: job.status },
+				},
+				{ triggerTurn: config.backgroundTriggerTurn === true, deliverAs: "followUp" },
+			);
+		}
+	} catch {
+		// Best-effort: the session may have been replaced since the job started.
+	}
+}
+
 // ── child runtime ────────────────────────────────────────────────────
 
 function resolveChildModel(modelRef, modelRegistry) {
@@ -335,8 +376,8 @@ export default function subagentExtension(pi) {
 					tools: params.tools,
 					modelRegistry,
 				})
-					.then((result) => jobs.finish(job.id, { text: result.text }))
-					.catch((error) => jobs.finish(job.id, { error }));
+					.then((result) => deliverJob(pi, jobs.finish(job.id, { text: result.text }), config))
+					.catch((error) => deliverJob(pi, jobs.finish(job.id, { error }), config));
 				return {
 					content: [
 						{
