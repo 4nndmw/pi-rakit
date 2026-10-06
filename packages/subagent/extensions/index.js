@@ -22,6 +22,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { createAgentSession, SessionManager } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
+import { SubagentPanel } from "../panel.js";
 import { Type } from "typebox";
 
 const READ_ONLY_TOOLS = ["read", "grep", "find", "ls"];
@@ -403,6 +404,7 @@ export default function subagentExtension(pi) {
 		promptSnippet: "Delegate a focused task to a child agent and return its answer.",
 		parameters: SubagentParameters,
 		executionMode: "sequential",
+		renderShell: "self",
 		async execute(_toolCallId, params, signal, onUpdate, ctx) {
 			const config = loadConfig();
 			const agent = resolveAgent(params.agent, config);
@@ -456,14 +458,30 @@ export default function subagentExtension(pi) {
 			return new Text(`${header}${task ? `\n${theme.fg("dim", `  ${task}`)}` : ""}`, 0, 0);
 		},
 		renderResult(result, { expanded, isPartial }, theme, context) {
+			const panel =
+				context?.lastComponent instanceof SubagentPanel
+					? context.lastComponent
+					: new SubagentPanel(theme);
+			panel.onTick = context?.invalidate;
 			const details = result?.details ?? {};
 			const agent = details.agent ?? context?.args?.agent ?? "general";
-			const header = agentTitle(theme, agent, {
-				done: !isPartial,
-				background: details.background === true,
-				model: details.model,
+			const failed = context?.isError === true;
+			const background = details.background === true;
+			const { text: body, hidden } = truncateText(resultText(result), expanded ? 80 : 8);
+			const status = failed ? "✗ " : background ? "⏳ " : isPartial ? "" : "✓ ";
+			const model = details.model ? ` · ${details.model}` : "";
+			panel.set({
+				 theme,
+				title: `${status}${agent}${model}${background ? " · background" : ""}`,
+				body: body ? body.split("\n") : ["(no output)"],
+				note:
+					hidden > 0
+						? `… ${hidden} more line${hidden === 1 ? "" : "s"} (ctrl+e to expand)`
+						: "",
+				tone: failed ? "error" : isPartial ? "accent" : background ? "warning" : "success",
+				animate: isPartial,
 			});
-			return new Text(header + preview(resultText(result), expanded ? 60 : 6, theme), 0, 0);
+			return panel;
 		},
 	});
 
@@ -474,6 +492,7 @@ export default function subagentExtension(pi) {
 		promptSnippet: "Run several child agents in parallel and return all answers.",
 		parameters: SubagentsParameters,
 		executionMode: "sequential",
+		renderShell: "self",
 		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 			const config = loadConfig();
 			const tasks = normalizeTasks(params, config);
@@ -520,12 +539,27 @@ export default function subagentExtension(pi) {
 			if (tasks.length > 6) rows.push(theme.fg("dim", `  … ${tasks.length - 6} more`));
 			return new Text([header, ...rows].join("\n"), 0, 0);
 		},
-		renderResult(result, { expanded, isPartial }, theme) {
+		renderResult(result, { expanded, isPartial }, theme, context) {
+			const panel =
+				context?.lastComponent instanceof SubagentPanel
+					? context.lastComponent
+					: new SubagentPanel(theme);
+			panel.onTick = context?.invalidate;
 			const count = result?.details?.count ?? 0;
-			const icon = isPartial ? theme.fg("accent", "◆ ") : theme.fg("success", "✓ ");
-			const header =
-				icon + theme.bold(theme.fg("toolTitle", "Sub-agents")) + theme.fg("muted", ` ×${count}`);
-			return new Text(header + preview(resultText(result), expanded ? 80 : 8, theme), 0, 0);
+			const failed = context?.isError === true;
+			const { text: body, hidden } = truncateText(resultText(result), expanded ? 100 : 10);
+			panel.set({
+				 theme,
+				title: `${failed ? "✗ " : isPartial ? "" : "✓ "}Sub-agents ×${count}`,
+				body: body ? body.split("\n") : ["(no output)"],
+				note:
+					hidden > 0
+						? `… ${hidden} more line${hidden === 1 ? "" : "s"} (ctrl+e to expand)`
+						: "",
+				tone: failed ? "error" : isPartial ? "accent" : "success",
+				animate: isPartial,
+			});
+			return panel;
 		},
 	});
 

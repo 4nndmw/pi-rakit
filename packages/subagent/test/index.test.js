@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { SubagentPanel } from "../panel.js";
 import subagentExtension, {
 	JobManager,
 	buildPrompt,
@@ -156,6 +158,23 @@ test("truncates long text with a hidden-line count", () => {
 	assert.deepEqual(truncateText("a\nb\nc", 5), { text: "a\nb\nc", hidden: 0 });
 	assert.deepEqual(truncateText("a\nb\nc\nd", 2), { text: "a\nb", hidden: 2 });
 	assert.deepEqual(truncateText("", 3), { text: "", hidden: 0 });
+});
+
+test("renders a bordered panel with equal visible widths", () => {
+	const thm = { fg: (_color, text) => text, bold: (text) => text };
+	const panel = new SubagentPanel(thm);
+	panel.set({
+		title: "reviewer · model",
+		body: ["hello world", "a longer second line that wraps"],
+		note: "… 3 more lines",
+		tone: "accent",
+		animate: false,
+	});
+	panel.stop();
+	const lines = panel.render(40);
+	assert.ok(lines.length >= 4);
+	for (const line of lines) assert.equal(visibleWidth(line), 40);
+	assert.match(lines[0], /reviewer/);
 });
 
 test("registers the subagent tools and commands", () => {
