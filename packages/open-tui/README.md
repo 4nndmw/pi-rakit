@@ -5,7 +5,7 @@ Pi Rakit's polished terminal UI package, adapted from the `pi-open-tui` design: 
 ## Install
 
 ```bash
-pi install npm:pi-open-tui
+pi install npm:pi-rakit-open-tui
 ```
 
 For local development from this repository:

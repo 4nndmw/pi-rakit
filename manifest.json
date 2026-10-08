@@ -247,7 +247,7 @@
 			"source": {
 				"mode": "workspace",
 				"path": "packages/open-tui",
-				"npm": "pi-open-tui"
+				"npm": "pi-rakit-open-tui"
 			}
 		},
 		{
