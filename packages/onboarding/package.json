@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-onboarding",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Rerun Pi Rakit package selection from inside Pi",
 	"type": "module",
 	"private": false,
@@ -24,9 +24,6 @@
 			"./extensions"
 		]
 	},
-	"dependencies": {
-		"@earendil-works/pi-tui": "0.84.4"
-	},
 	"engines": {
 		"node": ">=20"
 	},
@@ -39,5 +36,8 @@
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {
 		"url": "https://github.com/4nndmw/pi-rakit/issues"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-tui": "*"
 	}
 }

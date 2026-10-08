@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-compact-tools",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Make built-in tool output compact and easier to scan in Pi",
 	"type": "module",
 	"private": false,
@@ -23,10 +23,6 @@
 			"./extensions"
 		]
 	},
-	"dependencies": {
-		"@earendil-works/pi-coding-agent": "0.84.4",
-		"@earendil-works/pi-tui": "0.84.4"
-	},
 	"engines": {
 		"node": ">=22.19.0"
 	},
@@ -39,5 +35,9 @@
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {
 		"url": "https://github.com/4nndmw/pi-rakit/issues"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-tui": "*",
+		"@earendil-works/pi-coding-agent": "*"
 	}
 }

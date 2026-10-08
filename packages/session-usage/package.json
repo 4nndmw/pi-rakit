@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-session-usage",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Show token usage for the current Pi session and project history",
 	"type": "module",
 	"private": false,
@@ -23,9 +23,6 @@
 			"./extensions"
 		]
 	},
-	"dependencies": {
-		"@earendil-works/pi-tui": "0.84.4"
-	},
 	"engines": {
 		"node": ">=20"
 	},
@@ -38,5 +35,8 @@
 	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
 	"bugs": {
 		"url": "https://github.com/4nndmw/pi-rakit/issues"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-tui": "*"
 	}
 }
