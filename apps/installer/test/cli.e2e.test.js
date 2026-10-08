@@ -39,6 +39,7 @@ const expectedSources = [
 	"npm:pi-rakit-playwright-browser",
 	"npm:@dietrichgebert/ponytail@4.9.0",
 	"npm:caveman-pi@1.0.0",
+	"npm:pi-open-tui",
 	"npm:pi-mcp-adapter",
 ];
 

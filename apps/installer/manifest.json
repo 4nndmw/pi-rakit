@@ -238,6 +238,19 @@
 			}
 		},
 		{
+			"id": "open-tui",
+			"label": "Pi Open TUI",
+			"description": "Polished Pi terminal UI with a branded header, telemetry footer, framed editor, and configurable settings.",
+			"category": "Interface",
+			"enabledByDefault": false,
+			"tags": ["tui", "interface", "telemetry"],
+			"source": {
+				"mode": "workspace",
+				"path": "packages/open-tui",
+				"npm": "pi-open-tui"
+			}
+		},
+		{
 			"id": "pi-mcp-adapter",
 			"label": "Pi MCP Adapter",
 			"description": "Optional MCP support for Pi.",
