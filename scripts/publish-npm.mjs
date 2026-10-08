@@ -24,6 +24,7 @@ const PUBLISH_WORKSPACES = [
 	"packages/markdown-preview",
 	"packages/setup-providers",
 	"packages/subagent",
+	"packages/open-tui",
 	"apps/installer",
 ];
 const dryRun = process.argv.includes("--dry-run");

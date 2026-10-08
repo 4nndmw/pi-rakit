@@ -25,6 +25,7 @@ on:
           - packages/markdown-preview
           - packages/setup-providers
           - packages/subagent
+          - packages/open-tui
           - apps/installer
 
 permissions:
