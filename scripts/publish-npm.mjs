@@ -19,7 +19,6 @@ const PUBLISH_WORKSPACES = [
 	"packages/auto-title",
 	"packages/onboarding",
 	"packages/plan-mode",
-	"packages/ui",
 	"packages/playwright-browser",
 	"packages/markdown-preview",
 	"packages/setup-providers",

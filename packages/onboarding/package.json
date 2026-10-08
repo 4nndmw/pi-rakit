@@ -1,6 +1,6 @@
 {
 	"name": "pi-rakit-onboarding",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "Rerun Pi Rakit package selection from inside Pi",
 	"type": "module",
 	"private": false,

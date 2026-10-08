@@ -23,7 +23,6 @@ const onboardingSource = "npm:pi-rakit-onboarding";
 const expectedSources = [
 	onboardingSource,
 	"npm:pi-rakit-plan-mode",
-	"npm:pi-rakit-ui",
 	"npm:pi-rakit-setup-providers",
 	"npm:pi-rakit-subagent",
 	"npm:pi-rakit-doctor",

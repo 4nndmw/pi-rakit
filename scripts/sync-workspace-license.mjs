@@ -20,7 +20,6 @@ const workspacePaths = [
 	"packages/auto-title",
 	"packages/onboarding",
 	"packages/plan-mode",
-	"packages/ui",
 	"packages/playwright-browser",
 	"packages/setup-providers",
 	"packages/subagent",

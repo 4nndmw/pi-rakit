@@ -30,7 +30,6 @@ Pi Rakit is designed specifically for the Pi extension ecosystem. It updates Pi 
 - [`pi-rakit-auto-title`](https://www.npmjs.com/package/pi-rakit-auto-title): automatic local session titles for easier `/resume` browsing
 - [`pi-rakit-onboarding`](https://www.npmjs.com/package/pi-rakit-onboarding): reopen package selection through `/onboarding`
 - [`pi-rakit-plan-mode`](https://www.npmjs.com/package/pi-rakit-plan-mode): read-only exploration, structured plans, and tracked execution
-- [`pi-rakit-ui`](https://www.npmjs.com/package/pi-rakit-ui): cohesive global theme, header, footer, editor, and working indicator
 
 The installer also provides optional third-party packages:
 
@@ -151,16 +150,6 @@ pi install npm:pi-rakit-plan-mode
 
 Run `/plan` or press `Ctrl+Alt+P` to toggle it. Plan mode blocks mutation tools and non-allowlisted shell commands. Generated numbered plans can be refined or executed with persistent checklist progress. See the [complete Plan Mode guide](docs/rakit/Plan%20Mode.md).
 
-### Rakit UI
-
-Install the global visual system directly:
-
-```bash
-pi install npm:pi-rakit-ui
-```
-
-Rakit UI applies the bundled `rakit` theme plus a compact header, diagnostic footer, framed editor, and working indicator. Use `/rakit-ui [on|off|theme]` for runtime control. Built-in transcript and picker layouts stay native Pi components and inherit the theme. See the [complete Rakit UI guide](docs/rakit/Rakit%20UI.md).
-
 ### Session Utilities
 
 Install any utility independently:
@@ -173,7 +162,6 @@ pi install npm:pi-rakit-compact-tools
 pi install npm:pi-rakit-auto-title
 pi install npm:pi-rakit-onboarding
 pi install npm:pi-rakit-plan-mode
-pi install npm:pi-rakit-ui
 ```
 
 Use `/usage` for current and project token totals, `/session-stats` for elapsed/count metrics, and `/session-delete` for confirmed deletion of an inactive session. Compact Tools changes only interactive rendering, while Auto Title derives a local title from the first prompt without making an extra model request. Run `/onboarding` to update only Pi Rakit-managed package entries while preserving unrelated settings and packages.
@@ -196,7 +184,6 @@ pi remove npm:pi-rakit-compact-tools
 pi remove npm:pi-rakit-auto-title
 pi remove npm:pi-rakit-onboarding
 pi remove npm:pi-rakit-plan-mode
-pi remove npm:pi-rakit-ui
 pi remove npm:pi-rakit-playwright-browser
 pi remove npm:pi-rakit-markdown-preview
 ```
@@ -218,7 +205,6 @@ pi remove \
   npm:pi-rakit-auto-title \
   npm:pi-rakit-onboarding \
   npm:pi-rakit-plan-mode \
-  npm:pi-rakit-ui \
   npm:pi-rakit-playwright-browser \
   npm:pi-rakit-markdown-preview
 ```

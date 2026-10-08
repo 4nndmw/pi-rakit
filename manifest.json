@@ -30,19 +30,6 @@
 			}
 		},
 		{
-			"id": "ui",
-			"label": "Rakit UI",
-			"description": "Cohesive global theme, header, footer, editor, and working indicator for Pi.",
-			"category": "Interface",
-			"enabledByDefault": false,
-			"tags": ["theme", "tui", "interface"],
-			"source": {
-				"mode": "workspace",
-				"path": "packages/ui",
-				"npm": "pi-rakit-ui"
-			}
-		},
-		{
 			"id": "setup-providers",
 			"label": "Setup Providers",
 			"description": "Overlay wizard to configure custom providers and models.",
