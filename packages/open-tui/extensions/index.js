@@ -118,7 +118,7 @@ function createFooter(pi, tui, theme, footerData, ctx, config, startedAt) {
 				const usage = usageTotals(ctx.sessionManager.getEntries?.() ?? []);
 				const branch = footerData.getGitBranch?.() ?? "";
 				const context = ctx.getContextUsage?.();
-				const contextText = context?.percent == null ? "ctx ?" : `ctx ${Math.round(context.percent)}%`;
+				const contextText = formatContextBar(context?.percent, width);
 				const location = `${ctx.cwd ?? process.cwd()}${branch ? ` · ${branch}` : ""}`;
 				const timer = startedAt.value ? ` · ${Math.round((Date.now() - startedAt.value) / 1000)}s` : "";
 				const model = ctx.model?.id ?? "no-model";
@@ -134,6 +134,14 @@ function createFooter(pi, tui, theme, footerData, ctx, config, startedAt) {
 				return [theme.fg("dim", fit(left1, right1)), theme.fg("muted", fit(left2, right2))];
 			},
 		};
+}
+
+function formatContextBar(percent, width) {
+	if (percent == null || !Number.isFinite(Number(percent))) return "ctx [?]";
+	const value = Math.max(0, Math.min(100, Math.round(Number(percent))));
+	const barWidth = width >= 100 ? 10 : width >= 60 ? 8 : 5;
+	const filled = Math.round((value / 100) * barWidth);
+	return `ctx [${"█".repeat(filled)}${"░".repeat(barWidth - filled)}] ${value}%`;
 }
 
 function createEditor(ctx, config) {
