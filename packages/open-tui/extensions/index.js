@@ -109,7 +109,7 @@ function createHeader(pi, ctx, config) {
 	};
 }
 
-function createFooter(tui, theme, footerData, ctx, config, startedAt) {
+function createFooter(pi, tui, theme, footerData, ctx, config, startedAt) {
 		const onBranch = footerData.onBranchChange(() => tui.requestRender());
 		return {
 			dispose: onBranch,
@@ -121,9 +121,17 @@ function createFooter(tui, theme, footerData, ctx, config, startedAt) {
 				const contextText = context?.percent == null ? "ctx ?" : `ctx ${Math.round(context.percent)}%`;
 				const location = `${ctx.cwd ?? process.cwd()}${branch ? ` · ${branch}` : ""}`;
 				const timer = startedAt.value ? ` · ${Math.round((Date.now() - startedAt.value) / 1000)}s` : "";
-				const line1 = `${icon(config, "⌂", "cwd")} ${location}`;
-				const line2 = `${icon(config, "↑", "in")} ${formatNumber(usage.input)}  ${icon(config, "↓", "out")} ${formatNumber(usage.output)}  ${contextText}  $${usage.cost.toFixed(3)}${timer}`;
-				return [theme.fg("dim", truncateToWidth(line1, width, "…")), theme.fg("muted", truncateToWidth(line2, width, "…"))];
+				const model = ctx.model?.id ?? "no-model";
+				const effort = pi.getThinkingLevel?.() ?? "off";
+				const left1 = `${icon(config, "⌂", "cwd")} ${location}`;
+				const right1 = `${contextText}${timer}`;
+				const left2 = `${model} · ${effort}`;
+				const right2 = `${icon(config, "↑", "in")} ${formatNumber(usage.input)}  ${icon(config, "↓", "out")} ${formatNumber(usage.output)}  $${usage.cost.toFixed(3)}`;
+				const fit = (left, right) => {
+					const gap = Math.max(1, width - visibleWidth(left) - visibleWidth(right));
+					return truncateToWidth(`${left}${" ".repeat(gap)}${right}`, width, "…");
+				};
+				return [theme.fg("dim", fit(left1, right1)), theme.fg("muted", fit(left2, right2))];
 			},
 		};
 }
@@ -140,7 +148,7 @@ function createEditor(ctx, config) {
 			const label = ctx.isIdle() ? " READY " : " WORKING ";
 			const colored = primaryBlue(label);
 			const labelWidth = visibleWidth(colored);
-			return `${this.borderColor("──")}${colored}${this.borderColor("─".repeat(Math.max(0, width - labelWidth - 2)))}`;
+			return `${primaryBlue("──")}${colored}${primaryBlue("─".repeat(Math.max(0, width - labelWidth - 2)))}`;
 		}
 	};
 }
@@ -153,7 +161,7 @@ export default function openTuiExtension(pi) {
 		if (ctx.mode !== "tui" || !config.enabled) return;
 		active = ctx;
 		ctx.ui.setHeader(() => createHeader(pi, ctx, config));
-		ctx.ui.setFooter((tui, theme, footerData) => createFooter(tui, theme, footerData, ctx, config, startedAt));
+		ctx.ui.setFooter((tui, theme, footerData) => createFooter(pi, tui, theme, footerData, ctx, config, startedAt));
 		ctx.ui.setEditorComponent((tui, theme, keybindings) => new (createEditor(ctx, config))(tui, theme, keybindings));
 		ctx.ui.setWorkingIndicator({ frames: ["·", "•", "●", "•"], intervalMs: 120 });
 	};
