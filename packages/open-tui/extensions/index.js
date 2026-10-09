@@ -152,6 +152,10 @@ function createEditor(ctx, config) {
 			super(tui, theme, keybindings, { paddingX: 1, embedWorkingStatus: true });
 		}
 
+		borderColor(value) {
+			return primaryBlue(value);
+		}
+
 		renderBottomBorder(width, hiddenLineCount) {
 			const base = super.renderBottomBorder(width, hiddenLineCount);
 			if (config.inlineFooter || hiddenLineCount > 0 || width < 20) return base;

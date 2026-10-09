@@ -1,6 +1,6 @@
 {
   "name": "pi-rakit-open-tui",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A polished, configurable terminal UI for the Pi coding agent",
   "type": "module",
   "private": false,
