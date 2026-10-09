@@ -128,8 +128,10 @@ function createFooter(pi, tui, theme, footerData, ctx, config, startedAt) {
 				const left2 = `${model} · ${effort}`;
 				const right2 = `${icon(config, "↑", "in")} ${formatNumber(usage.input)}  ${icon(config, "↓", "out")} ${formatNumber(usage.output)}  $${usage.cost.toFixed(3)}`;
 				const fit = (left, right) => {
-					const gap = Math.max(1, width - visibleWidth(left) - visibleWidth(right));
-					return truncateToWidth(`${left}${" ".repeat(gap)}${right}`, width, "…");
+					const rightWidth = visibleWidth(right);
+					const leftWidth = Math.max(1, width - rightWidth - 1);
+					const fittedLeft = truncateToWidth(left, leftWidth, "…");
+					return `${fittedLeft}${" ".repeat(Math.max(1, width - visibleWidth(fittedLeft) - rightWidth))}${right}`;
 				};
 				return [theme.fg("dim", fit(left1, right1)), theme.fg("muted", fit(left2, right2))];
 			},
