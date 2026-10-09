@@ -1,52 +1,52 @@
 {
-	"name": "pi-rakit-open-tui",
-	"version": "0.1.1",
-	"description": "A polished, configurable terminal UI for the Pi coding agent",
-	"type": "module",
-	"private": false,
-	"publishConfig": {
-		"access": "public"
-	},
-	"files": [
-		"extensions",
-		"README.md",
-		"LICENSE"
-	],
-	"keywords": [
-		"pi-package",
-		"pi-coding-agent",
-		"extension",
-		"tui",
-		"telemetry"
-	],
-	"pi": {
-		"extensions": [
-			"./extensions"
-		]
-	},
-	"peerDependencies": {
-		"@earendil-works/pi-coding-agent": ">=0.84.4",
-		"@earendil-works/pi-tui": ">=0.84.4"
-	},
-	"peerDependenciesMeta": {
-		"@earendil-works/pi-coding-agent": {
-			"optional": true
-		},
-		"@earendil-works/pi-tui": {
-			"optional": true
-		}
-	},
-	"engines": {
-		"node": ">=20"
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/4nndmw/pi-rakit.git",
-		"directory": "packages/open-tui"
-	},
-	"homepage": "https://github.com/4nndmw/pi-rakit#readme",
-	"bugs": {
-		"url": "https://github.com/4nndmw/pi-rakit/issues"
-	}
+  "name": "pi-rakit-open-tui",
+  "version": "0.1.2",
+  "description": "A polished, configurable terminal UI for the Pi coding agent",
+  "type": "module",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "pi-package",
+    "pi-coding-agent",
+    "extension",
+    "tui",
+    "telemetry"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.84.4",
+    "@earendil-works/pi-tui": ">=0.84.4"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    },
+    "@earendil-works/pi-tui": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4nndmw/pi-rakit.git",
+    "directory": "packages/open-tui"
+  },
+  "homepage": "https://github.com/4nndmw/pi-rakit#readme",
+  "bugs": {
+    "url": "https://github.com/4nndmw/pi-rakit/issues"
+  }
 }

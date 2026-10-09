@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { CustomEditor } from "@earendil-works/pi-coding-agent";
+import { CustomEditor, VERSION } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
 const STATUS = "open-tui";
@@ -56,14 +56,49 @@ function createHeader(pi, ctx, config) {
 	return {
 		invalidate() {},
 		render(width) {
+			const theme = ctx.ui.theme;
+			const paint = (value) => theme.fg("accent", value);
+			const muted = (value) => theme.fg("muted", value);
+			const dim = (value) => theme.fg("dim", value);
+			const padRight = (value, target) => `${value}${" ".repeat(Math.max(0, target - visibleWidth(value)))}`;
+			const center = (value, target) => {
+				const remaining = Math.max(0, target - visibleWidth(value));
+				return `${" ".repeat(Math.floor(remaining / 2))}${value}${" ".repeat(Math.ceil(remaining / 2))}`;
+			};
+			const boxed = (value) => `${paint("│")}${padRight(value, Math.max(0, width - 2))}${paint("│")}`;
+			const border = (left, label, right) => {
+				const text = label ? `─── ${label} ─────` : "";
+				return paint(`${left}${text}${"─".repeat(Math.max(0, width - 2 - visibleWidth(text)))}${right}`);
+			};
+
 			const model = ctx.model?.id ?? "no-model";
 			const effort = pi.getThinkingLevel?.() ?? "off";
 			const cwd = ctx.cwd ?? process.cwd();
-			const left = `${icon(config, "π", ">_")} Pi Open TUI`;
-			const right = `${model} · ${effort} · ${cwd}`;
-			if (width < 30) return [truncateToWidth(left, width, "")];
-			const available = Math.max(0, width - visibleWidth(left) - 1);
-			return [truncateToWidth(`${left}${" ".repeat(Math.max(1, available - visibleWidth(right)))}${right}`, width, "…")];
+			if (width < 30) return [paint(`Pi v${VERSION ?? "0.84.4"}`)];
+			const inner = width - 2;
+			const rightWidth = Math.min(28, Math.max(20, Math.floor(inner * 0.2)));
+			const leftWidth = Math.max(1, inner - rightWidth - 1);
+			const logo = ["   ███", "   █  █", "  ████", "  █  █", "  ███ "].map((line) => paint(line));
+			const left = [
+				...logo.map((line) => center(line, leftWidth)),
+				center(theme.bold("Let's build something great"), leftWidth),
+				center(muted(`${model} · ${effort}`), leftWidth),
+				center(dim(cwd), leftWidth),
+			];
+			const commands = [...(pi.getCommands?.() ?? [])]
+				.map((command) => `/${command.name ?? command}`)
+				.filter((command, index, all) => all.indexOf(command) === index)
+				.filter((command) => command !== "/open-tui")
+				.slice(0, 3);
+			const tips = ["", theme.bold("Welcome"), muted("Ask Pi anything"), paint("─".repeat(Math.min(rightWidth, 22))), theme.bold("Commands"), "/open-tui", ...commands];
+			const lines = [border("╭", `${paint("Pi")} v${VERSION ?? "0.84.4"}`, "╮")];
+			for (let index = 0; index < Math.max(left.length, tips.length); index += 1) {
+				const leftPart = padRight(left[index] ?? "", leftWidth);
+				const rightPart = truncateToWidth(tips[index] ?? "", rightWidth, "…");
+				lines.push(boxed(`${leftPart}${paint("│")} ${padRight(rightPart, rightWidth)}`));
+			}
+			lines.push(border("╰", "", "╯"));
+			return lines.map((line) => truncateToWidth(line, width, ""));
 		},
 	};
 }
