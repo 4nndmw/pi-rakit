@@ -5,6 +5,12 @@ import { CustomEditor, VERSION } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
 const STATUS = "open-tui";
+const PRIMARY_BLUE = "\x1b[38;5;33m";
+const RESET_FG = "\x1b[39m";
+
+function primaryBlue(value) {
+	return `${PRIMARY_BLUE}${value}${RESET_FG}`;
+}
 const CONFIG_PATH = path.join(os.homedir(), ".pi", "agent", "open-tui.json");
 const DEFAULTS = {
 	enabled: true,
@@ -57,7 +63,7 @@ function createHeader(pi, ctx, config) {
 		invalidate() {},
 		render(width) {
 			const theme = ctx.ui.theme;
-			const paint = (value) => theme.fg("accent", value);
+			const paint = (value) => primaryBlue(value);
 			const muted = (value) => theme.fg("muted", value);
 			const dim = (value) => theme.fg("dim", value);
 			const padRight = (value, target) => `${value}${" ".repeat(Math.max(0, target - visibleWidth(value)))}`;
@@ -132,7 +138,7 @@ function createEditor(ctx, config) {
 			const base = super.renderBottomBorder(width, hiddenLineCount);
 			if (config.inlineFooter || hiddenLineCount > 0 || width < 20) return base;
 			const label = ctx.isIdle() ? " READY " : " WORKING ";
-			const colored = ctx.ui.theme.fg(ctx.isIdle() ? "success" : "accent", label);
+			const colored = primaryBlue(label);
 			const labelWidth = visibleWidth(colored);
 			return `${this.borderColor("──")}${colored}${this.borderColor("─".repeat(Math.max(0, width - labelWidth - 2)))}`;
 		}
