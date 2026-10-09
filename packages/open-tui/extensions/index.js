@@ -163,7 +163,10 @@ export default function openTuiExtension(pi) {
 		ctx.ui.setHeader(() => createHeader(pi, ctx, config));
 		ctx.ui.setFooter((tui, theme, footerData) => createFooter(pi, tui, theme, footerData, ctx, config, startedAt));
 		ctx.ui.setEditorComponent((tui, theme, keybindings) => new (createEditor(ctx, config))(tui, theme, keybindings));
-		ctx.ui.setWorkingIndicator({ frames: ["·", "•", "●", "•"], intervalMs: 120 });
+		ctx.ui.setWorkingIndicator({
+			frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+			intervalMs: 90,
+		});
 	};
 
 	pi.on("session_start", async (_event, ctx) => { config = await loadConfig(); apply(ctx); });
@@ -187,3 +190,7 @@ export default function openTuiExtension(pi) {
 		},
 	});
 }
+
+
+
+
