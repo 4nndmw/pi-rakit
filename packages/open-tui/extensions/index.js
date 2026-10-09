@@ -41,6 +41,33 @@ function formatNumber(value) {
 	return new Intl.NumberFormat("en-US", { notation: value >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(Number(value) || 0);
 }
 
+function sessionText(message) {
+	if (!message) return "";
+	if (typeof message.content === "string") return message.content;
+	if (!Array.isArray(message.content)) return "";
+	return message.content.map((part) => typeof part?.text === "string" ? part.text : "").join("");
+}
+
+function exportMarkdown(header, entries) {
+	const lines = [`# Pi Session Export`, "", `- Session: ${header?.id ?? "unknown"}`, `- Date: ${header?.timestamp ?? new Date().toISOString()}`, `- Working directory: ${header?.cwd ?? ""}`, ""];
+	for (const entry of entries) {
+		if (entry.type === "message") {
+			const role = entry.message?.role ?? "message";
+			const title = role.charAt(0).toUpperCase() + role.slice(1);
+			lines.push(`## ${title}`, "", sessionText(entry.message), "");
+		} else if (entry.type === "compaction" || entry.type === "branch_summary") {
+			lines.push(`> ${entry.type}: ${entry.summary ?? ""}`, "");
+		}
+	}
+	return `${lines.join("\n")}\n`;
+}
+
+function exportPath(ctx, requested, extension) {
+	const value = requested?.trim();
+	if (value) return path.resolve(ctx.cwd ?? process.cwd(), value);
+	return path.resolve(ctx.cwd ?? process.cwd(), `.pi/exports/session-${Date.now()}.${extension}`);
+}
+
 function usageTotals(entries = []) {
 	const result = { input: 0, output: 0, cache: 0, cost: 0 };
 	for (const entry of entries) {
@@ -201,6 +228,43 @@ export default function openTuiExtension(pi) {
 			}
 			if (action === "reset") { config = { ...DEFAULTS }; await saveConfig(config); ctx.ui.notify("Pi Open TUI settings reset", "info"); return; }
 			ctx.ui.notify(`Pi Open TUI: ${config.enabled ? "on" : "off"} · cursor ${config.cursorStyle} · icons ${config.icons}`, "info");
+		},
+	});
+
+	pi.registerCommand("session", {
+		description: "Export or import Pi sessions (JSON or Markdown)",
+		async handler(args, ctx) {
+			const parts = args.trim().split(/\s+/).filter(Boolean);
+			const action = (parts.shift() ?? "").toLowerCase();
+			if (action === "export") {
+				const markdown = parts.includes("--md") || parts.includes("--markdown");
+				const requested = parts.filter((part) => !part.startsWith("--")).join(" ");
+				const target = exportPath(ctx, requested, markdown ? "md" : "json");
+				const header = ctx.sessionManager.getHeader?.() ?? { id: ctx.sessionManager.getSessionId?.(), cwd: ctx.cwd, timestamp: new Date().toISOString() };
+				const entries = ctx.sessionManager.getEntries?.() ?? [];
+				await mkdir(path.dirname(target), { recursive: true });
+				const content = markdown
+					? exportMarkdown(header, entries)
+					: `${JSON.stringify({ format: "pi-rakit-session", version: 1, exportedAt: new Date().toISOString(), header, entries }, null, 2)}\n`;
+				await writeFile(target, content, "utf8");
+				ctx.ui.notify(`Session exported to ${target}`, "info");
+				return;
+			}
+			if (action === "import") {
+				const requested = parts[0];
+				if (!requested) { ctx.ui.notify("Usage: /session import <file.json>", "warning"); return; }
+				const source = path.resolve(ctx.cwd ?? process.cwd(), requested);
+				const payload = JSON.parse(await readFile(source, "utf8"));
+				const entries = Array.isArray(payload) ? payload : payload.entries;
+				const header = Array.isArray(payload) ? entries.find((entry) => entry.type === "session") : payload.header;
+				if (!Array.isArray(entries) || !header || header.type !== "session") throw new Error("Invalid Pi session export");
+				const imported = path.join(ctx.sessionManager.getSessionDir(), `imported-${Date.now()}.jsonl`);
+				await writeFile(imported, `${[header, ...entries.filter((entry) => entry !== header)].map((entry) => JSON.stringify(entry)).join("\n")}\n`, "utf8");
+				await ctx.switchSession(imported);
+				ctx.ui.notify(`Session imported from ${source}`, "info");
+				return;
+			}
+			ctx.ui.notify("Usage: /session export [path] [--md] · /session import <file.json>", "info");
 		},
 	});
 }
