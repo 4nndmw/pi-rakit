@@ -172,8 +172,8 @@ export default function openTuiExtension(pi) {
 		ctx.ui.setFooter((tui, theme, footerData) => createFooter(pi, tui, theme, footerData, ctx, config, startedAt));
 		ctx.ui.setEditorComponent((tui, theme, keybindings) => new (createEditor(ctx, config))(tui, theme, keybindings));
 		ctx.ui.setWorkingIndicator({
-			frames: ["Thinking", "Thinking.", "Thinking..", "Thinking..."],
-			intervalMs: 260,
+			frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+			intervalMs: 90,
 		});
 	};
 
